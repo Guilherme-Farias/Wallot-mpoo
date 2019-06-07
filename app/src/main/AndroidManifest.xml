@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ufrpe.wallot_app">
+
+    <application
+        android:name=".infra.app.WallotApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".infra.gui.HistoricoActivity"></activity>
+        <activity android:name=".infra.gui.TransacaoActivity" />
+        <activity android:name=".infra.gui.PagamentoActivity" />
+        <activity android:name=".infra.gui.EditUsuarioActivity" />
+        <activity android:name=".infra.gui.EditContaActivity" />
+        <activity android:name=".infra.gui.InicioActivity" />
+        <activity android:name=".infra.gui.ContasActivity" />
+        <activity android:name=".infra.gui.SettingActivity" />
+        <activity
+            android:name=".infra.gui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".infra.gui.RegisterActivity" />
+        <activity android:name=".infra.gui.LoginActivity" />
+        <activity android:name=".infra.gui.SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".infra.gui.WarActivity"
+            android:parentActivityName=".infra.gui.MainActivity" />
+    </application>
+
+</manifest>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="nacigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/inicio"
+            android:title="Inicio"
+            android:icon="@drawable/ic_home"
+            />
+        <item
+            android:id="@+id/registro"
+            android:title="Registro"
+            android:icon="@drawable/ic_registro"
+            />
+        <item
+            android:id="@+id/grafico"
+            android:title="Gráfico"
+            android:icon="@drawable/ic_grafico"
+            />
+        <item
+            android:id="@+id/meta"
+            android:title="Metas"
+            android:icon="@drawable/ic_meta"
+            />
+        <item
+            android:id="@+id/orcamento"
+            android:title="Orçamento"
+            android:icon="@drawable/ic_orcamento"
+            />
+    </group>
+    <item android:title="Controle da conta">
+        <menu>
+            <item
+                android:id="@+id/setting"
+                android:title="Configuração"
+                android:icon="@drawable/ic_settings"
+                />
+            <item
+                android:id="@+id/logout"
+                android:title="Sair"
+                android:icon="@drawable/ic_logout"
+                />
+
+        </menu>
+
+
+    </item>
+</menu>

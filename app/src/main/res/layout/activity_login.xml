@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerLogin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:gravity="center"
+    android:orientation="vertical"
+    app:layout_constrainedHeight="true"
+    app:layout_constrainedWidth="true"
+    tools:context=".infra.gui.LoginActivity">
+
+
+    <ImageView
+        android:id="@+id/logoLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="15dp"
+        android:contentDescription="@string/logo"
+        app:srcCompat="@drawable/wallot_logo" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top">
+
+        <LinearLayout
+            android:id="@+id/bodyLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editEmail"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="25dp"
+                android:autofillHints="email"
+                android:background="@drawable/edittextbox"
+                android:drawableEnd="@drawable/avatar"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:maxWidth="500dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="0dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="0dp"
+                android:textColorHint="#009688"
+                android:textStyle="bold"
+                android:drawableRight="@drawable/avatar" />
+
+            <EditText
+                android:id="@+id/editSenha"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="25dp"
+                android:autofillHints="auto"
+                android:background="@drawable/edittextbox"
+                android:drawableEnd="@drawable/password"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="@string/senha"
+                android:inputType="textPassword"
+                android:maxWidth="500dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="0dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="0dp"
+                android:textColorHint="#009688"
+                android:textStyle="bold"
+                android:drawableRight="@drawable/password" />
+
+            <Button
+                android:id="@+id/buttonLogin"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="25dp"
+                android:width="350dp"
+                android:background="@drawable/buttonbox"
+                android:maxWidth="450dp"
+                android:text="@string/login"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/buttonCadastrar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="25dp"
+                android:background="@drawable/buttonboxtransparent"
+                android:maxWidth="450dp"
+                android:text="@string/novaConta"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

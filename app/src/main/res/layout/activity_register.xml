@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerNewAccount"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/background"
+    android:gravity="center|right|end"
+    android:orientation="vertical"
+    app:layout_anchorGravity="center"
+    app:layout_constrainedHeight="true"
+    app:layout_constrainedWidth="true"
+    tools:context=".infra.gui.RegisterActivity">
+
+    <ImageView
+        android:id="@+id/logoCadastro"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/logo"
+        app:srcCompat="@drawable/wallot_logo" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:fadeScrollbars="true"
+        android:foregroundGravity="top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|top"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editNome"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="25dp"
+                android:autofillHints="auto"
+                android:background="@drawable/edittextbox"
+                android:drawableEnd="@drawable/avatar"
+                android:drawableRight="@drawable/avatar"
+                android:gravity="center_vertical"
+                android:hint="@string/nome"
+                android:inputType="textPersonName"
+                android:maxWidth="500dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textColorHint="#009688"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editEmail"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="25dp"
+                android:autofillHints="auto"
+                android:background="@drawable/edittextbox"
+                android:drawableEnd="@drawable/arroba"
+                android:drawableRight="@drawable/arroba"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:maxWidth="500dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textColorHint="#009688"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editSenha"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="25dp"
+                android:autofillHints="auto"
+                android:background="@drawable/edittextbox"
+                android:drawableEnd="@drawable/password"
+                android:drawableRight="@drawable/password"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="@string/senha"
+                android:inputType="textPassword"
+                android:maxWidth="500dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textColorHint="#009688"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editConfimarSenha"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="25dp"
+                android:autofillHints="auto"
+                android:background="@drawable/edittextbox"
+                android:drawableEnd="@drawable/password"
+                android:drawableRight="@drawable/password"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="@string/confirmar_senha"
+                android:inputType="textPassword"
+                android:maxWidth="500dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textColorHint="#009688"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonCadastrar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="25dp"
+                android:background="@drawable/buttonbox"
+                android:maxWidth="500dp"
+                android:text="@string/cadastrar"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/buttonContaExistente"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/buttonboxtransparent"
+                android:maxWidth="500dp"
+                android:text="@string/conta_existente"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

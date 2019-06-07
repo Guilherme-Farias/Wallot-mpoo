@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".infra.gui.WarActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|top"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="NOME"/>
+        <EditText
+            android:id="@+id/nome_usuario_id"
+            android:layout_width="wrap_content"
+            android:hint="%1$s"
+            android:layout_height="60dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:autofillHints="auto"
+            android:gravity="center_vertical"
+            android:inputType="textPersonName"
+            android:maxWidth="500dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColorHint="#009688"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="EMAIL"/>
+        <EditText
+            android:id="@+id/email_usuario_id"
+            android:layout_width="wrap_content"
+            android:hint="%1$s"
+            android:layout_height="60dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:autofillHints="auto"
+            android:gravity="center_vertical"
+            android:inputType="textEmailAddress"
+            android:maxWidth="500dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColorHint="#009688"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="SENHA"/>
+        <EditText
+            android:id="@+id/senha_usuario_id"
+            android:layout_width="wrap_content"
+            android:hint="%1$s"
+            android:layout_height="60dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:autofillHints="auto"
+            android:gravity="center_vertical"
+            android:inputType="textPassword"
+            android:maxWidth="500dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColorHint="#009688" />
+
+        <Button
+            android:id="@+id/buttonEditarSalvar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="25dp"
+            android:maxWidth="500dp"
+            android:text="Editar e salvar"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="NOME CARTEIRA"/>
+
+        <EditText
+            android:id="@+id/nome_conta"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:autofillHints="auto"
+            android:gravity="center_vertical"
+            android:hint="Nome Conta"
+            android:text=""
+            android:maxWidth="500dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColorHint="#009688" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="saldo carteira"/>
+
+        <EditText
+            android:id="@+id/saldo_conta"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:autofillHints="auto"
+            android:gravity="center_vertical"
+            android:text=""
+            android:hint="0.00"
+            android:maxWidth="500dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColorHint="#009688" />
+        <Button
+            android:id="@+id/buttonEditarConta"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="25dp"
+            android:maxWidth="500dp"
+            android:text="Editar"
+            android:textColor="#FFFFFF" />
+
+        <ListView
+            android:id="@+id/list_contas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ListView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ADICIONAR PAGAMENTO"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descrição"
+            android:textSize="30dp"
+            />
+        <EditText
+            android:id="@+id/editDescricao"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:autofillHints="auto"
+            android:gravity="center_vertical"
+            android:hint="Descricao"
+            android:text=""
+            android:maxWidth="500dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColorHint="#009688" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CATEGORIA"
+            android:textSize="30dp"
+            />
+        <EditText
+            android:id="@+id/editCategoria"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:autofillHints="auto"
+            android:gravity="center_vertical"
+            android:hint="Categoria"
+            android:text=""
+            android:maxWidth="500dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColorHint="#009688" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SUBCATEGORIA"
+            android:textSize="30dp"
+            />
+        <EditText
+            android:id="@+id/editSubCategoria"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:autofillHints="auto"
+            android:gravity="center_vertical"
+            android:hint="Subcategoria"
+            android:text=""
+            android:maxWidth="500dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColorHint="#009688" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VALOR"
+            android:textSize="30dp"
+            />
+        <EditText
+            android:id="@+id/editValorPagamento"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:autofillHints="auto"
+            android:gravity="center_vertical"
+            android:hint="Valor"
+            android:text=""
+            android:maxWidth="500dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColorHint="#009688" />
+
+        <TextView
+            android:id="@+id/strData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Data"
+            android:textSize="30dp"
+            />
+        <Button
+            android:id="@+id/buttonDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Data"/>
+
+        <Button
+            android:id="@+id/fazerPagamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SALDO"/>
+
+
+
+    </LinearLayout>
+
+
+
+</ScrollView>
