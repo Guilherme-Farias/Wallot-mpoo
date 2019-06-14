@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.ufrpe.wallot_app.R;
-import com.ufrpe.wallot_app.infra.SessaoTipoPagamento;
 import com.ufrpe.wallot_app.pagamento.dominio.Pagamento;
 
 public class InicioActivity extends AppCompatActivity {
@@ -74,5 +73,10 @@ public class InicioActivity extends AppCompatActivity {
                 Toast.makeText(InicioActivity.this, "nova transferencia", Toast.LENGTH_LONG).show();
             }
         });*/
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(InicioActivity.this, SettingActivity.class));
     }
 }

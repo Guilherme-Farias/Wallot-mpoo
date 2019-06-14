@@ -11,7 +11,6 @@ import com.ufrpe.wallot_app.R;
 import com.ufrpe.wallot_app.conta.dominio.Conta;
 import com.ufrpe.wallot_app.conta.negocio.ContaServices;
 import com.ufrpe.wallot_app.infra.Sessao;
-import com.ufrpe.wallot_app.infra.SessaoTipoPagamento;
 import com.ufrpe.wallot_app.pagamento.dominio.Pagamento;
 import com.ufrpe.wallot_app.usuario.dominio.Usuario;
 
@@ -35,7 +34,7 @@ public class PagamentoActivity extends AppCompatActivity {
         //long idConta = ((Conta)spinConta.getSelectedItem()).getId();
 
 
-        /*int tipo = SessaoTipoPagamento.instance.getTipo();
+        /*;
         Pagamento pagamento = SessaoPagamento.instance.getPagamento();
         if(tipo == 1){
 

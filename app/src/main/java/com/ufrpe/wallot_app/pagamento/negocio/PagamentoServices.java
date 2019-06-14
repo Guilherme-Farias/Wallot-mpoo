@@ -1,7 +1,10 @@
 package com.ufrpe.wallot_app.pagamento.negocio;
 
+import android.widget.Toast;
+
 import com.ufrpe.wallot_app.conta.dominio.Conta;
 import com.ufrpe.wallot_app.conta.persistencia.ContaDAO;
+import com.ufrpe.wallot_app.infra.app.WallotApp;
 import com.ufrpe.wallot_app.pagamento.dominio.Pagamento;
 import com.ufrpe.wallot_app.pagamento.persistencia.PagamentoDAO;
 

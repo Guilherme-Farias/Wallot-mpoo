@@ -20,14 +20,17 @@ public class PagamentoDAO {
         long res;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DBHelper.PAGAMENTO_COL_DESCRICAO, pagamento.getDescricao());
-        values.put(DBHelper.PAGAMENTO_COL_VALOR, pagamento.getValor().toString());
+
         SimpleDateFormat newsdf = new SimpleDateFormat("yyyyMMdd");
         String dataString = newsdf.format(pagamento.getDataPagamento());
+
+
+        values.put(DBHelper.PAGAMENTO_COL_DESCRICAO, pagamento.getDescricao());
+        values.put(DBHelper.PAGAMENTO_COL_VALOR, pagamento.getValor().toString());
         values.put(DBHelper.PAGAMENTO_COL_DATA, dataString);
-        values.put(DBHelper.PAGAMENTO_COL_TB_CONTA, pagamento.getTbConta());
-        values.put(DBHelper.PAGAMENTO_COL_TB_USUARIO, pagamento.getTbUsuario());
-        values.put(DBHelper.PAGAMENTO_COL_TB_TIPO_TRANSICAO, pagamento.getTbTipoPagamento());
+        values.put(DBHelper.PAGAMENTO_COL_TB_CONTA, String.valueOf(pagamento.getTbConta()));
+        values.put(DBHelper.PAGAMENTO_COL_TB_USUARIO, String.valueOf(pagamento.getTbUsuario()));
+        values.put(DBHelper.PAGAMENTO_COL_TB_TIPO_TRANSICAO, String.valueOf(pagamento.getTbTipoPagamento()));
         values.put(DBHelper.PAGAMENTO_COL_CATEGORIA, pagamento.getCategoria());
         values.put(DBHelper.PAGAMENTO_COL_SUBCATEGORIA, pagamento.getSubCategoria());
         res = db.insert(DBHelper.TABELA_PAGAMENTO, null, values);
@@ -84,20 +87,6 @@ public class PagamentoDAO {
         }
         return pagamentos;
     }
-    /*private Cursor dbQuery(SQLiteDatabase db, long usarioId){
-        String queryString = new StringBuilder()
-                .append("SELECT * ")
-                .append("  FROM %1$s ")
-                .append("  WHERE %2$s ")
-                .append(" LIKE %3$s ")
-                .append("  ORDER BY %4$s ")
-                .append("  DESC ")
-                .append(");").toString();
-
-
-        queryString = String.format(queryString, TABELA_PAGAMENTO, PAGAMENTO_COL_TB_USUARIO, usarioId, PAGAMENTO_COL_DATA);
-        return db.execSraqQL(queryString);
-    }*/
 
 
 }

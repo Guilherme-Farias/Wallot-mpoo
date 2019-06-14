@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ufrpe.wallot_app">
+    package="com.ufrpe.bsi.mpoo.wallotapp">
 
     <application
         android:name=".infra.app.WallotApp"
@@ -10,29 +10,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".infra.gui.HistoricoActivity"></activity>
-        <activity android:name=".infra.gui.TransacaoActivity" />
-        <activity android:name=".infra.gui.PagamentoActivity" />
-        <activity android:name=".infra.gui.EditUsuarioActivity" />
-        <activity android:name=".infra.gui.EditContaActivity" />
-        <activity android:name=".infra.gui.InicioActivity" />
-        <activity android:name=".infra.gui.ContasActivity" />
-        <activity android:name=".infra.gui.SettingActivity" />
+        <activity android:name=".transacao.gui.TransacaoActivity"></activity>
+        <activity android:name=".subcategoria.gui.SubCategoriasActivity" />
+        <activity android:name=".categoria.gui.CategoriasActivity" />
+        <activity android:name=".conta.gui.ContasActivity" />
+        <activity android:name=".conta.gui.CrudContaActivity" />
+        <activity android:name=".usuario.gui.EditarUsuarioActivity" />
+        <activity
+            android:name=".infra.gui.RegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".infra.gui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".infra.gui.RegisterActivity" />
-        <activity android:name=".infra.gui.LoginActivity" />
-        <activity android:name=".infra.gui.SplashScreenActivity">
+        <activity android:name=".infra.gui.ConfiguracaoActivity" />
+        <activity
+            android:name=".infra.gui.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".infra.gui.WarActivity"
-            android:parentActivityName=".infra.gui.MainActivity" />
     </application>
 
 </manifest>

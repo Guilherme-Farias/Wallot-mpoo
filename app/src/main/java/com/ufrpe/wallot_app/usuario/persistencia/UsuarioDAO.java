@@ -23,7 +23,6 @@ public class UsuarioDAO {
     }
 
     private Usuario criaUsuario(Cursor cursor){
-        ContaDAO contaDAO = new ContaDAO();
         int indexID = cursor.getColumnIndex(DBHelper.USUARIO_COL_ID);
         int indexNome = cursor.getColumnIndex(DBHelper.USUARIO_COL_NOME);
         int indexEmail = cursor.getColumnIndex(DBHelper.USUARIO_COL_EMAIL);
@@ -33,7 +32,6 @@ public class UsuarioDAO {
         usuario.setNome(cursor.getString(indexNome));
         usuario.setEmail(cursor.getString(indexEmail));
         usuario.setSenha(cursor.getString(indexSenha));
-        usuario.setContas(contaDAO.getContas(usuario.getId()));
         return usuario;
     }
 

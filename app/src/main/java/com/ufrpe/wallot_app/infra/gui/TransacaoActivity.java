@@ -81,7 +81,8 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
             pagamento.setValor(new BigDecimal(valor));
             pagamento.setCategoria(categoria);
             pagamento.setSubCategoria(subcategoria);
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            pagamento.setTbUsuario(usuario.getId());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             Date data = new Date();
             try {
                 data = sdf.parse(datastr);
@@ -89,10 +90,9 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
                 Toast.makeText(TransacaoActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
             pagamento.setDataPagamento(data);
-            pagamento.setTbTipoPagamento(SessaoPagamento.instance.getPagamento().getTbTipoPagamento());
             pagamento.setTbConta(idConta);
             PagamentoServices pagamentoServices = new PagamentoServices();
-            long id =pagamentoServices.cadastraPagamento(pagamento);
+            pagamentoServices.cadastraPagamento(pagamento);
             Toast.makeText(TransacaoActivity.this, "Transação efetuada com sucesso", Toast.LENGTH_LONG).show();
             startActivity(new Intent(TransacaoActivity.this, InicioActivity.class));
 
@@ -118,11 +118,6 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
 
     }
 
-    private ArrayList<Conta> pegarContas(long idUsuario) {
-        ContaServices contaServices = new ContaServices();
-        ArrayList<Conta> contas = contaServices.listarContas(idUsuario);
-        return contas;
-    }
 
     @Override
     public void onBackPressed() {
@@ -146,6 +141,7 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
     private boolean validateLenght(String str, int tam) {
         return str.length() > tam;
     }
+
 
 
 }

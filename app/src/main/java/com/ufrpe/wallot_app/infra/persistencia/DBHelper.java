@@ -10,7 +10,7 @@ import com.ufrpe.wallot_app.pagamento.dominio.TipoTransacao;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String NOME_BANCO = "wallot.db";
-    private static final int VERSAO = 1;
+    private static final int VERSAO = 2;
 
     //USUARIO
     public static final String TABELA_USUARIO = "TABELA_USUARIO";
@@ -36,9 +36,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String PAGAMENTO_COL_TB_USUARIO = "FK_USUARIO";
     public static final String PAGAMENTO_COL_TB_TIPO_TRANSICAO = "FK_TIPO_TRANSICAO";
     //TABELA TIPO TRANSACAO
-    public static final String TABELA_TIPO_TRANSICAO = "TABELA_TIPO_TRANSICAO";
+    /*public static final String TABELA_TIPO_TRANSICAO = "TABELA_TIPO_TRANSICAO";
     public static final String TIPO_TRANSICAO_COL_ID = "ID";
-    public static final String TIPO_TRANSICAO_COL_DESCRICAO = "DESCRIÇÃO";
+    public static final String TIPO_TRANSICAO_COL_DESCRICAO = "DESCRIÇÃO";*/
 
 
 
@@ -66,13 +66,13 @@ public class DBHelper extends SQLiteOpenHelper {
         String sqlTbPagamento =
                 "CREATE TABLE %1$s ( " +
                         "  %2$s INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "  %3$s TEXT, " +
+                        "  %3$s TEXT NOT NULL, " +
                         "  %4$s TEXT NOT NULL, " +
                         "  %5$s TEXT NOT NULL, " +
                         "  %6$s TEXT NOT NULL, " +
                         "  %7$s TEXT NOT NULL, " +
                         "  %8$s TEXT NOT NULL, " +
-                        "  %9$s TEXT NOT NULL," +
+                        "  %9$s TEXT NOT NULL, " +
                         "  %10$s TEXT NOT NULL" +
                         ");";
         sqlTbPagamento = String.format(sqlTbPagamento,
