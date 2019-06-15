@@ -55,4 +55,35 @@ public class CategoriaDAO {
         return categorias;
     }
 
+    public ArrayList<Categoria> getAllCategorias (long usuarioId) {
+        ArrayList<Categoria> categorias = new ArrayList<Categoria>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = "SELECT * FROM "+ DBHelper.TABELA_CATEGORIA + " WHERE " +DBHelper.CATEGORIA_FK_USUARIO + " = ? " + " OR " + DBHelper.CATEGORIA_FK_USUARIO + " IS NULL OR " + DBHelper.CATEGORIA_FK_USUARIO + " =?";
+        String[] args = {String.valueOf(usuarioId), "0"};
+        Cursor cursor = db.rawQuery(query, args);
+        if(cursor.moveToFirst()){
+            do {
+                Categoria categoria = criaCategoria(cursor);
+                categorias.add(categoria);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return categorias;
+    }
+
+
+    public String getCategoria(long idCategoria) {
+        String sql = "SELECT * FROM " + DBHelper.TABELA_CATEGORIA + " WHERE " + DBHelper.CATEGORIA_COL_ID + " LIKE ?;";
+        String[] args = {String.valueOf(idCategoria)};
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql, args);
+        String categoria = "";
+        if(cursor.moveToFirst()){
+            categoria = cursor.getString(cursor.getColumnIndex(DBHelper.CATEGORIA_COL_NOME));
+        }
+        cursor.close();
+        db.close();
+        return categoria;
+    }
 }

@@ -13,4 +13,9 @@ public class CategoriaServices {
         return categorias;
     }
 
+    public ArrayList<Categoria> listarAllCategorias(long idUsuario){
+        ArrayList<Categoria> categorias = categoriaDAO.getAllCategorias(idUsuario);
+        return categorias;
+    }
+
 }

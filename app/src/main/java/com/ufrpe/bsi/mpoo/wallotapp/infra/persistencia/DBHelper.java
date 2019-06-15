@@ -7,7 +7,7 @@ import com.ufrpe.bsi.mpoo.wallotapp.infra.app.WallotApp;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String NOME_BANCO = "wallot.db";
-    private static final int VERSAO = 5;
+    private static final int VERSAO = 7;
 
     //TABELA DE USUARIO(ENTROU NA VERSÃO 1)
     public static final String TABELA_USUARIO = "TABELA_USUARIO";
@@ -54,9 +54,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //TABELA DE Transacao VERSÃO 4
     public static final String TABELA_TRANSACAO = "TABELA_TRANSACAO";
-    public static final String TRANSACAO_COL_ID = "ID";
+    public static final String TRANSACAO_COL_ID = "ID_dalle";
     public static final String TRANSACAO_COL_TITULO = "TITULO";
-    public static final String TRANSACAO_COL_VALOR = "VALOR";
+    public static final String TRANSACAO_COL_VALOR = "VALOR_transa";
     public static final String TRANSACAO_COL_TIPO_TRANSACAO = "TIPO_TRANSACAO";
     public static final String TRANSACAO_COL_PARCELAS = "QTD_PARCELAS";
     public static final String TRANSACAO_COL_FK_CATEGORIA = "FK_CATEGORIA";
@@ -66,8 +66,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //TABELA DE PARCELA VERSÃO 5
     public static final String TABELA_PARCELA = "TABELA_PARCELA";
-    public static final String PARCELA_COL_ID = "ID";
-    public static final String PARCELA_COL_VALOR = "VALOR";
+    public static final String PARCELA_COL_ID = "ID_parcela";
+    public static final String PARCELA_COL_VALOR = "VALOR_parcela";
     public static final String PARCELA_COL_DATE = "DATA";
     public static final String PARCELA_NUMERO_PARCELA = "N_PARCELA";
     public static final String PARCELA_COL_FK_TRANSACAO = "FK_TRANSACAO";
@@ -99,37 +99,37 @@ public class DBHelper extends SQLiteOpenHelper {
             "(9,'Outros', NULL)";
 
     private String sqlSubCategoriaInit = " INSERT INTO " + TABELA_SUBCATEGORIA + "( " + SUBCATEGORIA_COL_ID + "," + SUBCATEGORIA_COL_NOME + "," + SUBCATEGORIA_FK_CATEGORIA + "," + SUBCATEGORIA_FK_CATEGORIA + ") VALUES " +
-            "(1,'Sem subcategoria', '0', '0')," +
-            "(2,'FastFood', '1',NULL)," +
-            "(3,'Feira', '1',NULL)," +
-            "(4,'Restaurante', '1',NULL)," +
-            "(5,'Água', '2',NULL)," +
-            "(6,'Aluguel', '2',NULL)," +
-            "(7,'Gás', '2',NULL)," +
-            "(8,'Luz', '2',NULL)," +
-            "(9,'Manuntenção', '2',NULL)," +
-            "(10,'Animais', '3',NULL)," +
-            "(11,'Beleza', '3',NULL)," +
-            "(12,'Eletrônicos', '3',NULL)," +
-            "(13,'Farmácia', '3',NULL)," +
-            "(14,'Vestuário', '3',NULL)," +
-            "(15,'Internet', '4',NULL)," +
-            "(16,'Serviços Postais', '4',NULL)," +
-            "(17,'Telefone', '4',NULL)," +
-            "(18,'Longas Distancias', '5',NULL)," +
-            "(19,'Particular', '5',NULL)," +
-            "(20,'Público', '5',NULL)," +
-            "(21,'Combustível', '6',NULL)," +
-            "(22,'Estacionamento', '6',NULL)," +
-            "(23,'Manuntenção', '6',NULL)," +
-            "(24,'Seguro', '6',NULL)," +
-            "(25,'Bebida e Cigarro', '7',NULL)," +
-            "(26,'Educação', '7',NULL)," +
-            "(27,'Fitness', '7',NULL)," +
-            "(28,'Saúde', '7',NULL)," +
-            "(29,'Softwares e Jogos', '7',NULL)," +
-            "(30,'TV e Streaming', '7',NULL)," +
-            "(31,'Viagens', '7',NULL)";
+            "(1,'Sem subcategoria', '1', '0')," +
+            "(2,'FastFood', '2',NULL)," +
+            "(3,'Feira', '2',NULL)," +
+            "(4,'Restaurante', '2',NULL)," +
+            "(5,'Água', '3',NULL)," +
+            "(6,'Aluguel', '3',NULL)," +
+            "(7,'Gás', '3',NULL)," +
+            "(8,'Luz', '3',NULL)," +
+            "(9,'Manuntenção', '3',NULL)," +
+            "(10,'Animais', '4',NULL)," +
+            "(11,'Beleza', '4',NULL)," +
+            "(12,'Eletrônicos', '4',NULL)," +
+            "(13,'Farmácia', '4',NULL)," +
+            "(14,'Vestuário', '4',NULL)," +
+            "(15,'Internet', '5',NULL)," +
+            "(16,'Serviços Postais', '5',NULL)," +
+            "(17,'Telefone', '5',NULL)," +
+            "(18,'Longas Distancias', '6',NULL)," +
+            "(19,'Particular', '6',NULL)," +
+            "(20,'Público', '6',NULL)," +
+            "(21,'Combustível', '7',NULL)," +
+            "(22,'Estacionamento', '7',NULL)," +
+            "(23,'Manuntenção', '7',NULL)," +
+            "(24,'Seguro', '7',NULL)," +
+            "(25,'Bebida e Cigarro', '8',NULL)," +
+            "(26,'Educação', '8',NULL)," +
+            "(27,'Fitness', '8',NULL)," +
+            "(28,'Saúde', '8',NULL)," +
+            "(29,'Softwares e Jogos', '8',NULL)," +
+            "(30,'TV e Streaming', '8',NULL)," +
+            "(31,'Viagens', '8',NULL)";
 
 
 

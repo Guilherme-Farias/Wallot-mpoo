@@ -14,9 +14,13 @@ public class UsuarioDAO {
     public long cadastrar(Usuario usuario) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
+
+
         values.put(DBHelper.USUARIO_COL_NOME, usuario.getNome());
         values.put(DBHelper.USUARIO_COL_EMAIL, usuario.getEmail());
         values.put(DBHelper.USUARIO_COL_SENHA, usuario.getSenha());
+
+
         long res = db.insert(DBHelper.TABELA_USUARIO, null, values);
         db.close();
         return res;

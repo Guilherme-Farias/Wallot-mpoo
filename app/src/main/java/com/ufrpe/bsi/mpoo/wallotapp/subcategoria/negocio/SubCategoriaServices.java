@@ -18,4 +18,8 @@ public class SubCategoriaServices {
         ArrayList<SubCategoria> subCategorias = subCategoriasDAO.getSubcategorias(idUsuario,idCategoria);
         return subCategorias;
     }
+    public ArrayList<SubCategoria> listarAllSubCategorias(long idUsuario, long idCategoria) {
+        ArrayList<SubCategoria> subCategorias = subCategoriasDAO.getAllSubcategorias(idUsuario,idCategoria);
+        return subCategorias;
+    }
 }

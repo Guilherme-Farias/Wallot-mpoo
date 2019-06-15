@@ -129,10 +129,25 @@ public class ContaDAO {
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()){
             do {
-                tipoContas.add(TipoConta.values()[cursor.getColumnIndex(DBHelper.TIPO_CONTA_COL_ID)]);
+                TipoConta tipo = TipoConta.values()[cursor.getColumnIndex(DBHelper.TIPO_CONTA_COL_ID)];
+                tipoContas.add(tipo);
             } while (cursor.moveToNext());
         }
         return tipoContas;
+    }
+
+    public BigDecimal getSaldoContas(long usuarioId){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = "SELECT * FROM "+DBHelper.TABELA_CONTA+" WHERE "+DBHelper.CONTA_FK_USUARIO + " = ?";
+        String[] args = {String.valueOf(usuarioId)};
+        Cursor cursor = db.rawQuery(query, args);
+        BigDecimal saldo = new BigDecimal("0.01");
+        if(cursor.moveToFirst()){
+            do {
+                saldo.add(new BigDecimal(cursor.getString(cursor.getColumnIndex(DBHelper.CONTA_COL_SALDO))));
+            } while (cursor.moveToNext());
+        }
+        return saldo;
     }
 
 }

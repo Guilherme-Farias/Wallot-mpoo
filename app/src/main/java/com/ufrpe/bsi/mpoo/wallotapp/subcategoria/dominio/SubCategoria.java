@@ -42,4 +42,9 @@ public class SubCategoria {
     public void setFkUsuario(long fkUsuario) {
         this.fkUsuario = fkUsuario;
     }
+
+    @Override
+    public String toString() {
+        return this.nome;
+    }
 }

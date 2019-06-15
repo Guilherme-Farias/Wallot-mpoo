@@ -6,6 +6,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".infra.gui.InicioFragment"
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/saldo_total"
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:layout_width="wrap_content"
@@ -23,8 +34,8 @@
             android:id="@+id/nova_receita"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_colorNormal="#32B543"
-            app:fab_colorPressed="#299438"
+            app:fab_colorNormal="#9fe678"
+            app:fab_colorPressed="#32b543"
             app:fab_size="mini"
             app:fab_icon="@drawable/ic_arrow_upward"
             app:fab_title="Nova receita"

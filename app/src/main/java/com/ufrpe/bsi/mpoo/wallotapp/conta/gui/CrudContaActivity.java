@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,11 +48,29 @@ public class CrudContaActivity extends AppCompatActivity {
         editCor.setText(conta.getCor());
 
 
-        ArrayList<TipoConta> tipoContas = pegarTiposConta();
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,tipoContas);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayList<TipoConta> tipoContas = new ContaServices().listarTiposConta();
+        ArrayAdapter adapterTipocontas = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, tipoContas);
+        adapterTipocontas.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTipoConta = findViewById(R.id.spinner_tipo_conta);
-        spinnerTipoConta.setAdapter(adapter);
+        spinnerTipoConta.setAdapter(adapterTipocontas);
+        spinnerTipoConta.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinnerTipoConta.setSelection(position,true);
+                SessaoConta.instance.getConta().setTipoConta((TipoConta) spinnerTipoConta.getSelectedItem());
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        
+
+
+
         radioTipoEstadoConta = findViewById(R.id.radio_tipo_estado_conta);
         buttonSalvar = findViewById(R.id.button_salvar_conta);
         buttonSalvar.setOnClickListener(new View.OnClickListener() {

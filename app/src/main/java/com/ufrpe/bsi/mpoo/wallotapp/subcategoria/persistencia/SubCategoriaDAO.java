@@ -30,7 +30,22 @@ public class SubCategoriaDAO {
         ArrayList<SubCategoria> subCategorias = new ArrayList<SubCategoria>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String query = "SELECT * FROM "+ DBHelper.TABELA_SUBCATEGORIA + " WHERE " + DBHelper.SUBCATEGORIA_FK_CATEGORIA +" =? " + " AND  (" +DBHelper.SUBCATEGORIA_FK_USUARIO + " = ? " + " OR " + DBHelper.SUBCATEGORIA_FK_USUARIO + " IS NULL)";
-        String[] args = {String.valueOf(usuarioId)};
+        String[] args = {String.valueOf(idCategoria), String.valueOf(usuarioId)};
+        Cursor cursor = db.rawQuery(query, args);
+        if(cursor.moveToFirst()){
+            do {
+                SubCategoria subcategoria = criaSubCategoria(cursor);
+                subCategorias.add(subcategoria);
+            } while (cursor.moveToNext());
+        }
+        return subCategorias;
+    }
+
+    public ArrayList<SubCategoria> getAllSubcategorias(long idUsuario, long idCategoria) {
+        ArrayList<SubCategoria> subCategorias = new ArrayList<SubCategoria>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = "SELECT * FROM " + DBHelper.TABELA_SUBCATEGORIA + " WHERE " + DBHelper.SUBCATEGORIA_FK_CATEGORIA + " =?" +  " OR " + DBHelper.SUBCATEGORIA_FK_CATEGORIA + " = 1" + " AND "  + "(" + DBHelper.SUBCATEGORIA_FK_USUARIO + " =?" + " OR " + DBHelper.SUBCATEGORIA_FK_USUARIO + " IS NULL)";
+        String[] args = {String.valueOf(idCategoria), String.valueOf(idUsuario)};
         Cursor cursor = db.rawQuery(query, args);
         if(cursor.moveToFirst()){
             do {

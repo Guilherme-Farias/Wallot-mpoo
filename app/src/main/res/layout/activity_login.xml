@@ -16,7 +16,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
         android:contentDescription="wallot_logo"
-        app:srcCompat="@drawable/wallot_logo" />
+        app:srcCompat="@drawable/logo_app_wallot" />
 
 
     <TextView

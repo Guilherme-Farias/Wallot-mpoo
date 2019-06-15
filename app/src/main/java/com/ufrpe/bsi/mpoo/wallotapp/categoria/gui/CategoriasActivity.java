@@ -29,13 +29,13 @@ public class CategoriasActivity extends AppCompatActivity {
         final Usuario usuario = SessaoUsuario.instance.getUsuario();
 
         listViewCategorias = (ListView) findViewById(R.id.list_categorias);
-        listarContas(usuario.getId());
+        listarCategorias(usuario.getId());
         listViewCategorias.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Categoria categoria = ((Categoria) parent.getAdapter().getItem(position));
                 SessaoCategoria.instance.setCategoria(categoria);
-                //subCategoriaIntent();
+                subCategoriaIntent();
             }
         });
     }
@@ -43,12 +43,10 @@ public class CategoriasActivity extends AppCompatActivity {
         startActivity(new Intent(CategoriasActivity.this, SubCategoriasActivity.class));
     }
 
-    private void listarContas(long idUsuario) {
+    private void listarCategorias(long idUsuario) {
         CategoriaServices categoriaServices = new CategoriaServices();
         ArrayList<Categoria> categorias = categoriaServices.listarCategorias(idUsuario);
-        System.out.println("Tamanho no activity: "+categorias.size());
         ArrayAdapter adapter = new ArrayAdapter<Categoria>(CategoriasActivity.this,android.R.layout.simple_list_item_1,categorias);
-        System.out.println("Tamanho no activity:(adapter) "+adapter.getCount());
         listViewCategorias.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

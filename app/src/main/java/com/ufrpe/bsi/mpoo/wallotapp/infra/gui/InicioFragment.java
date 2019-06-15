@@ -7,14 +7,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.ufrpe.bsi.mpoo.wallotapp.R;
+import com.ufrpe.bsi.mpoo.wallotapp.categoria.dominio.Categoria;
+import com.ufrpe.bsi.mpoo.wallotapp.conta.persistencia.ContaDAO;
+import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoCategoria;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoTransacao;
+import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoUsuario;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.TipoTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.Transacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.gui.TransacaoActivity;
+
+import java.math.BigDecimal;
 
 
 /**
@@ -32,6 +39,8 @@ public class InicioFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inicio, container, false);
+        TextView txt = view.findViewById(R.id.saldo_total);
+        txt.setText(getSaldoContas().toString());
         FloatingActionButton fab_1 = view.findViewById(R.id.nova_receita);
         FloatingActionButton fab_2 = view.findViewById(R.id.nova_despesa);
         FloatingActionButton fab_3 = view.findViewById(R.id.nova_transferencia);
@@ -43,6 +52,9 @@ public class InicioFragment extends Fragment {
                 Transacao transacao = new Transacao();
                 transacao.setTipoTransacao(TipoTransacao.RECEITA);
                 SessaoTransacao.instance.setTransacao(transacao);
+                Categoria categoria = new Categoria();
+                categoria.setId(1);
+                SessaoCategoria.instance.setCategoria(categoria);
                 startActivity( new Intent(getActivity(), TransacaoActivity.class));
             }
         });
@@ -54,6 +66,9 @@ public class InicioFragment extends Fragment {
                 Transacao transacao = new Transacao();
                 transacao.setTipoTransacao(TipoTransacao.DESPESA);
                 SessaoTransacao.instance.setTransacao(transacao);
+                Categoria categoria = new Categoria();
+                categoria.setId(1);
+                SessaoCategoria.instance.setCategoria(categoria);
                 startActivity( new Intent(getActivity(), TransacaoActivity.class));
             }
         });
@@ -67,6 +82,12 @@ public class InicioFragment extends Fragment {
 
 
         return view;
+    }
+
+    private BigDecimal getSaldoContas() {
+        ContaDAO c = new ContaDAO();
+        BigDecimal x = c.getSaldoContas(SessaoUsuario.instance.getUsuario().getId());
+        return x;
     }
 
     private void showToast(String messagem) {
