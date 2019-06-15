@@ -110,9 +110,9 @@ public class Transacao {
 
 
     SubCategoriaDAO subCategoriaDAO = new SubCategoriaDAO();
-    public long getSubCategoria(long idSubCategoria){
-        //subCategoriaDAO.
-        return this.fkSubCategoria;
+    public String getSubCategoria(long idSubCategoria){
+        String subCategoria = subCategoriaDAO.getSubCategoria(idSubCategoria);
+        return subCategoria;
     }
 
     public String dataFormatada(Date data){
@@ -127,11 +127,10 @@ public class Transacao {
         return this.titulo + "\n" +
                 this.valor + "\n" +
                 getCategoria(this.fkCategoria) + "\n" +
-                this.fkSubCategoria + "\n" +
+                getSubCategoria(this.fkSubCategoria) + "\n" +
                 dataFormatada(this.data) + "\n" +
                 this.tipoTransacao;
     }
-
 
 
 }
