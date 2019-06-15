@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".infra.gui.InicioFragment"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/saldo_total"
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        app:fab_addButtonPlusIconColor="@color/white"
+        app:fab_addButtonColorNormal="#C2E69C"
+        app:fab_addButtonColorPressed="#94D668"
+        app:fab_labelStyle="@style/customFab">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/nova_receita"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="#9fe678"
+            app:fab_colorPressed="#32b543"
+            app:fab_size="mini"
+            app:fab_icon="@drawable/ic_arrow_upward"
+            app:fab_title="Nova receita"
+            />
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/nova_despesa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="#FF0000"
+            app:fab_colorPressed="#E30000"
+            app:fab_size="mini"
+            app:fab_icon="@drawable/ic_arrow_downward"
+            app:fab_title="Nova despesa"
+            />
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/nova_transferencia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="#2C26A3"
+            app:fab_colorPressed="#241E85"
+            app:fab_size="mini"
+            app:fab_icon="@drawable/ic_swap_vert"
+            app:fab_title="Nova transferencia"
+            />
+        
+
+
+        
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+</RelativeLayout>
