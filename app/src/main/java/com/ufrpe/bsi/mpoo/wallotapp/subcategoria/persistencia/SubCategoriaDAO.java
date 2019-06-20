@@ -56,18 +56,19 @@ public class SubCategoriaDAO {
         return subCategorias;
     }
 
-    public String getSubCategoria(long idSubCategoria) {
+    public SubCategoria getSubCategoria(long idSubcategoria){
         String sql = "SELECT * FROM " + DBHelper.TABELA_SUBCATEGORIA + " WHERE " + DBHelper.SUBCATEGORIA_COL_ID + " LIKE ?;";
-        String[] args = {String.valueOf(idSubCategoria)};
+        String[] args = {String.valueOf(idSubcategoria)};
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, args);
-        String subCategoria = "";
+        SubCategoria subCategoria = null;
         if(cursor.moveToFirst()){
-            subCategoria = cursor.getString(cursor.getColumnIndex(DBHelper.SUBCATEGORIA_COL_NOME));
+            subCategoria = criaSubCategoria(cursor);
         }
         cursor.close();
         db.close();
         return subCategoria;
     }
+
 
 }

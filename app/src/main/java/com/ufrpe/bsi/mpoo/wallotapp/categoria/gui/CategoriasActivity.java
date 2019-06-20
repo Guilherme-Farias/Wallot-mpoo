@@ -27,6 +27,8 @@ public class CategoriasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categorias);
         final Usuario usuario = SessaoUsuario.instance.getUsuario();
+        getSupportActionBar().setTitle("Categorias");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         listViewCategorias = (ListView) findViewById(R.id.list_categorias);
         listarCategorias(usuario.getId());

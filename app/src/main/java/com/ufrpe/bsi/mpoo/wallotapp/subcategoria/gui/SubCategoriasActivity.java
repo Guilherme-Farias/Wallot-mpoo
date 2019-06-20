@@ -29,6 +29,8 @@ public class SubCategoriasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sub_categorias);
         final  Categoria categoria = SessaoCategoria.instance.getCategoria();
         final Usuario usuario = SessaoUsuario.instance.getUsuario();
+        getSupportActionBar().setTitle("Subcategorias");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         listViewSubCategoria = (ListView) findViewById(R.id.list_sub_categoria);
         listarSubCategorias(usuario.getId(), categoria.getId());

@@ -40,12 +40,16 @@ public class CrudContaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crud_conta);
         final Usuario usuario = SessaoUsuario.instance.getUsuario();
         final Conta conta = SessaoConta.instance.getConta();
+        getSupportActionBar().setTitle("Editar Conta");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         editNome = findViewById(R.id.edit_conta_salvar);
         editSaldo = findViewById(R.id.edit_saldo_salvar);
         editCor = findViewById(R.id.edit_cor_salvar);
         editNome.setText(conta.getNome());
         editSaldo.setText(conta.getSaldo().toString());
         editCor.setText(conta.getCor());
+
+
 
 
 
@@ -59,6 +63,7 @@ public class CrudContaActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 spinnerTipoConta.setSelection(position,true);
                 SessaoConta.instance.getConta().setTipoConta((TipoConta) spinnerTipoConta.getSelectedItem());
+                trocarTipo(spinnerTipoConta);
 
             }
 
@@ -141,6 +146,13 @@ public class CrudContaActivity extends AppCompatActivity {
     }
 
 
+    public void trocarTipo(Spinner spn){
+        if (SessaoConta.instance.getConta().getTipoConta().toString() == "Dinheiro"){
+            spn.setSelection(0);
+        } else if (SessaoConta.instance.getConta().getTipoConta().toString() == "Cartão de crédito") {
+            spn.setSelection(1);
+        }
+    }
     @Override
     public void onBackPressed() {
         SessaoConta.instance.reset();

@@ -18,4 +18,8 @@ public class CategoriaServices {
         return categorias;
     }
 
+    public Categoria getCategoria(long idCategoria) {
+        Categoria categoria = categoriaDAO.getCategoria(idCategoria);
+        return  categoria;
+    }
 }

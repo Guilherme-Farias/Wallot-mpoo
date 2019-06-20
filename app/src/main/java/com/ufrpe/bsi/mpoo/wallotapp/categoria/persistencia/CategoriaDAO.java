@@ -73,14 +73,14 @@ public class CategoriaDAO {
     }
 
 
-    public String getCategoria(long idCategoria) {
+    public Categoria getCategoria(long idCategoria) {
         String sql = "SELECT * FROM " + DBHelper.TABELA_CATEGORIA + " WHERE " + DBHelper.CATEGORIA_COL_ID + " LIKE ?;";
         String[] args = {String.valueOf(idCategoria)};
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, args);
-        String categoria = "";
+        Categoria categoria = null;
         if(cursor.moveToFirst()){
-            categoria = cursor.getString(cursor.getColumnIndex(DBHelper.CATEGORIA_COL_NOME));
+            categoria = criaCategoria(cursor);
         }
         cursor.close();
         db.close();

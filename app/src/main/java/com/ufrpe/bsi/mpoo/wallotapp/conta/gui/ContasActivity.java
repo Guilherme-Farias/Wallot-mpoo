@@ -26,6 +26,8 @@ public class ContasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contas);
         final Usuario usuario = SessaoUsuario.instance.getUsuario();
+        getSupportActionBar().setTitle("Contas");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         listViewContas = (ListView) findViewById(R.id.list_contas);
         listarContas(usuario.getId());

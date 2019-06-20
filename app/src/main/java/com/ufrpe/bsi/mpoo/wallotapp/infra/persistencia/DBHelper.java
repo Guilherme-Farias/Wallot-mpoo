@@ -11,81 +11,81 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //TABELA DE USUARIO(ENTROU NA VERSÃO 1)
     public static final String TABELA_USUARIO = "TABELA_USUARIO";
-    public static final String USUARIO_COL_ID = "ID";
-    public static final String USUARIO_COL_NOME = "NOME";
-    public static final String USUARIO_COL_EMAIL = "EMAIL";
-    public static final String USUARIO_COL_SENHA = "SENHA";
+    public static final String USUARIO_COL_ID = "ID_USUARIO";
+    public static final String USUARIO_COL_NOME = "NOME_USUARIO";
+    public static final String USUARIO_COL_EMAIL = "EMAIL_USUARIO";
+    public static final String USUARIO_COL_SENHA = "SENHA_USUARIO";
 
     //TABELA DE CONTA VERSÃO 2
     public static final String TABELA_CONTA = "TABELA_CONTA";
-    public static final String CONTA_COL_ID = "ID";
-    public static final String CONTA_COL_NOME = "NOME";
-    public static final String CONTA_COL_SALDO = "SALDO";
-    public static final String CONTA_FK_USUARIO = "FK_USUARIO";
-    public static final String CONTA_COL_COR = "COR";
-    public static final String CONTA_FK_TIPO_CONTA = "FK_TIPO_CONTA";
-    public static final String CONTA_FK_TIPO_ESTADO_CONTA = "FK_TIPO_ESTADO_CONTA";
+    public static final String CONTA_COL_ID = "ID_CONTA";
+    public static final String CONTA_COL_NOME = "NOME_CONTA";
+    public static final String CONTA_COL_SALDO = "SALDO_CONTA";
+    public static final String CONTA_FK_USUARIO = "FK_USUARIO_CONTA";
+    public static final String CONTA_COL_COR = "COR_CONTA";
+    public static final String CONTA_FK_TIPO_CONTA = "FK_TIPO_CONTA_CONTA";
+    public static final String CONTA_FK_TIPO_ESTADO_CONTA = "FK_TIPO_ESTADO_CONTA_CONTA";
 
 
     //TABELA DE TIPO CONTA VERSÃO 2
     public static final String TABELA_TIPO_CONTA = "TABELA_TIPO_CONTA";
-    public static final String TIPO_CONTA_COL_ID = "ID";
-    public static final String TIPO_CONTA_COL_DESCRICAO = "DESCRIÇÃO";
+    public static final String TIPO_CONTA_COL_ID = "ID_TIPO_CONTA";
+    public static final String TIPO_CONTA_COL_DESCRICAO = "DESCRIÇÃO_TIPO_CONTA";
 
     //TABELA DE TIPO ESTADO CONTA VERSÃO 2
     public static final String TABELA_TIPO_ESTADO_CONTA = "TABELA_TIPO_ESTADO_CONTA";
-    public static final String TIPO_ESTADO_CONTA_COL_ID = "ID";
-    public static final String TIPO_ESTADO_CONTA_COL_DESCRICAO = "DESCRIÇÃO";
+    public static final String TIPO_ESTADO_CONTA_COL_ID = "ID_TIPO_ESTADO_CONTA";
+    public static final String TIPO_ESTADO_CONTA_COL_DESCRICAO = "DESCRIÇÃO_TIPO_ESTADO_CONTA";
 
     //TABELA DE CATEGORIA VERSÃO 3
     public static final String TABELA_CATEGORIA = "TABELA_CATEGORIA";
-    public static final String CATEGORIA_COL_ID = "ID";
-    public static final String CATEGORIA_COL_NOME = "NOME";
+    public static final String CATEGORIA_COL_ID = "ID_CATEGORIA";
+    public static final String CATEGORIA_COL_NOME = "NOME_CATEGORIA";
     /*public static final String CATEGORIA_COL_ICONE = "ICONE";*/
-    public static final String CATEGORIA_FK_USUARIO = "FK_USUARIO";
+    public static final String CATEGORIA_FK_USUARIO = "FK_USUARIO_CONTA";
 
     //TABELA DE SUBCATEGORIA VERSÃO #
     public static final String TABELA_SUBCATEGORIA = "TABELA_SUBCATEGORIA";
-    public static final String SUBCATEGORIA_COL_ID = "ID";
-    public static final String SUBCATEGORIA_COL_NOME = "NOME";
+    public static final String SUBCATEGORIA_COL_ID = "ID_SUBCATEGORIA";
+    public static final String SUBCATEGORIA_COL_NOME = "NOME_SUBCATEGORIA";
     /*public static final String SUBCATEGORIA_COL_ICONE = "ICONE";*/
-    public static final String SUBCATEGORIA_FK_CATEGORIA = "FK_CATEGORIA";
-    public static final String SUBCATEGORIA_FK_USUARIO = "FK_USUARIO";
+    public static final String SUBCATEGORIA_FK_CATEGORIA = "FK_CATEGORIA_SUBCATEGORIA";
+    public static final String SUBCATEGORIA_FK_USUARIO = "FK_USUARIO_SUBCATEGORIA";
 
     //TABELA DE Transacao VERSÃO 4
     public static final String TABELA_TRANSACAO = "TABELA_TRANSACAO";
-    public static final String TRANSACAO_COL_ID = "ID_dalle";
-    public static final String TRANSACAO_COL_TITULO = "TITULO";
-    public static final String TRANSACAO_COL_VALOR = "VALOR_transa";
-    public static final String TRANSACAO_COL_TIPO_TRANSACAO = "TIPO_TRANSACAO";
-    public static final String TRANSACAO_COL_PARCELAS = "QTD_PARCELAS";
-    public static final String TRANSACAO_COL_FK_CATEGORIA = "FK_CATEGORIA";
-    public static final String TRANSACAO_COL_FK_SUBCATEGORIA = "FK_SUBCATEGORIA";
-    public static final String TRANSACAO_COL_FK_USUARIO = "FK_USUARIO";
-    public static final String TRANSACAO_COL_FK_CONTA = "FK_CONTA";
+    public static final String TRANSACAO_COL_ID = "ID_TRANSACAO";
+    public static final String TRANSACAO_COL_TITULO = "TITULO_TRANSACAO";
+    public static final String TRANSACAO_COL_VALOR = "VALOR_TRANSACAO";
+    public static final String TRANSACAO_COL_TIPO_TRANSACAO = "TIPO_TRANSACAO_TRANSACAO";
+    public static final String TRANSACAO_COL_PARCELAS = "QTD_PARCELAS_TRANSACAO";
+    public static final String TRANSACAO_COL_FK_CATEGORIA = "FK_CATEGORIA_TRANSACAO";
+    public static final String TRANSACAO_COL_FK_SUBCATEGORIA = "FK_SUBCATEGORIA_TRANSACAO";
+    public static final String TRANSACAO_COL_FK_USUARIO = "FK_USUARIO_TRANSACAO";
+    public static final String TRANSACAO_COL_FK_CONTA = "FK_CONTA_TRANSACAO";
 
     //TABELA DE PARCELA VERSÃO 5
     public static final String TABELA_PARCELA = "TABELA_PARCELA";
-    public static final String PARCELA_COL_ID = "ID_parcela";
-    public static final String PARCELA_COL_VALOR = "VALOR_parcela";
-    public static final String PARCELA_COL_DATE = "DATA";
-    public static final String PARCELA_NUMERO_PARCELA = "N_PARCELA";
-    public static final String PARCELA_COL_FK_TRANSACAO = "FK_TRANSACAO";
+    public static final String PARCELA_COL_ID = "ID_PARCELA";
+    public static final String PARCELA_COL_VALOR = "VALOR_PARCELA";
+    public static final String PARCELA_COL_DATE = "DATA_PARCELA";
+    public static final String PARCELA_NUMERO_PARCELA = "N_PARCELA_PARCELA";
+    public static final String PARCELA_COL_FK_TRANSACAO = "FK_TRANSACAO_PARCELA";
     
 
 
     //TABELA DE TIPO TRANSACAO VERSAO 4
     public static final String TABELA_TIPO_TRANSACAO = "TABELA_TIPO_TRANSACAO";
-    public static final String TIPO_TRANSACAO_COL_ID = "ID";
-    public static final String TIPO_TRANSACAO_COL_DESCRICAO = "DESCRIÇÃO";
-    public static final String TIPO_TRANSACAO_COL_MULTIPLICADOR = "MULTIPLICADOR";
+    public static final String TIPO_TRANSACAO_COL_ID = "ID_TIPO_TRANSACAO";
+    public static final String TIPO_TRANSACAO_COL_DESCRICAO = "DESCRIÇÃO_TIPO_TRANSACAO";
+    public static final String TIPO_TRANSACAO_COL_MULTIPLICADOR = "MULTIPLICADOR_TIPO_TRANSACAO";
 
 
 
 
 
     private String sqlTipoTipoTransacaoInit = "INSERT INTO " + TABELA_TIPO_TRANSACAO + " ( " + TIPO_TRANSACAO_COL_ID + ", " + TIPO_TRANSACAO_COL_DESCRICAO + ", " + TIPO_TRANSACAO_COL_MULTIPLICADOR + ") VALUES " + "(1,'Receita', '1')," + "(2,'Despesa', '-1')," + "(3, 'Transferência', '-1')";
-    private String sqlTipoContaInit = "INSERT INTO " + TABELA_TIPO_CONTA + "( " + TIPO_CONTA_COL_ID + "," + TIPO_CONTA_COL_DESCRICAO + ") VALUES " + "(1,'Dinheiro')";
+    private String sqlTipoContaInit = "INSERT INTO " + TABELA_TIPO_CONTA + "( " + TIPO_CONTA_COL_ID + "," + TIPO_CONTA_COL_DESCRICAO + ") VALUES " + "(1,'Dinheiro')," + "(2,'Cartão de crédito')";
     private String sqlTipoEstadoContaInit = "INSERT INTO " + TABELA_TIPO_ESTADO_CONTA + "( " + TIPO_ESTADO_CONTA_COL_ID + "," + TIPO_ESTADO_CONTA_COL_DESCRICAO + ") VALUES " + "(1,'Ativo')," + "(2,'Inativo')";
     private String sqlCategoriaInit = " INSERT INTO " + TABELA_CATEGORIA + "( " + CATEGORIA_COL_ID + "," + CATEGORIA_COL_NOME + "," + CATEGORIA_FK_USUARIO + ") VALUES " +
             "(1,'Sem categoria', '0' )," +

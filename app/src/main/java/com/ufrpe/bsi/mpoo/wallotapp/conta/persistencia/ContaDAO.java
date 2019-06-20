@@ -3,6 +3,7 @@ package com.ufrpe.bsi.mpoo.wallotapp.conta.persistencia;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.Conta;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.TipoConta;
@@ -129,7 +130,7 @@ public class ContaDAO {
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()){
             do {
-                TipoConta tipo = TipoConta.values()[cursor.getColumnIndex(DBHelper.TIPO_CONTA_COL_ID)];
+                TipoConta tipo = TipoConta.values()[(cursor.getInt(cursor.getColumnIndex(DBHelper.TIPO_CONTA_COL_ID)))-1];
                 tipoContas.add(tipo);
             } while (cursor.moveToNext());
         }
@@ -141,10 +142,11 @@ public class ContaDAO {
         String query = "SELECT * FROM "+DBHelper.TABELA_CONTA+" WHERE "+DBHelper.CONTA_FK_USUARIO + " = ?";
         String[] args = {String.valueOf(usuarioId)};
         Cursor cursor = db.rawQuery(query, args);
-        BigDecimal saldo = new BigDecimal("0.01");
+        BigDecimal saldo = new BigDecimal("00.00");
         if(cursor.moveToFirst()){
             do {
-                saldo.add(new BigDecimal(cursor.getString(cursor.getColumnIndex(DBHelper.CONTA_COL_SALDO))));
+                BigDecimal valorConta = new BigDecimal(cursor.getString(cursor.getColumnIndex(DBHelper.CONTA_COL_SALDO)));
+                saldo = saldo.add(valorConta);
             } while (cursor.moveToNext());
         }
         return saldo;

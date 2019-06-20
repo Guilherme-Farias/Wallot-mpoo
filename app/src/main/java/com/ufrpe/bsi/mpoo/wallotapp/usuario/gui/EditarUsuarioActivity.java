@@ -24,6 +24,8 @@ public class EditarUsuarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_usuario);
         final Usuario usuario = SessaoUsuario.instance.getUsuario();
+        getSupportActionBar().setTitle("Editar Usuário");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         editNome = findViewById(R.id.edit_nome_alterar);

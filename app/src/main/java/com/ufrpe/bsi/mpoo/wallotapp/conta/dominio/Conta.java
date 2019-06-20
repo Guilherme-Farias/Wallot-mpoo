@@ -67,6 +67,11 @@ public class Conta {
         this.fkUsuario = fkUsuario;
     }
 
+
+    public void addSaldo(BigDecimal valor){
+        this.saldo = this.saldo.add(valor);
+    }
+
     @Override
     public String toString() {
         return this.nome;
