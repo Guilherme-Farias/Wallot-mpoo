@@ -1,36 +1,31 @@
 package com.ufrpe.bsi.mpoo.wallotapp.infra.gui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import com.ufrpe.bsi.mpoo.wallotapp.R;
+import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.OnRecyclerListener;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoUsuario;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.Parcela;
-import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.Transacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.gui.RecyclerViewAdapterTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.negocio.TransacaoServices;
-import com.ufrpe.bsi.mpoo.wallotapp.transacao.persistencia.TransacaoDAO;
 import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RegistroFragment extends Fragment {
+public class RegistroFragment extends Fragment implements OnRecyclerListener {
     private RecyclerView mRecyclerView;
     private ArrayList<Parcela> parcelas;
 
@@ -70,21 +65,22 @@ public class RegistroFragment extends Fragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
 
-        ArrayList<Parcela> parcelas = new TransacaoServices().listarParcelasPorData(usuario.getId());
-        RecyclerViewAdapterTransacao adapter = new RecyclerViewAdapterTransacao(getActivity(), parcelas);
+        parcelas = new TransacaoServices().listarParcelasPorData(usuario.getId());
+        RecyclerViewAdapterTransacao adapter = new RecyclerViewAdapterTransacao(getActivity(), parcelas, this);
         mRecyclerView.setAdapter(adapter);
-
-
-
-
-
-        /*ListView l = v.findViewById(R.id.list_pagamentos);
-        TransacaoServices transacaoServices = new TransacaoServices();
-        ArrayList<Transacao> transacaos = transacaoServices.listarTransacaoPorData(usuario.getId());
-        ArrayAdapter adapter = new ArrayAdapter<Transacao>(getContext(),android.R.layout.simple_list_item_1,transacaos);
-        l.setAdapter(adapter);*/
-
+        //adapter.onClick
         return v;
     }
 
+    @Override
+    public void onClickRecycler(int position) {
+        /*View v = mRecyclerView.findViewHolderForAdapterPosition(position);
+        Parcela p = v.find
+        Parcela parcelaClicada = parcelas.get(position);*/
+        //System.out.println(parce);
+
+        Log.d("Dalle", "clicado:" + parcelas.get(position).getId());
+        //RecyclerViewAdapterTransacao adapter = (RecyclerViewAdapterTransacao) mRecyclerView.getAdapter();
+        //adapter.getItem
+    }
 }

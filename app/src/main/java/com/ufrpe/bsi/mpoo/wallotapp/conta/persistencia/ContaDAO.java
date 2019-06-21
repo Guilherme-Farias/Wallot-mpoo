@@ -21,7 +21,6 @@ public class ContaDAO {
         ContentValues values = new ContentValues();
         values.put(DBHelper.CONTA_COL_NOME, conta.getNome());
         values.put(DBHelper.CONTA_COL_SALDO, conta.getSaldo().toString());
-        values.put(DBHelper.CONTA_COL_COR, conta.getCor());
         values.put(DBHelper.CONTA_FK_USUARIO, conta.getFkUsuario());
         values.put(DBHelper.CONTA_FK_TIPO_CONTA, String.valueOf(conta.getTipoConta().ordinal() + 1));
         values.put(DBHelper.CONTA_FK_TIPO_ESTADO_CONTA, String.valueOf(conta.getTipoEstadoConta().ordinal() + 1));
@@ -36,14 +35,12 @@ public class ContaDAO {
         int indexNome = cursor.getColumnIndex(DBHelper.CONTA_COL_NOME);
         int indexSaldo = cursor.getColumnIndex(DBHelper.CONTA_COL_SALDO);
         int indexUsuario= cursor.getColumnIndex(DBHelper.CONTA_FK_USUARIO);
-        int indexCor = cursor.getColumnIndex(DBHelper.CONTA_COL_COR);
         int indexTipoConta = cursor.getColumnIndex(DBHelper.CONTA_FK_TIPO_CONTA);
         int indexTipoEstadoConta = cursor.getColumnIndex(DBHelper.CONTA_FK_TIPO_ESTADO_CONTA);
         conta.setId(cursor.getLong(indexId));
         conta.setNome(cursor.getString(indexNome));
         conta.setSaldo(new BigDecimal(cursor.getString(indexSaldo)));
         conta.setFkUsuario(cursor.getLong(indexUsuario));
-        conta.setCor(cursor.getString(indexCor));
         conta.setTipoConta(TipoConta.values()[cursor.getInt(indexTipoConta) - 1]);
         conta.setTipoEstadoConta(TipoEstadoConta.values()[cursor.getInt(indexTipoEstadoConta) - 1]);
         return conta;
@@ -53,6 +50,21 @@ public class ContaDAO {
         ArrayList<Conta> contas = new ArrayList<Conta>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String query = "SELECT * FROM "+DBHelper.TABELA_CONTA+" WHERE "+DBHelper.CONTA_FK_USUARIO + " = ?";
+        String[] args = {String.valueOf(usuarioId)};
+        Cursor cursor = db.rawQuery(query, args);
+        if(cursor.moveToFirst()){
+            do {
+                Conta conta = criaConta(cursor);
+                contas.add(conta);
+            } while (cursor.moveToNext());
+        }
+        return contas;
+    }
+
+    public ArrayList<Conta> getContasAtivas(long usuarioId){
+        ArrayList<Conta> contas = new ArrayList<Conta>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = "SELECT * FROM "+DBHelper.TABELA_CONTA+" WHERE "+DBHelper.CONTA_FK_USUARIO + " = ? AND " + DBHelper.CONTA_FK_TIPO_ESTADO_CONTA + " = 1"  ;
         String[] args = {String.valueOf(usuarioId)};
         Cursor cursor = db.rawQuery(query, args);
         if(cursor.moveToFirst()){
@@ -80,17 +92,17 @@ public class ContaDAO {
         db.close();
     }
 
-    public void alterarCor(Conta conta){
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DBHelper.CONTA_COL_COR,conta.getCor());
-        db.update(DBHelper.TABELA_CONTA,values,DBHelper.CONTA_COL_ID + " = ?",new String[]{String.valueOf(conta.getId())});
-        db.close();
-    }
     public void alterarTipoEstadoConta(Conta conta) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DBHelper.CONTA_FK_TIPO_ESTADO_CONTA,(conta.getTipoEstadoConta().ordinal() + 1));
+        db.update(DBHelper.TABELA_CONTA,values,DBHelper.CONTA_COL_ID + " = ?",new String[]{String.valueOf(conta.getId())});
+        db.close();
+    }
+    public void alterarTipoConta(Conta conta) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.CONTA_FK_TIPO_CONTA,(conta.getTipoConta().ordinal() + 1));
         db.update(DBHelper.TABELA_CONTA,values,DBHelper.CONTA_COL_ID + " = ?",new String[]{String.valueOf(conta.getId())});
         db.close();
     }
@@ -152,4 +164,18 @@ public class ContaDAO {
         return saldo;
     }
 
+    public Conta existContaAtiva(long idUsuario, long idConta) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = "SELECT * FROM "+DBHelper.TABELA_CONTA + " WHERE "+DBHelper.CONTA_FK_USUARIO + " = ?" + " and " + DBHelper.CONTA_FK_TIPO_ESTADO_CONTA + " = ? AND NOT " + DBHelper.CONTA_COL_ID + " = ?";
+        String[] args = {String.valueOf(idUsuario), String.valueOf(1), String.valueOf(idConta)};
+        Cursor cursor = db.rawQuery(query, args);
+        Conta exist = null;
+        if(cursor.moveToFirst()){
+            exist = criaConta(cursor);
+        }
+        cursor.close();
+        db.close();
+        return exist;
+
+    }
 }

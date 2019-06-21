@@ -7,7 +7,7 @@ import com.ufrpe.bsi.mpoo.wallotapp.infra.app.WallotApp;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String NOME_BANCO = "wallot.db";
-    private static final int VERSAO = 7;
+    private static final int VERSAO = 8;
 
     //TABELA DE USUARIO(ENTROU NA VERSÃO 1)
     public static final String TABELA_USUARIO = "TABELA_USUARIO";
@@ -22,7 +22,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CONTA_COL_NOME = "NOME_CONTA";
     public static final String CONTA_COL_SALDO = "SALDO_CONTA";
     public static final String CONTA_FK_USUARIO = "FK_USUARIO_CONTA";
-    public static final String CONTA_COL_COR = "COR_CONTA";
     public static final String CONTA_FK_TIPO_CONTA = "FK_TIPO_CONTA_CONTA";
     public static final String CONTA_FK_TIPO_ESTADO_CONTA = "FK_TIPO_ESTADO_CONTA_CONTA";
 
@@ -302,15 +301,13 @@ public class DBHelper extends SQLiteOpenHelper {
                         "  %4$s TEXT NOT NULL, " +
                         "  %5$s TEXT NOT NULL, " +
                         "  %6$s TEXT NOT NULL, " +
-                        "  %7$s TEXT NOT NULL, " +
-                        "  %8$s TEXT NOT NULL " +
+                        "  %7$s TEXT NOT NULL " +
                         ");";
         sqlTbConta = String.format(sqlTbConta,
                 TABELA_CONTA,
                 CONTA_COL_ID,
                 CONTA_COL_NOME,
                 CONTA_COL_SALDO,
-                CONTA_COL_COR,
                 CONTA_FK_USUARIO,
                 CONTA_FK_TIPO_CONTA,
                 CONTA_FK_TIPO_ESTADO_CONTA

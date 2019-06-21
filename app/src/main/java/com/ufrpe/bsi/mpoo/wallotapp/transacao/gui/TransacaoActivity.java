@@ -68,7 +68,7 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
         imageTipo = findViewById(R.id.tipo_transacao_image);
 
         //spin Contas
-        ArrayList<Conta> contas = new ContaServices().listarContas(usuario.getId());
+        ArrayList<Conta> contas = new ContaServices().listarContasAtivas(usuario.getId());
         ArrayAdapter adapterContas = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, contas);
         adapterContas.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnConta.setAdapter(adapterContas);

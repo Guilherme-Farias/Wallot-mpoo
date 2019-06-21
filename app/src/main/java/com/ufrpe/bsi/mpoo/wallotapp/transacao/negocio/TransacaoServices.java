@@ -42,27 +42,25 @@ public class TransacaoServices {
         Parcela parcela = new Parcela();
         parcela.setFkTransacao(res);
         parcela.setNumeroParcela(1);
-        parcela.setDataTransacao(pegarDateFormat(strData));//data
+        parcela.setDataTransacao(pegarDateFormat(strData));
         BigDecimal multiplicador = new BigDecimal(transacao.getTipoTransacao().getMultiplicador());
         BigDecimal valorTotal = transacao.getValor();
-        long nParcelas = transacao.getQntParcelas();
-        if (nParcelas == 1){
+        BigDecimal nParcelas = new BigDecimal(transacao.getQntParcelas());
+        if (transacao.getQntParcelas() == 1){
             parcela.setValorParcela(valorTotal.multiply(multiplicador));
             transacaoDAO.cadastrarParcela(parcela);
             conta.addSaldo(parcela.getValorParcela());
             contaDAO.alterarSaldo(conta);
         } else {
-            BigDecimal remanescente = valorTotal.remainder(new BigDecimal(nParcelas));
-            parcela.setValorParcela((((valorTotal.subtract(remanescente)).divide(new BigDecimal(nParcelas))).add(remanescente)));
-            contaDAO.alterarSaldo(conta);
-            BigDecimal valorParcelasRemancentes = (parcela.getValorParcela().subtract(remanescente).multiply(multiplicador));
+            BigDecimal[] result = (valorTotal.multiply(new BigDecimal("100.00"))).divideAndRemainder(nParcelas);
+            parcela.setValorParcela(((result[0].add(result[1])).divide(new BigDecimal("100.00"))).multiply(multiplicador));
             conta.addSaldo(parcela.getValorParcela());
-            parcela.setValorParcela(parcela.getValorParcela().multiply(multiplicador));
             transacaoDAO.cadastrarParcela(parcela);
-            for (long nParcela = 2; nParcela <= nParcelas; nParcela++) {
+            contaDAO.alterarSaldo(conta);
+            for (long nParcela = 2; nParcela <= transacao.getQntParcelas(); nParcela++) {
                 Parcela parcelasRemanescentes = parcela;
                 parcelasRemanescentes.setNumeroParcela(nParcela);
-                parcelasRemanescentes.setValorParcela(valorParcelasRemancentes);
+                parcelasRemanescentes.setValorParcela((result[0]).divide(new BigDecimal("100.00")).multiply(multiplicador));
                 Calendar c = Calendar.getInstance();
                 c.setTime(parcelasRemanescentes.getDataTransacao());
                 c.add(Calendar.MONTH, 1);

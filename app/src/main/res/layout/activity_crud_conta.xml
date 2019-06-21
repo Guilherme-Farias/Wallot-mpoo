@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
         <ImageView
             android:layout_width="match_parent"
@@ -41,20 +41,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="0.00"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cor: "/>
-            <EditText
-                android:id="@+id/edit_cor_salvar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="#FFFFFF"/>
-        </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,29 +57,21 @@
                 android:layout_height="wrap_content"
                 android:text="Sim"
                 android:onClick="checkButton"
-                android:checked="true"/>
+                android:checked="true"
+                android:buttonTint="@color/green_button"/>
             <RadioButton
                 android:id="@+id/radio_inativo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Não"
-                android:onClick="checkButton" />
+                android:onClick="checkButton"
+                android:buttonTint="@color/green_button"/>
         </RadioGroup>
         <Button
             android:id="@+id/button_salvar_conta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SALVAR"/>
-
-
-
-
-
-
-
-
-
-
     </LinearLayout>
 
 

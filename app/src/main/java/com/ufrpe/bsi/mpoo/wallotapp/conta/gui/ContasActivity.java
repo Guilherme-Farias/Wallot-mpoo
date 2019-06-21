@@ -3,23 +3,34 @@ package com.ufrpe.bsi.mpoo.wallotapp.conta.gui;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.ufrpe.bsi.mpoo.wallotapp.R;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.Conta;
+import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.TipoConta;
+import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.TipoEstadoConta;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.negocio.ContaServices;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.gui.ConfiguracaoActivity;
+import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.OnRecyclerListener;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoConta;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoUsuario;
+import com.ufrpe.bsi.mpoo.wallotapp.transacao.negocio.TransacaoServices;
 import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class ContasActivity extends AppCompatActivity {
-    ListView listViewContas;
+public class ContasActivity extends AppCompatActivity implements OnRecyclerListener {
+    RecyclerView mRecyclerView;
+    ArrayList<Conta> contas;
+    FloatingActionButton btnCriarConta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +39,27 @@ public class ContasActivity extends AppCompatActivity {
         final Usuario usuario = SessaoUsuario.instance.getUsuario();
         getSupportActionBar().setTitle("Contas");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mRecyclerView = (RecyclerView)findViewById(R.id.recyclerview_conta);
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(ContasActivity.this);
+        mRecyclerView.setLayoutManager(llm);
 
-        listViewContas = (ListView) findViewById(R.id.list_contas);
-        listarContas(usuario.getId());
-        listViewContas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        contas = new ContaServices().listarContas(usuario.getId());
+        RecyclerViewAdapterConta adapter = new RecyclerViewAdapterConta(ContasActivity.this, contas, this);
+        mRecyclerView.setAdapter(adapter);
+
+
+        btnCriarConta = findViewById(R.id.nova_conta_fab);
+        btnCriarConta.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Conta conta = ((Conta)parent.getAdapter().getItem(position));
+            public void onClick(View v) {
+                Conta conta = new Conta();
+                conta.setId(0);
+                conta.setFkUsuario(usuario.getId());
+                conta.setTipoConta(TipoConta.DINHEIRO);
+                conta.setTipoEstadoConta(TipoEstadoConta.ATIVO);
                 SessaoConta.instance.setConta(conta);
-                editarContaIntent();
+                crudContaIntent();
             }
         });
 
@@ -44,20 +67,23 @@ public class ContasActivity extends AppCompatActivity {
     }
 
 
-    private void editarContaIntent() {
+    private void crudContaIntent() {
         startActivity(new Intent(ContasActivity.this, CrudContaActivity.class));
     }
 
-    private void listarContas(long idUsuario) {
-            ContaServices contaServices = new ContaServices();
-            ArrayList<Conta> contas = contaServices.listarContas(idUsuario);
-            ArrayAdapter adapter = new ArrayAdapter<Conta>(ContasActivity.this,android.R.layout.simple_list_item_1,contas);
-            listViewContas.setAdapter(adapter);
-    }
 
 
     @Override
     public void onBackPressed() {
         startActivity(new Intent(ContasActivity.this, ConfiguracaoActivity.class));
     }
+
+
+    @Override
+    public void onClickRecycler(int position) {
+        Log.d("Dalle", "clicado:" + contas.get(position).getId());
+        SessaoConta.instance.setConta(contas.get(position));
+        crudContaIntent();
+    }
+
 }
