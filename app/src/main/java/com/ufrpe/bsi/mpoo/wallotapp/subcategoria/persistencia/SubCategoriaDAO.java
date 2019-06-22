@@ -1,5 +1,6 @@
 package com.ufrpe.bsi.mpoo.wallotapp.subcategoria.persistencia;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -11,16 +12,31 @@ import java.util.ArrayList;
 public class SubCategoriaDAO {
     private DBHelper dbHelper = new DBHelper();
 
+    public long cadastrar(SubCategoria subCategoria) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.SUBCATEGORIA_COL_NOME, subCategoria.getNome());
+        values.put(DBHelper.SUBCATEGORIA_COL_ICONE, subCategoria.getIcone());
+        values.put(DBHelper.SUBCATEGORIA_FK_CATEGORIA, subCategoria.getFkCategoria());
+        if (subCategoria.getFkUsuario() == -1) {
+            values.putNull(DBHelper.SUBCATEGORIA_FK_USUARIO);
+        } else {
+            values.put(DBHelper.SUBCATEGORIA_FK_USUARIO, subCategoria.getFkUsuario());
+        }
+        long res = db.insert(DBHelper.TABELA_SUBCATEGORIA, null, values);
+        db.close();
+        return res;
+    }
     public SubCategoria criaSubCategoria(Cursor cursor) {
         SubCategoria subCategoria = new SubCategoria();
         int indexId = cursor.getColumnIndex(DBHelper.SUBCATEGORIA_COL_ID);
         int indexNome = cursor.getColumnIndex(DBHelper.SUBCATEGORIA_COL_NOME);
-        /*int indexIcone = cursor.getColumnIndex(DBHelper.SUBCATEGORIA_COL_ICONE);*/
+        int indexIcone = cursor.getColumnIndex(DBHelper.SUBCATEGORIA_COL_ICONE);
         int indexCategoria = cursor.getColumnIndex(DBHelper.SUBCATEGORIA_FK_CATEGORIA);
         int indexUsuario = cursor.getColumnIndex(DBHelper.SUBCATEGORIA_FK_USUARIO);
         subCategoria.setId(cursor.getLong(indexId));
         subCategoria.setNome(cursor.getString(indexNome));
-        /*subCategoria.setIcone(cursor.getBlob(indexIcone));*/
+        subCategoria.setIcone(cursor.getBlob(indexIcone));
         subCategoria.setFkCategoria(cursor.getLong(indexCategoria));
         subCategoria.setFkUsuario(cursor.getLong(indexUsuario));
         return subCategoria;
@@ -56,18 +72,19 @@ public class SubCategoriaDAO {
         return subCategorias;
     }
 
-    public String getSubCategoria(long idSubCategoria) {
+    public SubCategoria getSubCategoria(long idSubcategoria){
         String sql = "SELECT * FROM " + DBHelper.TABELA_SUBCATEGORIA + " WHERE " + DBHelper.SUBCATEGORIA_COL_ID + " LIKE ?;";
-        String[] args = {String.valueOf(idSubCategoria)};
+        String[] args = {String.valueOf(idSubcategoria)};
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, args);
-        String subCategoria = "";
+        SubCategoria subCategoria = null;
         if(cursor.moveToFirst()){
-            subCategoria = cursor.getString(cursor.getColumnIndex(DBHelper.SUBCATEGORIA_COL_NOME));
+            subCategoria = criaSubCategoria(cursor);
         }
         cursor.close();
         db.close();
         return subCategoria;
     }
+
 
 }

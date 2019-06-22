@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.WallotAppException;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.persistencia.DBHelper;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.Parcela;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.TipoTransacao;
@@ -46,17 +47,6 @@ public class TransacaoDAO {
         values.put(DBHelper.TRANSACAO_COL_FK_USUARIO, String.valueOf(transacao.getFkUsuario()));
         values.put(DBHelper.TRANSACAO_COL_TIPO_TRANSACAO, String.valueOf(transacao.getTipoTransacao().ordinal() + 1));
         long res = db.insert(DBHelper.TABELA_TRANSACAO, null, values);
-
-        /*System.out.println("id:"+res);
-        System.out.println("titulo:"+transacao.getTitulo());
-        System.out.println("valor:"+transacao.getValor());
-        System.out.println("cat:"+transacao.getFkCategoria());
-        System.out.println("sub:"+transacao.getFkSubCategoria());
-        System.out.println("idUsuario:"+transacao.getFkUsuario());
-        System.out.println("conta:"+transacao.getFkConta());
-        System.out.println("tipoTransa:"+transacao.getTipoTransacao());
-        System.out.println("parcela"+transacao.getQntParcelas());*/
-        //System.out.println(values);
         db.close();
         return res;
     }
@@ -65,8 +55,6 @@ public class TransacaoDAO {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         String dataString = padraoDataSQLite.format(parcela.getDataTransacao());
-
-
         values.put(DBHelper.PARCELA_COL_VALOR, parcela.getValorParcela().toString());
         values.put(DBHelper.PARCELA_COL_DATE, dataString);
         values.put(DBHelper.PARCELA_NUMERO_PARCELA, String.valueOf(parcela.getNumeroParcela()));
@@ -98,25 +86,74 @@ public class TransacaoDAO {
         int indexId = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_ID);
         int indexTitulo = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_TITULO);
         int indexValor = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_VALOR);
-        int indexData= cursor.getColumnIndex(DBHelper.PARCELA_COL_DATE);
+        int indexQntParcelas = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_PARCELAS);
         int indexCategoria = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_FK_CATEGORIA);
         int indexSubCategoria = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_FK_SUBCATEGORIA);
         int indexTipoTransacao = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_TIPO_TRANSACAO);
+        int indexFkUsuario = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_FK_USUARIO);
+        int indexFkConta = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_FK_CONTA);
         transacao.setId(cursor.getLong(indexId));
         transacao.setTitulo(cursor.getString(indexTitulo));
         transacao.setValor(new BigDecimal(cursor.getString(indexValor)));
+        transacao.setQntParcelas(cursor.getLong(indexQntParcelas));
+        transacao.setFkCategoria(cursor.getLong(indexCategoria));
+        transacao.setFkSubCategoria(cursor.getLong(indexSubCategoria));
+        transacao.setTipoTransacao(TipoTransacao.values()[cursor.getInt(indexTipoTransacao) - 1]);
+        transacao.setFkUsuario(cursor.getLong(indexFkUsuario));
+        transacao.setFkConta(cursor.getLong(indexFkConta));
+
+        return transacao;
+    }
+
+    private Parcela criaParcela(Cursor cursor) {
+        Parcela parcela = new Parcela();
+        int indexId = cursor.getColumnIndex(DBHelper.PARCELA_COL_ID);
+        int indexValor = cursor.getColumnIndex(DBHelper.PARCELA_COL_VALOR);
+        int indexNParcela = cursor.getColumnIndex(DBHelper.PARCELA_NUMERO_PARCELA);
+        int indexData = cursor.getColumnIndex(DBHelper.PARCELA_COL_DATE);
+        int indexTransacao = cursor.getColumnIndex(DBHelper.PARCELA_COL_FK_TRANSACAO);
+        parcela.setId(cursor.getLong(indexId));
+        parcela.setValorParcela(new BigDecimal(cursor.getString(indexValor)));
+        parcela.setNumeroParcela(cursor.getLong(indexNParcela));
         String datastr = cursor.getString(indexData);
         Date data = new Date();
         try {
             data = padraoDataSQLite.parse(datastr);
         } catch (Exception e) {
+            new WallotAppException("A data inválida");
+        }
+        parcela.setDataTransacao(data);
+        parcela.setFkTransacao(cursor.getLong(indexTransacao));
+        return parcela;
+    }
+
+    public Transacao getTransacao(long idTransacao){
+        Transacao transacao = null;
+        String sql = "SELECT * FROM " + DBHelper.TABELA_TRANSACAO + " WHERE " + DBHelper.TRANSACAO_COL_ID + " LIKE ?;";
+        String[] args = {String.valueOf(idTransacao)};
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql, args);
+        if(cursor.moveToFirst()){
+            transacao = criaTransacao(cursor);
+        }
+        cursor.close();
+        db.close();
+        return transacao;
+    }
+
+    public ArrayList<Parcela> getParcelasPorData(long idUsuario) {
+        ArrayList<Parcela> parcelas = new ArrayList<Parcela>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = "SELECT * FROM " +  DBHelper.TABELA_TRANSACAO + " INNER JOIN " + DBHelper.TABELA_PARCELA  + " ON " + DBHelper.TRANSACAO_COL_ID + " = " + DBHelper.PARCELA_COL_FK_TRANSACAO + " AND " + DBHelper.TRANSACAO_COL_FK_USUARIO  + " =?" + " ORDER BY " + DBHelper.PARCELA_COL_DATE;
+        String[] args = {String.valueOf(idUsuario)};
+        Cursor cursor = db.rawQuery(query,args);
+        if (cursor.moveToFirst()){
+            do {
+                Parcela parcela = criaParcela(cursor);
+                parcelas.add(parcela);
+            } while (cursor.moveToNext());
 
         }
-        transacao.setData(data);
-        transacao.setFkCategoria(cursor.getLong(indexCategoria));
-        transacao.setFkSubCategoria(cursor.getLong(indexSubCategoria));
-        transacao.setTipoTransacao(TipoTransacao.values()[cursor.getInt(indexTipoTransacao) - 1]);
-
-        return transacao;
+        return parcelas;
     }
 }

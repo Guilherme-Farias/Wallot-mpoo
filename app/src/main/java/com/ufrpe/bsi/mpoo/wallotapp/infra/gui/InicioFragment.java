@@ -39,8 +39,8 @@ public class InicioFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inicio, container, false);
-        //TextView txt = view.findViewById(R.id.saldo_total);
-        //txt.setText(getSaldoContas().toString());
+        TextView txt = view.findViewById(R.id.saldo_total_inicio);
+        txt.setText(getSaldoContas());
         FloatingActionButton fab_1 = view.findViewById(R.id.nova_receita);
         FloatingActionButton fab_2 = view.findViewById(R.id.nova_despesa);
         FloatingActionButton fab_3 = view.findViewById(R.id.nova_transferencia);
@@ -84,10 +84,19 @@ public class InicioFragment extends Fragment {
         return view;
     }
 
-    private BigDecimal getSaldoContas() {
-        ContaDAO c = new ContaDAO();
-        BigDecimal x = c.getSaldoContas(SessaoUsuario.instance.getUsuario().getId());
-        return x;
+    private String getSaldoContas() {
+        StringBuilder saldoStr = new StringBuilder();
+        ContaDAO contaDAO = new ContaDAO();
+        BigDecimal saldo = contaDAO.getSaldoContas(SessaoUsuario.instance.getUsuario().getId());
+        if(!(saldo.compareTo(new BigDecimal(0)) == 1) && !saldo.toString().equals("0.00")){
+            saldoStr.append("-");
+            saldoStr.append("R$:");
+            saldoStr.append(saldo.toString().substring(1));
+        } else{
+            saldoStr.append("R$:");
+            saldoStr.append(saldo.toString());
+        }
+        return saldoStr.toString();
     }
 
     private void showToast(String messagem) {

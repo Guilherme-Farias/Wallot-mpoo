@@ -6,7 +6,6 @@ public class Conta {
     private long id;
     private String nome;
     private BigDecimal saldo;
-    private String cor;
     private TipoConta tipoConta;
     private TipoEstadoConta tipoEstadoConta;
     private long fkUsuario;
@@ -35,14 +34,6 @@ public class Conta {
         this.saldo = saldo;
     }
 
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
     public TipoConta getTipoConta() {
         return tipoConta;
     }
@@ -65,6 +56,11 @@ public class Conta {
 
     public void setFkUsuario(long fkUsuario) {
         this.fkUsuario = fkUsuario;
+    }
+
+
+    public void addSaldo(BigDecimal valor){
+        this.saldo = this.saldo.add(valor);
     }
 
     @Override

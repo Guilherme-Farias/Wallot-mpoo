@@ -18,6 +18,8 @@ public class ConfiguracaoActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracao);
+        getSupportActionBar().setTitle("Configurações");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         cvUsuario = findViewById(R.id.cardViewUsuario);
         cvConta = findViewById(R.id.cardViewConta);
         cvCategoria = findViewById(R.id.cardViewCategoria);

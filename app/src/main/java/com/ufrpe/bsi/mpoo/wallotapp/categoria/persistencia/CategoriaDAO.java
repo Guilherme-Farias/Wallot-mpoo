@@ -17,8 +17,12 @@ public class CategoriaDAO {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DBHelper.CATEGORIA_COL_NOME, categoria.getNome());
-        /*values.put(DBHelper.CATEGORIA_COL_ICONE, categoria.getIcone());*/
-        values.put(DBHelper.CATEGORIA_FK_USUARIO, categoria.getFkUsuario());
+        values.put(DBHelper.CATEGORIA_COL_ICONE, categoria.getIcone());
+        if (categoria.getFkUsuario() == -1) {
+            values.putNull(DBHelper.CATEGORIA_FK_USUARIO);
+        } else {
+            values.put(DBHelper.CATEGORIA_FK_USUARIO, categoria.getFkUsuario());
+        }
         long res = db.insert(DBHelper.TABELA_CATEGORIA, null, values);
         db.close();
         return res;
@@ -28,11 +32,11 @@ public class CategoriaDAO {
         Categoria categoria = new Categoria();
         int indexId = cursor.getColumnIndex(DBHelper.CATEGORIA_COL_ID);
         int indexNome = cursor.getColumnIndex(DBHelper.CATEGORIA_COL_NOME);
-        /*int indexIcone = cursor.getColumnIndex(DBHelper.CATEGORIA_COL_ICONE);*/
+        int indexIcone = cursor.getColumnIndex(DBHelper.CATEGORIA_COL_ICONE);
         int indexUsuario = cursor.getColumnIndex(DBHelper.CATEGORIA_FK_USUARIO);
         categoria.setId(cursor.getLong(indexId));
         categoria.setNome(cursor.getString(indexNome));
-        /*categoria.setIcone(cursor.getBlob(indexIcone));*/
+        categoria.setIcone(cursor.getBlob(indexIcone));
         categoria.setFkUsuario(cursor.getLong(indexUsuario));
         return categoria;
     }
@@ -73,14 +77,14 @@ public class CategoriaDAO {
     }
 
 
-    public String getCategoria(long idCategoria) {
+    public Categoria getCategoria(long idCategoria) {
         String sql = "SELECT * FROM " + DBHelper.TABELA_CATEGORIA + " WHERE " + DBHelper.CATEGORIA_COL_ID + " LIKE ?;";
         String[] args = {String.valueOf(idCategoria)};
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, args);
-        String categoria = "";
+        Categoria categoria = null;
         if(cursor.moveToFirst()){
-            categoria = cursor.getString(cursor.getColumnIndex(DBHelper.CATEGORIA_COL_NOME));
+            categoria = criaCategoria(cursor);
         }
         cursor.close();
         db.close();

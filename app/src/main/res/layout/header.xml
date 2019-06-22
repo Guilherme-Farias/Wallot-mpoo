@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:src="@mipmap/usuario_icon"/>
+        android:src="@mipmap/ic_launcher_round"/>
 
     <TextView
         android:id="@+id/nome_usuario_main"
@@ -20,6 +20,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
+        android:maxLines="1"
         />
     <TextView
         android:id="@+id/email_usuario_main"
@@ -28,6 +29,7 @@
         android:text="Usuario@gmail.com"
         android:textColor="@color/white"
         android:textSize="18sp"
+        android:maxLines="1"
         />
 
 </LinearLayout>

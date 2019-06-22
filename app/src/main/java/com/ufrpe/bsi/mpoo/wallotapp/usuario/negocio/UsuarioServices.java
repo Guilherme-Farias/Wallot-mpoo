@@ -39,7 +39,6 @@ public class UsuarioServices {
             Conta conta = new Conta();
             conta.setNome("Carteira");
             conta.setSaldo(new BigDecimal("0.00"));
-            conta.setCor("#32B543");
             conta.setTipoConta(TipoConta.DINHEIRO);
             conta.setTipoEstadoConta(TipoEstadoConta.ATIVO);
             conta.setFkUsuario(userId);

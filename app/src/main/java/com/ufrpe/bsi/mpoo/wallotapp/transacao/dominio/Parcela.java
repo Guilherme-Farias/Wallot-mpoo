@@ -1,6 +1,7 @@
 package com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Parcela {
@@ -48,5 +49,10 @@ public class Parcela {
 
     public void setFkTransacao(long fkTransacao) {
         this.fkTransacao = fkTransacao;
+    }
+
+    public String dataFormatada(){
+        String strData = new SimpleDateFormat("dd/MM/yyyy").format(this.dataTransacao);
+        return strData;
     }
 }

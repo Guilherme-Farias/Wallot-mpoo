@@ -18,6 +18,7 @@ import com.ufrpe.bsi.mpoo.wallotapp.transacao.persistencia.TransacaoDAO;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class TransacaoServices {
@@ -29,9 +30,10 @@ public class TransacaoServices {
         retutn trasaccaoDAO.Parcelas
     }*/
 
-    public ArrayList<TipoTransacao> listarTiposConta(){
+    public ArrayList<TipoTransacao> listarTiposTransacao(){
         return transacaoDAO.getTiposTransacao();
     }
+
 
     public void cadastrarTransacao(Transacao transacao, String strData) {
         final Conta conta = SessaoConta.instance.getConta();
@@ -41,25 +43,31 @@ public class TransacaoServices {
         parcela.setFkTransacao(res);
         parcela.setNumeroParcela(1);
         parcela.setDataTransacao(pegarDateFormat(strData));
+        BigDecimal multiplicador = new BigDecimal(transacao.getTipoTransacao().getMultiplicador());
+        BigDecimal valorTotal = transacao.getValor();
+        BigDecimal nParcelas = new BigDecimal(transacao.getQntParcelas());
         if (transacao.getQntParcelas() == 1){
-            parcela.setValorParcela(transacao.getValor());
+            parcela.setValorParcela(valorTotal.multiply(multiplicador));
             transacaoDAO.cadastrarParcela(parcela);
-            BigDecimal valorConta = conta.getSaldo();
-            BigDecimal multiplicador = new BigDecimal(transacao.getTipoTransacao().getMultiplicador());
-            BigDecimal valorTransacao = transacao.getValor();
-            BigDecimal b = valorConta.add(valorTransacao.multiply(multiplicador));
-            conta.setSaldo(b);
+            conta.addSaldo(parcela.getValorParcela());
             contaDAO.alterarSaldo(conta);
-
-
         } else {
-            //cadastra varias
+            BigDecimal[] result = (valorTotal.multiply(new BigDecimal("100.00"))).divideAndRemainder(nParcelas);
+            parcela.setValorParcela(((result[0].add(result[1])).divide(new BigDecimal("100.00"))).multiply(multiplicador));
+            conta.addSaldo(parcela.getValorParcela());
+            transacaoDAO.cadastrarParcela(parcela);
+            contaDAO.alterarSaldo(conta);
+            for (long nParcela = 2; nParcela <= transacao.getQntParcelas(); nParcela++) {
+                Parcela parcelasRemanescentes = parcela;
+                parcelasRemanescentes.setNumeroParcela(nParcela);
+                parcelasRemanescentes.setValorParcela((result[0]).divide(new BigDecimal("100.00")).multiply(multiplicador));
+                Calendar c = Calendar.getInstance();
+                c.setTime(parcelasRemanescentes.getDataTransacao());
+                c.add(Calendar.MONTH, 1);
+                parcelasRemanescentes.setDataTransacao(c.getTime());
+                transacaoDAO.cadastrarParcela(parcelasRemanescentes);
+            }
         }
-        /*transacaoDAO.cadastrarTransacao(transacao, strData);*/
-
-
-
-
     }
 
     private Date pegarDateFormat(String strData) {
@@ -89,6 +97,14 @@ public class TransacaoServices {
         return contas;
     }*/
 
+    public ArrayList<Parcela> listarParcelasPorData(long idUsuario){
+        ArrayList<Parcela> parcelas = transacaoDAO.getParcelasPorData(idUsuario);
+        return parcelas;
+    }
 
 
+    public Transacao getTransacao(long idTransacao) {
+        Transacao transacao = transacaoDAO.getTransacao(idTransacao);
+        return transacao;
+    }
 }

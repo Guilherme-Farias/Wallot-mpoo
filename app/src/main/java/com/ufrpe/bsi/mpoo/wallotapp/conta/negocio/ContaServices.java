@@ -1,5 +1,7 @@
 package com.ufrpe.bsi.mpoo.wallotapp.conta.negocio;
 
+import android.util.Log;
+
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.Conta;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.TipoConta;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.persistencia.ContaDAO;
@@ -16,6 +18,11 @@ public class ContaServices {
 
     public ArrayList<Conta> listarContas(long idUsuario){
         ArrayList<Conta> contas =contaDAO.getContas(idUsuario);
+        return contas;
+    }
+
+    public ArrayList<Conta> listarContasAtivas(long idUsuario){
+        ArrayList<Conta> contas =contaDAO.getContasAtivas(idUsuario);
         return contas;
     }
 
@@ -39,15 +46,23 @@ public class ContaServices {
             contaSessao.setNome(contaEditada.getNome());
             contaDAO.alterarNome(contaSessao);
         }
-
         if(contaSessao.getSaldo() != contaEditada.getSaldo() && !contaEditada.getSaldo().toString().isEmpty()){
             contaSessao.setSaldo(contaEditada.getSaldo());
             contaDAO.alterarSaldo(contaSessao);
         }
-        /*if(contaSessao.getTipoEstadoConta() != contaEditada.getTipoEstadoConta()){
+        if((contaSessao.getTipoEstadoConta() != contaEditada.getTipoEstadoConta())){
             contaSessao.setTipoEstadoConta(contaEditada.getTipoEstadoConta());
             contaDAO.alterarTipoEstadoConta(contaSessao);
-        }*/
+        }
+        if(contaSessao.getTipoConta() != contaEditada.getTipoConta()){
+            Log.d("Entrou", contaEditada.getTipoConta().toString());
+            contaSessao.setTipoConta(contaEditada.getTipoConta());
+            contaDAO.alterarTipoConta(contaSessao);
+        }
     }
 
+
+    public Conta existContaAtiva(long idUsuario, long idConta) {
+        return contaDAO.existContaAtiva(idUsuario, idConta);
+    }
 }

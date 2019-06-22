@@ -1,7 +1,8 @@
 package com.ufrpe.bsi.mpoo.wallotapp.conta.dominio;
 
 public enum TipoConta {
-    DINHEIRO("Dinheiro");
+    DINHEIRO("Dinheiro"),
+    CREDITO("Cartão de crédito");
 
     private final String descricao;
 

@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".subcategoria.gui.SubCategoriasActivity">
+    tools:context=".subcategoria.gui.SubCategoriasActivity"
+    android:background="#EAEAEA">
 
-    <ListView
-        android:id="@+id/list_sub_categoria"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_sub_categoria"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

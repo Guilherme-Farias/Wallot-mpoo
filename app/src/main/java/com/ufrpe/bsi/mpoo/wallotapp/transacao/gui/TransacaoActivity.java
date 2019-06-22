@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
     EditText editDescricao, editSaldo, editParcelas;
     TextView textData;
     Button btnSalvar;
+    ImageView imageTipo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,8 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
         setContentView(R.layout.activity_transacao);
         final Usuario usuario = SessaoUsuario.instance.getUsuario();
         final Transacao transacao = SessaoTransacao.instance.getTransacao();
+        getSupportActionBar().setTitle("Transação");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         editDescricao = findViewById(R.id.descricao_transacao);
@@ -61,10 +65,10 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
         textData.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
         final Spinner spnCategoria = findViewById(R.id.spinner_categoria_transacao);
         final Spinner spnTipoTransacao = findViewById(R.id.spinner_tipo_transacao);
-
+        imageTipo = findViewById(R.id.tipo_transacao_image);
 
         //spin Contas
-        ArrayList<Conta> contas = new ContaServices().listarContas(usuario.getId());
+        ArrayList<Conta> contas = new ContaServices().listarContasAtivas(usuario.getId());
         ArrayAdapter adapterContas = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, contas);
         adapterContas.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnConta.setAdapter(adapterContas);
@@ -104,7 +108,7 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
         //spin SubCategoria
         atualizarSubCategoria(usuario);
         //spin Tipo Transacao
-        ArrayList<TipoTransacao> tipoTransacaos = new TransacaoServices().listarTiposConta();
+        ArrayList<TipoTransacao> tipoTransacaos = new TransacaoServices().listarTiposTransacao();
         ArrayAdapter adapterTipoTransacao = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, tipoTransacaos);
         adapterContas.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnTipoTransacao.setAdapter(adapterTipoTransacao);
@@ -113,6 +117,7 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 spnTipoTransacao.setSelection(position,true);
                 SessaoTransacao.instance.getTransacao().setTipoTransacao((TipoTransacao)spnTipoTransacao.getSelectedItem());
+                trocarImagemPorTipo(spnTipoTransacao);
             }
 
             @Override
@@ -139,7 +144,7 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
             }
         });
 
-
+        trocarImagemPorTipo(spnTipoTransacao);
 
 
 
@@ -205,5 +210,21 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
     public void onBackPressed() {
         startActivity(new Intent(TransacaoActivity.this, MainActivity.class));
     }
+
+    public void trocarImagemPorTipo(Spinner spnTipoTransacao){
+        if (SessaoTransacao.instance.getTransacao().getTipoTransacao().toString() == "Receita"){
+            spnTipoTransacao.setSelection(0);
+            imageTipo.setBackgroundResource(R.drawable.background_nova_receita);
+        } else if (SessaoTransacao.instance.getTransacao().getTipoTransacao().toString() == "Despesa"){
+            spnTipoTransacao.setSelection(1);
+            imageTipo.setBackgroundResource(R.drawable.background_nova_despesa);
+        } else {
+            //do nothing yet
+        }
+
+
+
+    }
+
 
 }
