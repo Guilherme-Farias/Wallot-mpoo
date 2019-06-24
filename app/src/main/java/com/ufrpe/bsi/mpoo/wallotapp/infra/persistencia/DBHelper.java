@@ -7,7 +7,7 @@ import com.ufrpe.bsi.mpoo.wallotapp.infra.app.WallotApp;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String NOME_BANCO = "wallot.db";
-    private static final int VERSAO = 16;
+    private static final int VERSAO = 17;
 
     //TABELA DE USUARIO(ENTROU NA VERSÃO 1)
     public static final String TABELA_USUARIO = "TABELA_USUARIO";
