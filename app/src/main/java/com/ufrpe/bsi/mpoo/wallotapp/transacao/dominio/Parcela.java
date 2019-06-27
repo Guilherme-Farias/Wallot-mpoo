@@ -10,6 +10,7 @@ public class Parcela {
     private long numeroParcela;
     private Date dataTransacao;
     private long fkTransacao;
+    private TipoDeStatusTransacao tipoDeStatusTransacao;
 
     public long getId() {
         return id;
@@ -54,5 +55,13 @@ public class Parcela {
     public String dataFormatada(){
         String strData = new SimpleDateFormat("dd/MM/yyyy").format(this.dataTransacao);
         return strData;
+    }
+
+    public TipoDeStatusTransacao getTipoDeStatusTransacao() {
+        return tipoDeStatusTransacao;
+    }
+
+    public void setTipoDeStatusTransacao(TipoDeStatusTransacao tipoDeStatusTransacao) {
+        this.tipoDeStatusTransacao = tipoDeStatusTransacao;
     }
 }

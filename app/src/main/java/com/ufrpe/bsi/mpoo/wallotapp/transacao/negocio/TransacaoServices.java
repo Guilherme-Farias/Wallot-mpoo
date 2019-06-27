@@ -11,6 +11,7 @@ import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoCategoria;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoConta;
 import com.ufrpe.bsi.mpoo.wallotapp.subcategoria.dominio.SubCategoria;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.Parcela;
+import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.TipoDeStatusTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.TipoTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.Transacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.persistencia.TransacaoDAO;
@@ -26,10 +27,6 @@ public class TransacaoServices {
     TransacaoDAO transacaoDAO = new TransacaoDAO();
     ContaDAO contaDAO = new ContaDAO();
 
-    /*public spnCategoria.ArrayList<TipoTransacao> listarSubCategorias(long id) {
-        retutn trasaccaoDAO.Parcelas
-    }*/
-
     public ArrayList<TipoTransacao> listarTiposTransacao(){
         return transacaoDAO.getTiposTransacao();
     }
@@ -42,6 +39,7 @@ public class TransacaoServices {
         Parcela parcela = new Parcela();
         parcela.setFkTransacao(res);
         parcela.setNumeroParcela(1);
+        parcela.setTipoDeStatusTransacao(TipoDeStatusTransacao.CONSOLIDADO);
         parcela.setDataTransacao(pegarDateFormat(strData));
         BigDecimal multiplicador = new BigDecimal(transacao.getTipoTransacao().getMultiplicador());
         BigDecimal valorTotal = transacao.getValor();
@@ -57,6 +55,7 @@ public class TransacaoServices {
             conta.addSaldo(parcela.getValorParcela());
             transacaoDAO.cadastrarParcela(parcela);
             contaDAO.alterarSaldo(conta);
+            parcela.setTipoDeStatusTransacao(TipoDeStatusTransacao.NAO_CONSOLIDADO);
             for (long nParcela = 2; nParcela <= transacao.getQntParcelas(); nParcela++) {
                 Parcela parcelasRemanescentes = parcela;
                 parcelasRemanescentes.setNumeroParcela(nParcela);

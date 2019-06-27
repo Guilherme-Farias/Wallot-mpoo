@@ -60,6 +60,7 @@ public class RecyclerViewAdapterTransacao extends RecyclerView.Adapter<RecyclerV
 
         holder.titulo.setText(transacao.getTitulo());
         holder.valor.setText(getSaldoContas(transacao.getTipoTransacao(), parcelas.get(position).getValorParcela()));
+        holder.status.setText(parcelas.get(position).getTipoDeStatusTransacao().getDescricao());
         if(transacao.getTipoTransacao().toString() == "Receita"){
             holder.valor.setTextColor(Color.parseColor("#008000"));
         } else {
@@ -86,7 +87,7 @@ public class RecyclerViewAdapterTransacao extends RecyclerView.Adapter<RecyclerV
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         CircleImageView image;
-        TextView titulo, valor, data, categoriaSub, conta;
+        TextView titulo, valor, data, categoriaSub, conta, status;
         RelativeLayout parentLayout;
         OnRecyclerListener onRecyclerListener;
 
@@ -98,6 +99,7 @@ public class RecyclerViewAdapterTransacao extends RecyclerView.Adapter<RecyclerV
             valor = itemView.findViewById(R.id.valor_transacao_list);
             data = itemView.findViewById(R.id.data_transacao_list);
             categoriaSub = itemView.findViewById(R.id.categoria_subcategoria_list);
+            status = itemView.findViewById(R.id.tipo_status_list);
             conta = itemView.findViewById(R.id.conta_transacacao_list);
             parentLayout = itemView.findViewById(R.id.layout_transacao);
             this.onRecyclerListener = onRecyclerListener;

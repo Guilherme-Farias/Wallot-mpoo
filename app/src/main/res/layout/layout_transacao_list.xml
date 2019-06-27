@@ -53,6 +53,22 @@
         android:layout_marginTop="12dp"
         android:layout_toRightOf="@+id/imagem_transacao_list"
         android:text="Categoria/Subcategoria" />
+    <TextView
+        android:id="@+id/tipo_status_list"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/valor_transacao_list"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="69dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="65dp"
+        android:gravity="right"
+        android:layout_toRightOf="@+id/categoria_subcategoria_list"
+        android:text="Tipo de status"/>
+
+
 
     <TextView
         android:id="@+id/conta_transacacao_list"
@@ -68,11 +84,11 @@
         android:id="@+id/data_transacao_list"
         android:layout_width="95dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/valor_transacao_list"
+        android:layout_below="@+id/tipo_status_list"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="69dp"
-        android:layout_marginTop="43dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="65dp"
         android:gravity="right"

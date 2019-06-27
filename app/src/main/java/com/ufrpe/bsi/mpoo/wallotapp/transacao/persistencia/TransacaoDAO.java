@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.WallotAppException;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.persistencia.DBHelper;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.Parcela;
+import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.TipoDeStatusTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.TipoTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.Transacao;
 
@@ -59,6 +60,7 @@ public class TransacaoDAO {
         values.put(DBHelper.PARCELA_COL_DATE, dataString);
         values.put(DBHelper.PARCELA_NUMERO_PARCELA, String.valueOf(parcela.getNumeroParcela()));
         values.put(DBHelper.PARCELA_COL_FK_TRANSACAO, String.valueOf(parcela.getFkTransacao()));
+        values.put(DBHelper.PARCELA_TIPO_DE_STATUS, String.valueOf(parcela.getTipoDeStatusTransacao().ordinal() + 1));
         long res = db.insert(DBHelper.TABELA_PARCELA, null, values);
         db.close();
         return res;
@@ -112,9 +114,11 @@ public class TransacaoDAO {
         int indexNParcela = cursor.getColumnIndex(DBHelper.PARCELA_NUMERO_PARCELA);
         int indexData = cursor.getColumnIndex(DBHelper.PARCELA_COL_DATE);
         int indexTransacao = cursor.getColumnIndex(DBHelper.PARCELA_COL_FK_TRANSACAO);
+        int indexTipoStatus = cursor.getColumnIndex(DBHelper.PARCELA_TIPO_DE_STATUS);
         parcela.setId(cursor.getLong(indexId));
         parcela.setValorParcela(new BigDecimal(cursor.getString(indexValor)));
         parcela.setNumeroParcela(cursor.getLong(indexNParcela));
+        parcela.setTipoDeStatusTransacao(TipoDeStatusTransacao.values()[cursor.getInt(indexTipoStatus) - 1]);
         String datastr = cursor.getString(indexData);
         Date data = new Date();
         try {
