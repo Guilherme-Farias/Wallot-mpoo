@@ -55,7 +55,6 @@ public class ContaServices {
             contaDAO.alterarTipoEstadoConta(contaSessao);
         }
         if(contaSessao.getTipoConta() != contaEditada.getTipoConta()){
-            Log.d("Entrou", contaEditada.getTipoConta().toString());
             contaSessao.setTipoConta(contaEditada.getTipoConta());
             contaDAO.alterarTipoConta(contaSessao);
         }

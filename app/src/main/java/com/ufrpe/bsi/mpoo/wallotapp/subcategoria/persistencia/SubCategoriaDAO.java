@@ -12,21 +12,6 @@ import java.util.ArrayList;
 public class SubCategoriaDAO {
     private DBHelper dbHelper = new DBHelper();
 
-    public long cadastrar(SubCategoria subCategoria) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DBHelper.SUBCATEGORIA_COL_NOME, subCategoria.getNome());
-        values.put(DBHelper.SUBCATEGORIA_COL_ICONE, subCategoria.getIcone());
-        values.put(DBHelper.SUBCATEGORIA_FK_CATEGORIA, subCategoria.getFkCategoria());
-        if (subCategoria.getFkUsuario() == -1) {
-            values.putNull(DBHelper.SUBCATEGORIA_FK_USUARIO);
-        } else {
-            values.put(DBHelper.SUBCATEGORIA_FK_USUARIO, subCategoria.getFkUsuario());
-        }
-        long res = db.insert(DBHelper.TABELA_SUBCATEGORIA, null, values);
-        db.close();
-        return res;
-    }
     public SubCategoria criaSubCategoria(Cursor cursor) {
         SubCategoria subCategoria = new SubCategoria();
         int indexId = cursor.getColumnIndex(DBHelper.SUBCATEGORIA_COL_ID);
@@ -73,7 +58,7 @@ public class SubCategoriaDAO {
     }
 
     public SubCategoria getSubCategoria(long idSubcategoria){
-        String sql = "SELECT * FROM " + DBHelper.TABELA_SUBCATEGORIA + " WHERE " + DBHelper.SUBCATEGORIA_COL_ID + " LIKE ?;";
+        String sql = "SELECT * FROM " + DBHelper.TABELA_SUBCATEGORIA + " WHERE " + DBHelper.SUBCATEGORIA_COL_ID + " = ?;";
         String[] args = {String.valueOf(idSubcategoria)};
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, args);
@@ -85,6 +70,73 @@ public class SubCategoriaDAO {
         db.close();
         return subCategoria;
     }
+    public SubCategoria nomeCategoriaExist(long idUsuario, String nomeSubcategoria){
+        String sql = "SELECT * FROM " + DBHelper.TABELA_SUBCATEGORIA + " WHERE (" + DBHelper.SUBCATEGORIA_FK_USUARIO + " = ? OR " + DBHelper.SUBCATEGORIA_FK_USUARIO + " IS NULL) AND " + DBHelper.SUBCATEGORIA_COL_NOME + " LIKE ?" ;
+        String[] args = {String.valueOf(idUsuario), nomeSubcategoria};
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql, args);
+        SubCategoria subCategoria = null;
+        if(cursor.moveToFirst()){
+            subCategoria = criaSubCategoria(cursor);
+        }
+        cursor.close();
+        db.close();
+        return subCategoria;
+    }
 
+
+    public long cadastrar(SubCategoria subCategoria) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.SUBCATEGORIA_COL_NOME, subCategoria.getNome());
+        values.put(DBHelper.SUBCATEGORIA_COL_ICONE, subCategoria.getIcone());
+        values.put(DBHelper.SUBCATEGORIA_FK_CATEGORIA, subCategoria.getFkCategoria());
+        values.put(DBHelper.SUBCATEGORIA_FK_USUARIO, subCategoria.getFkUsuario());
+        long res = db.insert(DBHelper.TABELA_SUBCATEGORIA, null, values);
+        db.close();
+        return res;
+    }
+
+    public long cadastroInicial(SubCategoria subCategoria){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.SUBCATEGORIA_COL_NOME, subCategoria.getNome());
+        values.put(DBHelper.SUBCATEGORIA_COL_ICONE, subCategoria.getIcone());
+        values.put(DBHelper.SUBCATEGORIA_FK_CATEGORIA, subCategoria.getFkCategoria());
+        values.putNull(DBHelper.SUBCATEGORIA_FK_USUARIO);
+        long res = db.insert(DBHelper.TABELA_SUBCATEGORIA, null, values);
+        db.close();
+        return res;
+    }
+
+    public void alterarIcone(SubCategoria subCategoria) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.SUBCATEGORIA_COL_ICONE, subCategoria.getIcone());
+        db.update(DBHelper.TABELA_SUBCATEGORIA,values,DBHelper.SUBCATEGORIA_COL_ID + " = ?",new String[]{String.valueOf(subCategoria.getId())});
+        db.close();
+    }
+    public void alterarNome(SubCategoria subCategoria) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.SUBCATEGORIA_COL_NOME, subCategoria.getNome());
+        db.update(DBHelper.TABELA_SUBCATEGORIA,values,DBHelper.SUBCATEGORIA_COL_ID + " = ?",new String[]{String.valueOf(subCategoria.getId())});
+        db.close();
+    }
+
+    public void alteraCategoria(SubCategoria subCategoria) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.SUBCATEGORIA_FK_CATEGORIA, subCategoria.getFkCategoria());
+        db.update(DBHelper.TABELA_SUBCATEGORIA,values,DBHelper.SUBCATEGORIA_COL_ID + " = ?",new String[]{String.valueOf(subCategoria.getId())});
+        db.close();
+    }
+
+    public void deletarSubcategoria(SubCategoria subCategoria){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String sql = "DELETE FROM "+ DBHelper.TABELA_SUBCATEGORIA + " WHERE " + DBHelper.SUBCATEGORIA_COL_ID + " = " + subCategoria.getId() + ";" ;
+        db.execSQL(sql);
+        db.close();
+    }
 
 }

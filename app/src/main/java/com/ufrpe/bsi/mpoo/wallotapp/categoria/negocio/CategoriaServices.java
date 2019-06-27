@@ -2,19 +2,27 @@ package com.ufrpe.bsi.mpoo.wallotapp.categoria.negocio;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 
-import com.ufrpe.bsi.mpoo.wallotapp.R;
 import com.ufrpe.bsi.mpoo.wallotapp.categoria.dominio.Categoria;
 import com.ufrpe.bsi.mpoo.wallotapp.categoria.persistencia.CategoriaDAO;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.app.WallotApp;
+import com.ufrpe.bsi.mpoo.wallotapp.subcategoria.dominio.SubCategoria;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class CategoriaServices {
     private CategoriaDAO categoriaDAO = new CategoriaDAO();
+
+    public long cadastrar(Categoria categoria) {
+        long res = categoriaDAO.cadastrar(categoria);
+        return res;
+    }
+    public long cadastroInicial(Categoria categoria) {
+        long res = categoriaDAO.cadastroInicial(categoria);
+        return res;
+    }
+
 
     public ArrayList<Categoria> listarCategorias(long idUsuario) {
         ArrayList<Categoria> categorias = categoriaDAO.getCategorias(idUsuario);
@@ -30,7 +38,6 @@ public class CategoriaServices {
         Categoria categoria = categoriaDAO.getCategoria(idCategoria);
         return  categoria;
     }
-
     public byte[] bitmapToByteArray(int drawable) {
         Bitmap bitmap = BitmapFactory.decodeResource(WallotApp.getContext().getResources(), drawable);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -38,5 +45,4 @@ public class CategoriaServices {
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         return byteArray;
     }
-
 }

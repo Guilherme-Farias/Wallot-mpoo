@@ -7,7 +7,7 @@ import com.ufrpe.bsi.mpoo.wallotapp.infra.app.WallotApp;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String NOME_BANCO = "wallot.db";
-    private static final int VERSAO = 17;
+    private static final int VERSAO = 10;
 
     //TABELA DE USUARIO(ENTROU NA VERSÃO 1)
     public static final String TABELA_USUARIO = "TABELA_USUARIO";
@@ -40,14 +40,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABELA_CATEGORIA = "TABELA_CATEGORIA";
     public static final String CATEGORIA_COL_ID = "ID_CATEGORIA";
     public static final String CATEGORIA_COL_NOME = "NOME_CATEGORIA";
-    public static final String CATEGORIA_COL_ICONE = "ICONE";
+    public static final String CATEGORIA_COL_ICONE = "ICONE_CATEGORIA";
     public static final String CATEGORIA_FK_USUARIO = "FK_USUARIO_CONTA";
 
     //TABELA DE SUBCATEGORIA VERSÃO #
     public static final String TABELA_SUBCATEGORIA = "TABELA_SUBCATEGORIA";
     public static final String SUBCATEGORIA_COL_ID = "ID_SUBCATEGORIA";
     public static final String SUBCATEGORIA_COL_NOME = "NOME_SUBCATEGORIA";
-    public static final String SUBCATEGORIA_COL_ICONE = "ICONE";
+    public static final String SUBCATEGORIA_COL_ICONE = "ICONE_SUBCATEGORIA";
     public static final String SUBCATEGORIA_FK_CATEGORIA = "FK_CATEGORIA_SUBCATEGORIA";
     public static final String SUBCATEGORIA_FK_USUARIO = "FK_USUARIO_SUBCATEGORIA";
 
@@ -81,9 +81,55 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
 
+
+
     private String sqlTipoTipoTransacaoInit = "INSERT INTO " + TABELA_TIPO_TRANSACAO + " ( " + TIPO_TRANSACAO_COL_ID + ", " + TIPO_TRANSACAO_COL_DESCRICAO + ", " + TIPO_TRANSACAO_COL_MULTIPLICADOR + ") VALUES " + "(1,'Receita', '1')," + "(2,'Despesa', '-1')," + "(3, 'Transferência', '-1')";
     private String sqlTipoContaInit = "INSERT INTO " + TABELA_TIPO_CONTA + "( " + TIPO_CONTA_COL_ID + "," + TIPO_CONTA_COL_DESCRICAO + ") VALUES " + "(1,'Dinheiro')," + "(2,'Cartão de crédito')";
     private String sqlTipoEstadoContaInit = "INSERT INTO " + TABELA_TIPO_ESTADO_CONTA + "( " + TIPO_ESTADO_CONTA_COL_ID + "," + TIPO_ESTADO_CONTA_COL_DESCRICAO + ") VALUES " + "(1,'Ativo')," + "(2,'Inativo')";
+    /*private String sqlCategoriaInit = " INSERT INTO " + TABELA_CATEGORIA + "( " + CATEGORIA_COL_ID + "," + CATEGORIA_COL_NOME + "," + CATEGORIA_FK_USUARIO + ") VALUES " +
+            "(1,'Sem categoria', '0' )," +
+            "(2,'Alimentação',NULL)," +
+            "(3,'Casa', NULL)," +
+            "(4,'Compras', NULL)," +
+            "(5,'Comunicação', NULL)," +
+            "(6,'Transporte', NULL)," +
+            "(7,'Veículo', NULL)," +
+            "(8,'Vida e Lazer', NULL)," +
+            "(9,'Outros', NULL)";
+
+    private String sqlSubCategoriaInit = " INSERT INTO " + TABELA_SUBCATEGORIA + "( " + SUBCATEGORIA_COL_ID + "," + SUBCATEGORIA_COL_NOME + "," + SUBCATEGORIA_FK_CATEGORIA + "," + SUBCATEGORIA_FK_CATEGORIA + ") VALUES " +
+            "(1,'Sem subcategoria', '1', '0')," +
+            "(2,'FastFood', '2',NULL)," +
+            "(3,'Feira', '2',NULL)," +
+            "(4,'Restaurante', '2',NULL)," +
+            "(5,'Água', '3',NULL)," +
+            "(6,'Aluguel', '3',NULL)," +
+            "(7,'Gás', '3',NULL)," +
+            "(8,'Luz', '3',NULL)," +
+            "(9,'Manuntenção', '3',NULL)," +
+            "(10,'Animais', '4',NULL)," +
+            "(11,'Beleza', '4',NULL)," +
+            "(12,'Eletrônicos', '4',NULL)," +
+            "(13,'Farmácia', '4',NULL)," +
+            "(14,'Vestuário', '4',NULL)," +
+            "(15,'Internet', '5',NULL)," +
+            "(16,'Serviços Postais', '5',NULL)," +
+            "(17,'Telefone', '5',NULL)," +
+            "(18,'Longas Distancias', '6',NULL)," +
+            "(19,'Particular', '6',NULL)," +
+            "(20,'Público', '6',NULL)," +
+            "(21,'Combustível', '7',NULL)," +
+            "(22,'Estacionamento', '7',NULL)," +
+            "(23,'Manuntenção', '7',NULL)," +
+            "(24,'Seguro', '7',NULL)," +
+            "(25,'Bebida e Cigarro', '8',NULL)," +
+            "(26,'Educação', '8',NULL)," +
+            "(27,'Fitness', '8',NULL)," +
+            "(28,'Saúde', '8',NULL)," +
+            "(29,'Softwares e Jogos', '8',NULL)," +
+            "(30,'TV e Streaming', '8',NULL)," +
+            "(31,'Viagens', '8',NULL)";*/
+
 
 
     private static final String[] TABELAS = {
@@ -108,6 +154,8 @@ public class DBHelper extends SQLiteOpenHelper {
         criaTbTipoTransacao(db);
         db.execSQL(sqlTipoContaInit);
         db.execSQL(sqlTipoEstadoContaInit);
+        /*db.execSQL(sqlCategoriaInit);
+        db.execSQL(sqlSubCategoriaInit);*/
         db.execSQL(sqlTipoTipoTransacaoInit);
     }
 

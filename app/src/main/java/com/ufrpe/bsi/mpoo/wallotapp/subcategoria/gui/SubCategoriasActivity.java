@@ -6,16 +6,15 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.ufrpe.bsi.mpoo.wallotapp.R;
 import com.ufrpe.bsi.mpoo.wallotapp.categoria.dominio.Categoria;
 import com.ufrpe.bsi.mpoo.wallotapp.categoria.gui.CategoriasActivity;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.OnRecyclerListener;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoCategoria;
+import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoSubCategoria;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoUsuario;
 import com.ufrpe.bsi.mpoo.wallotapp.subcategoria.dominio.SubCategoria;
 import com.ufrpe.bsi.mpoo.wallotapp.subcategoria.negocio.SubCategoriaServices;
@@ -26,6 +25,7 @@ import java.util.ArrayList;
 public class SubCategoriasActivity extends AppCompatActivity implements OnRecyclerListener {
     RecyclerView mRecyclerView;
     ArrayList<SubCategoria> subCategorias;
+    FloatingActionButton btnCriarSubCategoria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,17 @@ public class SubCategoriasActivity extends AppCompatActivity implements OnRecycl
         RecyclerViewAdapterSubCategoria adapter = new RecyclerViewAdapterSubCategoria(SubCategoriasActivity.this, subCategorias, this);
         mRecyclerView.setAdapter(adapter);
 
+        btnCriarSubCategoria = findViewById(R.id.nova_subcategoria_fab);
+        btnCriarSubCategoria.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SessaoSubCategoria.instance.reset();
+                startActivity(new Intent(SubCategoriasActivity.this, CrudSubCategoriaActivity.class));
+            }
+        });
+
     }
+
 
 
     @Override
@@ -55,6 +65,11 @@ public class SubCategoriasActivity extends AppCompatActivity implements OnRecycl
 
     @Override
     public void onClickRecycler(int position) {
-        Toast.makeText(SubCategoriasActivity.this, subCategorias.get(position).getNome(), Toast.LENGTH_LONG).show();
+        if(subCategorias.get(position).getFkUsuario() != 0){
+            SessaoSubCategoria.instance.setSubCategoria(subCategorias.get(position));
+            startActivity(new Intent(SubCategoriasActivity.this, CrudSubCategoriaActivity.class));
+        } else {
+            Toast.makeText(SubCategoriasActivity.this, "Subcategoria padrão", Toast.LENGTH_LONG).show();
+        }
     }
 }

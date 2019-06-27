@@ -27,7 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         editNome = findViewById(R.id.edittext_nome_cadastro);
         editEmail = findViewById(R.id.edittext_email_cadastro);
-        editSenha = findViewById(R.id.edittext_confirmar_senha_cadastro);
+        editSenha = findViewById(R.id.edittext_senha_cadastro);
         editConfirmarSenha = findViewById(R.id.edittext_confirmar_senha_cadastro);
         textIntentLogin = findViewById(R.id.textview_logar);
         cadastroButton = findViewById(R.id.cadastrar_button);

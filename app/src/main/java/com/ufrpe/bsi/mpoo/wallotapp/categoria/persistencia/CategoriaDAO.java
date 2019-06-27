@@ -18,11 +18,18 @@ public class CategoriaDAO {
         ContentValues values = new ContentValues();
         values.put(DBHelper.CATEGORIA_COL_NOME, categoria.getNome());
         values.put(DBHelper.CATEGORIA_COL_ICONE, categoria.getIcone());
-        if (categoria.getFkUsuario() == -1) {
-            values.putNull(DBHelper.CATEGORIA_FK_USUARIO);
-        } else {
-            values.put(DBHelper.CATEGORIA_FK_USUARIO, categoria.getFkUsuario());
-        }
+        values.put(DBHelper.CATEGORIA_FK_USUARIO, categoria.getFkUsuario());
+        long res = db.insert(DBHelper.TABELA_CATEGORIA, null, values);
+        db.close();
+        return res;
+    }
+
+    public long cadastroInicial(Categoria categoria){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.CATEGORIA_COL_NOME, categoria.getNome());
+        values.put(DBHelper.CATEGORIA_COL_ICONE, categoria.getIcone());
+        values.putNull(DBHelper.CATEGORIA_FK_USUARIO);
         long res = db.insert(DBHelper.TABELA_CATEGORIA, null, values);
         db.close();
         return res;

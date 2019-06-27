@@ -31,13 +31,12 @@ public class SubCategoria {
         return icone;
     }
 
+    public void setIcone(byte[] icone) {
+        this.icone = icone;
+    }
     public Drawable byteArrayToDrawable(byte[] byteArray) {
         Drawable drawable = new BitmapDrawable(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
         return drawable;
-    }
-
-    public void setIcone(byte[] icone) {
-        this.icone = icone;
     }
 
     public long getFkCategoria() {return fkCategoria;}

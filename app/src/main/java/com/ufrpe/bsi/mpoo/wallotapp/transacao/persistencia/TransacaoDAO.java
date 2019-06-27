@@ -156,4 +156,12 @@ public class TransacaoDAO {
         }
         return parcelas;
     }
+
+    public void alterarSubcategoria(long id) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String sql = "UPDATE " + DBHelper.TABELA_TRANSACAO + " SET " + DBHelper.TRANSACAO_COL_FK_SUBCATEGORIA + " = 1 WHERE " + DBHelper.TRANSACAO_COL_FK_SUBCATEGORIA + " = " + id+";";
+        //db.update(DBHelper.TABELA_TRANSACAO,values,DBHelper.TRANSACAO_COL_FK_SUBCATEGORIA + " = ?",new String[]{String.valueOf(id)});
+        db.execSQL(sql);
+        db.close();
+    }
 }

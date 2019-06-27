@@ -39,7 +39,6 @@ public class RecyclerViewAdapterCategoria extends RecyclerView.Adapter<RecyclerV
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.imageView.setImageDrawable(categorias.get(position).byteArrayToDrawable(categorias.get(position).getIcone()));
         holder.nome.setText(categorias.get(position).getNome());
-
     }
 
     @Override

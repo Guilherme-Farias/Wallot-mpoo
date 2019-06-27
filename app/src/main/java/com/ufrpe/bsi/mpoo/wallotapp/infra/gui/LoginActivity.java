@@ -97,4 +97,9 @@ public class LoginActivity extends AppCompatActivity {
     private boolean validatePassword(String senha) {
         return senha.length() > 5;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

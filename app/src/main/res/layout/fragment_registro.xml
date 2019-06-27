@@ -8,10 +8,26 @@
     tools:context=".infra.gui.MainActivity"
     android:background="#EAEAEA"
     >
+    <LinearLayout
+        android:layout_gravity="top"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <EditText
+            android:text="Pesquise"
+            android:layout_width="180dp"
+            android:layout_height="50dp" />
+        <TextView
+            android:text="filtro"
+            android:layout_width="20dp"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="60dp"
         android:id="@+id/recyclerview_transacao"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </FrameLayout>

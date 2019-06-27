@@ -1,14 +1,14 @@
 package com.ufrpe.bsi.mpoo.wallotapp.infra.gui;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.ufrpe.bsi.mpoo.wallotapp.R;
 import com.ufrpe.bsi.mpoo.wallotapp.categoria.negocio.CategoriaServices;
-import com.ufrpe.bsi.mpoo.wallotapp.infra.persistencia.InsertData;
+import com.ufrpe.bsi.mpoo.wallotapp.infra.persistencia.DBFill;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -20,7 +20,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         if (new CategoriaServices().getCategoria(1) == null) {
-            new InsertData().start();
+            new DBFill().start();
         }
 
         new Handler().postDelayed(new Runnable() {

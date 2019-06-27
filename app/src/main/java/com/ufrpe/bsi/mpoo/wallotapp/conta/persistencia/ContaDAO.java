@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class ContaDAO {
-    DBHelper dbHelper = new DBHelper();
+    private DBHelper dbHelper = new DBHelper();
 
     public long cadastraConta(Conta conta){
         SQLiteDatabase db = dbHelper.getWritableDatabase();

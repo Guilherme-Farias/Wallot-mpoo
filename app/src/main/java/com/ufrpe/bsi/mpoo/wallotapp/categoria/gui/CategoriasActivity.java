@@ -47,6 +47,13 @@ public class CategoriasActivity extends AppCompatActivity implements OnRecyclerL
 
 
 
+
+
+
+
+
+
+
     private void subCategoriaIntent(){
         startActivity(new Intent(CategoriasActivity.this, SubCategoriasActivity.class));
     }

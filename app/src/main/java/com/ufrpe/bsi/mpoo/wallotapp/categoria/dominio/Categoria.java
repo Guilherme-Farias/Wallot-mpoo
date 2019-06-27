@@ -30,11 +30,6 @@ public class Categoria {
         return icone;
     }
 
-    public Drawable byteArrayToDrawable(byte[] byteArray) {
-        Drawable drawable = new BitmapDrawable(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
-        return drawable;
-    }
-
     public void setIcone(byte[] icone) {
         this.icone = icone;
     }
@@ -42,6 +37,12 @@ public class Categoria {
     public long getFkUsuario() {
         return fkUsuario;
     }
+
+    public Drawable byteArrayToDrawable(byte[] byteArray) {
+        Drawable drawable = new BitmapDrawable(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
+        return drawable;
+    }
+
 
     public void setFkUsuario(long fkUsuario) {
         this.fkUsuario = fkUsuario;
