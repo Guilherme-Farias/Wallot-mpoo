@@ -18,6 +18,10 @@ android {
     }
 }
 
+repositories {
+    maven { url 'https://jitpack.io' } //GRAFICO
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -29,7 +33,13 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+    //FAB
     implementation 'com.getbase:floatingactionbutton:1.10.1'
+
+    //RECYCLER VIEW
     implementation 'de.hdodenhof:circleimageview:3.0.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
+
+    //GRAFICO
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
