@@ -24,8 +24,10 @@ import com.ufrpe.bsi.mpoo.wallotapp.R;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.persistencia.ContaDAO;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoUsuario;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.persistencia.TransacaoDAO;
+import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,60 +62,79 @@ public class GraficoFragment extends Fragment {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int day1 = calendar.get(Calendar.DAY_OF_MONTH);
+        Date date1 = calendar.getTime();
         calendar.add(Calendar.DATE, -3);
         int day2 = calendar.get(Calendar.DAY_OF_MONTH);
+        Date date2 = calendar.getTime();
         calendar.add(Calendar.DATE, -3);
         int day3 = calendar.get(Calendar.DAY_OF_MONTH);
+        Date date3 = calendar.getTime();
         calendar.add(Calendar.DATE, -3);
         int day4 = calendar.get(Calendar.DAY_OF_MONTH);
+        Date date4 = calendar.getTime();
         calendar.add(Calendar.DATE, -3);
         int day5 = calendar.get(Calendar.DAY_OF_MONTH);
+        Date date5 = calendar.getTime();
         calendar.add(Calendar.DATE, -3);
         int day6 = calendar.get(Calendar.DAY_OF_MONTH);
+        Date date6 = calendar.getTime();
         calendar.add(Calendar.DATE, -3);
         int day7 = calendar.get(Calendar.DAY_OF_MONTH);
+        Date date7 = calendar.getTime();
 
-        System.out.println(day1);
 
-        //PEGANDO OS VALORES DO EIXO X (DIAS) #########################
+        //FORMATANDO AS DATAS PARA BUSCA
+
+        String strDate1 = new SimpleDateFormat("yyyyMMdd").format(date1);
+        String strDate2 = new SimpleDateFormat("yyyyMMdd").format(date2);
+        String strDate3 = new SimpleDateFormat("yyyyMMdd").format(date3);
+        String strDate4 = new SimpleDateFormat("yyyyMMdd").format(date4);
+        String strDate5 = new SimpleDateFormat("yyyyMMdd").format(date5);
+        String strDate6 = new SimpleDateFormat("yyyyMMdd").format(date6);
+        String strDate7 = new SimpleDateFormat("yyyyMMdd").format(date7);
 
 
         //PEGANDO OS VALORES DO EIXO Y (SALDO) #######################
 
         ContaDAO contaDAO = new ContaDAO();
         TransacaoDAO transacaoDAO = new TransacaoDAO();
-        BigDecimal saldoTotal = contaDAO.getSaldoContas(SessaoUsuario.instance.getUsuario().getId());
 
-        //BigDecimal saldoTeste = transacaoDAO.getSaldoEntreDatas(SessaoUsuario.instance.getUsuario().getId(), "20190620", "20190622");
-
-        //System.out.println(saldoTeste);
-
-
-        //PEGANDO OS VALORES DO EIXO Y (SALDO) #######################
+        int saldo1 = contaDAO.getSaldoContas(SessaoUsuario.instance.getUsuario().getId()).intValue();
+        int saldo2 = transacaoDAO.getSaldoEntreDatas(SessaoUsuario.instance.getUsuario().getId(), strDate2, strDate1, new BigDecimal(saldo1)).intValue();
+        int saldo3 = transacaoDAO.getSaldoEntreDatas(SessaoUsuario.instance.getUsuario().getId(), strDate3, strDate2, new BigDecimal(saldo2)).intValue();
+        int saldo4 = transacaoDAO.getSaldoEntreDatas(SessaoUsuario.instance.getUsuario().getId(), strDate4, strDate3, new BigDecimal(saldo3)).intValue();
+        int saldo5 = transacaoDAO.getSaldoEntreDatas(SessaoUsuario.instance.getUsuario().getId(), strDate5, strDate4, new BigDecimal(saldo4)).intValue();
+        int saldo6 = transacaoDAO.getSaldoEntreDatas(SessaoUsuario.instance.getUsuario().getId(), strDate6, strDate5, new BigDecimal(saldo5)).intValue();
+        int saldo7 = transacaoDAO.getSaldoEntreDatas(SessaoUsuario.instance.getUsuario().getId(), strDate7, strDate6, new BigDecimal(saldo6)).intValue();
 
 
         //COLOCANDO VALORES NO GRÁFICO ###############################
 
         ArrayList<Entry> values = new ArrayList<>();
 
-        values.add(new Entry(day7, 50));
-        values.add(new Entry(day6, 50));
-        values.add(new Entry(day5, 35));
-        values.add(new Entry(day4, 45));
-        values.add(new Entry(day3, 25));
-        values.add(new Entry(day2, 30));
-        values.add(new Entry(day1, 30));
+        values.add(new Entry(day7, saldo7));
+        values.add(new Entry(day6, saldo6));
+        values.add(new Entry(day5, saldo5));
+        values.add(new Entry(day4, saldo4));
+        values.add(new Entry(day3, saldo3));
+        values.add(new Entry(day2, saldo2));
+        values.add(new Entry(day1, saldo1));
 
-        //COLOCANDO VALORES NO GRÃ�FICO ###############################
+
+        //PERSONALIZANDO O EIXO X
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setTextColor(Color.parseColor("#00574B"));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextSize(12);
 
+        //PERSONALIZANDO O EIXO Y
+
         YAxis yAxis = mChart.getAxisLeft();
         xAxis.setTextColor(Color.parseColor("#00574B"));
         yAxis.setTextSize(12);
+
+        //PERSONALIZANDO A LINHA
 
         LineDataSet lineDataSet = new LineDataSet(values, "Histórico do Saldo");
         lineDataSet.setColor(Color.parseColor("#32B543"));
@@ -122,15 +143,13 @@ public class GraficoFragment extends Fragment {
         lineDataSet.setCircleColor(Color.parseColor("#32B543"));
         lineDataSet.setCircleHoleColor(Color.parseColor("#32B543"));
 
+        //PREENCHENDO O GRÁFICO
+
         Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.chart_gradient);
         lineDataSet.setDrawFilled(true);
         lineDataSet.setFillDrawable(drawable);
 
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(lineDataSet);
-
-        LineData data = new LineData(dataSets);
-
+        //AJUSTES VISUAIS
 
         mChart.getLegend().setEnabled(false);
         mChart.getAxisRight().setEnabled(false);
@@ -139,6 +158,13 @@ public class GraficoFragment extends Fragment {
         mChart.getDescription().setEnabled(false);
         mChart.getXAxis().setAxisLineWidth(2.5f);
         mChart.getAxisLeft().setAxisLineWidth(2.5f);
+
+        //PLOTANDO O GRAFICO
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(lineDataSet);
+
+        LineData data = new LineData(dataSets);
 
         mChart.setData(data);
 

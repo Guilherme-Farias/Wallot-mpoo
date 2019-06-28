@@ -3,6 +3,7 @@ package com.ufrpe.bsi.mpoo.wallotapp.transacao.persistencia;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.WallotAppException;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.persistencia.DBHelper;
@@ -15,6 +16,8 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import static android.content.ContentValues.TAG;
 
 public class TransacaoDAO {
     DBHelper dbHelper = new DBHelper();
@@ -167,5 +170,23 @@ public class TransacaoDAO {
         //db.update(DBHelper.TABELA_TRANSACAO,values,DBHelper.TRANSACAO_COL_FK_SUBCATEGORIA + " = ?",new String[]{String.valueOf(id)});
         db.execSQL(sql);
         db.close();
+    }
+
+    public BigDecimal getSaldoEntreDatas(long idUsuario, String dataInicial, String dataFinal, BigDecimal saldo) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = " SELECT * FROM " +
+                DBHelper.TABELA_TRANSACAO + " INNER JOIN " + DBHelper.TABELA_PARCELA + " ON " + DBHelper.TRANSACAO_COL_ID + " = " + DBHelper.PARCELA_COL_FK_TRANSACAO + " WHERE " +
+                DBHelper.PARCELA_COL_DATE + " > " + dataInicial + " AND " + DBHelper.PARCELA_COL_DATE + " <= " + dataFinal + " AND " + DBHelper.TRANSACAO_COL_FK_USUARIO + " =?;";
+        String[] args = {String.valueOf(idUsuario)};
+        Cursor cursor = db.rawQuery(query, args);
+        if (cursor.moveToFirst()) {
+            do {
+                BigDecimal valorParcela = new BigDecimal(cursor.getString(cursor.getColumnIndex(DBHelper.PARCELA_COL_VALOR)));
+                saldo = saldo.add(valorParcela.multiply(new BigDecimal(-1)));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return saldo;
     }
 }
