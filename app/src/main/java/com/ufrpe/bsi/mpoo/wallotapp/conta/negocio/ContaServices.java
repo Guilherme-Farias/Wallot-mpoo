@@ -1,5 +1,6 @@
 package com.ufrpe.bsi.mpoo.wallotapp.conta.negocio;
 
+
 import android.util.Log;
 
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.Conta;
@@ -7,50 +8,44 @@ import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.TipoConta;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.persistencia.ContaDAO;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoConta;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class ContaServices {
     private ContaDAO contaDAO = new ContaDAO();
+    private Conta contaSessao = SessaoConta.instance.getConta();
+
+    //cadastra uma conta do usuario
     public long cadastrarConta(Conta conta){
-        long res = contaDAO.cadastraConta(conta);
-        return res;
+        return contaDAO.cadastraConta(conta);
     }
 
-    public ArrayList<Conta> listarContas(long idUsuario){
-        ArrayList<Conta> contas =contaDAO.getContas(idUsuario);
-        return contas;
-    }
+    //lista todas as contas do usuario
+    public ArrayList<Conta> listarContas(long idUsuario){return contaDAO.getContas(idUsuario, false);}
 
-    public ArrayList<Conta> listarContasAtivas(long idUsuario){
-        ArrayList<Conta> contas =contaDAO.getContasAtivas(idUsuario);
-        return contas;
-    }
+    //lista todas as contas ativas do usuario
+    public ArrayList<Conta> listarContasAtivas(long idUsuario){return contaDAO.getContas(idUsuario, true);}
 
-    public ArrayList<TipoConta> listarTiposConta(){
-        return contaDAO.getTiposConta();
-    }
+    //lista todos os tipos de conta(enum)
+    public ArrayList<TipoConta> listarTiposConta(){return contaDAO.getTiposConta();}
 
-    public Conta getConta(long idConta){
-        Conta conta = contaDAO.getConta(idConta);
-        return conta;
-    }
+    //pega conta pelo Id
+    public Conta getConta(long idConta){return contaDAO.getConta(idConta);}
 
-    public Conta getConta(long idUsuario, String nomeConta){
-        Conta conta = contaDAO.getConta(idUsuario, nomeConta);
-        return conta;
-    }
+    //pega conta pelo id usuario e nome para ver se existe um conta com esse nome
+    public Conta getConta(long idUsuario, String nomeConta){return contaDAO.getConta(idUsuario, nomeConta);}
 
+    //altera todos os dados da conta
     public void alterarDados(Conta contaEditada) {
-        Conta contaSessao = SessaoConta.instance.getConta();
-        if(!contaEditada.getNome().isEmpty() && contaSessao.getNome() != contaEditada.getNome()){
+        if(!contaSessao.getNome().equals(contaEditada.getNome())){
             contaSessao.setNome(contaEditada.getNome());
             contaDAO.alterarNome(contaSessao);
         }
-        if(contaSessao.getSaldo() != contaEditada.getSaldo() && !contaEditada.getSaldo().toString().isEmpty()){
+        if(!contaSessao.getSaldo().equals(contaEditada.getSaldo())){
             contaSessao.setSaldo(contaEditada.getSaldo());
             contaDAO.alterarSaldo(contaSessao);
         }
-        if((contaSessao.getTipoEstadoConta() != contaEditada.getTipoEstadoConta())){
+        if(contaSessao.getTipoEstadoConta() != contaEditada.getTipoEstadoConta()){
             contaSessao.setTipoEstadoConta(contaEditada.getTipoEstadoConta());
             contaDAO.alterarTipoEstadoConta(contaSessao);
         }
@@ -60,8 +55,11 @@ public class ContaServices {
         }
     }
 
+    //verifica se existe conta ativa
+    public Conta existContaAtiva(long idUsuario, long idConta) {return contaDAO.existContaAtiva(idUsuario, idConta);}
 
-    public Conta existContaAtiva(long idUsuario, long idConta) {
-        return contaDAO.existContaAtiva(idUsuario, idConta);
+    //pega valor total das contas
+    public BigDecimal getSaldoAtual(long idUsuario){
+        return contaDAO.getSaldoContas(idUsuario);
     }
 }

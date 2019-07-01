@@ -4,11 +4,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,8 +30,8 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewAdapterTransacao extends RecyclerView.Adapter<RecyclerViewAdapterTransacao.ViewHolder>{
-    private ArrayList<Parcela> parcelas;
     private Context context;
+    private ArrayList<Parcela> parcelas;
     private OnRecyclerListener onRecyclerListener;
 
     public RecyclerViewAdapterTransacao(Context context, ArrayList<Parcela> parcelas, OnRecyclerListener onRecyclerListener) {
@@ -42,16 +41,16 @@ public class RecyclerViewAdapterTransacao extends RecyclerView.Adapter<RecyclerV
 
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_transacao_list, parent, false);
-        ViewHolder holder = new ViewHolder(view, onRecyclerListener);
-
-        return holder;
+        return new ViewHolder(view, onRecyclerListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        //pega variaveis necessarias
         Transacao transacao = new TransacaoServices().getTransacao(parcelas.get(position).getFkTransacao());
         Categoria categoria = new CategoriaServices().getCategoria(transacao.getFkCategoria());
         SubCategoria subCategoria = new SubCategoriaServices().getSubCategoria(transacao.getFkSubCategoria());
@@ -59,23 +58,27 @@ public class RecyclerViewAdapterTransacao extends RecyclerView.Adapter<RecyclerV
 
 
         holder.titulo.setText(transacao.getTitulo());
-        holder.valor.setText(getSaldoContas(transacao.getTipoTransacao(), parcelas.get(position).getValorParcela()));
+        holder.valor.setText(getValorParcela(transacao.getTipoTransacao(), parcelas.get(position).getValorParcela()));
         holder.status.setText(parcelas.get(position).getTipoDeStatusTransacao().getDescricao());
-        if(transacao.getTipoTransacao().toString() == "Receita"){
+        holder.data.setText(parcelas.get(position).dataFormatada());
+        holder.conta.setText(conta.getNome());
+
+        //muda a cor do texto de acordo com o tipo de transacao
+        if(transacao.getTipoTransacao() == TipoTransacao.RECEITA){
             holder.valor.setTextColor(Color.parseColor("#008000"));
         } else {
             holder.valor.setTextColor(Color.parseColor("#ff0000"));
         }
-        holder.data.setText(parcelas.get(position).dataFormatada());
+
+        //coloca no card o mais específico(subcategoria se houver, caso contrario a categoria)
         if(!(subCategoria.getId() == 1)){
             holder.image.setImageDrawable(subCategoria.byteArrayToDrawable(subCategoria.getIcone()));
             holder.categoriaSub.setText(subCategoria.toString());
         } else {
+            Log.d("saas", categoria.getNome());
             holder.image.setImageDrawable(categoria.byteArrayToDrawable(categoria.getIcone()));
             holder.categoriaSub.setText(categoria.toString());
         }
-        holder.conta.setText(conta.getNome());
-
     }
 
     @Override
@@ -92,7 +95,7 @@ public class RecyclerViewAdapterTransacao extends RecyclerView.Adapter<RecyclerV
         OnRecyclerListener onRecyclerListener;
 
 
-        public ViewHolder(@NonNull View itemView, OnRecyclerListener onRecyclerListener) {
+        private ViewHolder(@NonNull View itemView, OnRecyclerListener onRecyclerListener) {
             super(itemView);
             image = itemView.findViewById(R.id.imagem_transacao_list);
             titulo = itemView.findViewById(R.id.titulo_transacao_list);
@@ -112,19 +115,19 @@ public class RecyclerViewAdapterTransacao extends RecyclerView.Adapter<RecyclerV
             onRecyclerListener.onClickRecycler(getAdapterPosition());
         }
     }
-    private String getSaldoContas(TipoTransacao tipoTransacao, BigDecimal saldo) {
-        StringBuilder saldoStr = new StringBuilder();
-        if(tipoTransacao.toString() == "Despesa"){
-            saldoStr.append("-");
-            saldoStr.append("R$:");
-            saldoStr.append(saldo.toString().substring(1));
+
+    //transforma o valor em
+    private String getValorParcela(TipoTransacao tipoTransacao, BigDecimal saldo) {
+        StringBuilder saldoStr = new StringBuilder(saldo.toString());
+        if(tipoTransacao == TipoTransacao.DESPESA){
+            saldoStr.insert(1, "R$");
         } else{
-            saldoStr.append("R$:");
-            saldoStr.append(saldo.toString());
+            saldoStr.insert(0, "R$");
         }
-        return saldoStr.toString();
+        return saldoStr.toString().replace(".",",");
     }
 
+    //adicionara itens ao recycler
     public void addListItem(Parcela p, int position){
         parcelas.add(p);
         notifyItemInserted(position);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,9 +24,6 @@ import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.Conta;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.negocio.ContaServices;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.gui.MainActivity;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.DatePickerFragments;
-import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoCategoria;
-import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoConta;
-import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoSubCategoria;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoUsuario;
 import com.ufrpe.bsi.mpoo.wallotapp.subcategoria.dominio.SubCategoria;
@@ -42,33 +40,43 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class TransacaoActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
-    EditText editDescricao, editSaldo, editParcelas;
-    TextView textData;
-    Button btnSalvar;
-    ImageView imageTipo;
+    private EditText editDescricao, editSaldo, editParcelas;
+    private TextView textData;
+    private Button btnSalvar;
+    private ImageView imageTipo;
+    private Usuario usuario = SessaoUsuario.instance.getUsuario();
+    private ContaServices contaServices = new ContaServices();
+    private Spinner spnConta, spnCategoria, spnTipoTransacao, spnSubCategorias;
+    private SimpleDateFormat formatdate = new SimpleDateFormat("dd/MM/yyyy");
+    private CategoriaServices categoriaServices = new CategoriaServices();
+    private SubCategoriaServices subCategoriaServices = new SubCategoriaServices();
+    private TransacaoServices transacaoServices = new TransacaoServices();
+    private Transacao transacao = new Transacao();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transacao);
-        final Usuario usuario = SessaoUsuario.instance.getUsuario();
-        final Transacao transacao = SessaoTransacao.instance.getTransacao();
         getSupportActionBar().setTitle("Transação");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        //pega os dados do layout
         editDescricao = findViewById(R.id.descricao_transacao);
         editSaldo = findViewById(R.id.saldo_transacao);
         editParcelas = findViewById(R.id.parcelas_transacao);
-        final Spinner spnConta = findViewById(R.id.spinner_conta_transacao);
+        spnConta = findViewById(R.id.spinner_conta_transacao);
         textData = findViewById(R.id.str_data_transacao);
-        textData.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
-        final Spinner spnCategoria = findViewById(R.id.spinner_categoria_transacao);
-        final Spinner spnTipoTransacao = findViewById(R.id.spinner_tipo_transacao);
         imageTipo = findViewById(R.id.tipo_transacao_image);
+        spnCategoria = findViewById(R.id.spinner_categoria_transacao);
+        spnTipoTransacao = findViewById(R.id.spinner_tipo_transacao);
+        btnSalvar = findViewById(R.id.button_salvar_transacao);
+        spnSubCategorias = findViewById(R.id.spinner_sub_categoria_transacao);
 
-        //spin Contas
-        ArrayList<Conta> contas = new ContaServices().listarContasAtivas(usuario.getId());
+        //seta a data atual
+        textData.setText(formatdate.format(new Date()));
+
+        //cria o spinner das contas ativas
+        ArrayList<Conta> contas = contaServices.listarContasAtivas(usuario.getId());
         ArrayAdapter adapterContas = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, contas);
         adapterContas.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnConta.setAdapter(adapterContas);
@@ -76,58 +84,43 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 spnConta.setSelection(position, true);
-                SessaoConta.instance.setConta((Conta) spnConta.getSelectedItem());
-                SessaoTransacao.instance.getTransacao().setFkConta(((Conta)spnConta.getSelectedItem()).getId());
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
-        //spin Categoria
-        ArrayList<Categoria> categorias = new CategoriaServices().listarAllCategorias(usuario.getId());
+
+        //cria o spinner categorias
+        ArrayList<Categoria> categorias = categoriaServices.listarAllCategorias(usuario.getId());
         ArrayAdapter adapterCategorias = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categorias);
-        adapterContas.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterCategorias.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnCategoria.setAdapter(adapterCategorias);
         spnCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 spnCategoria.setSelection(position,true);
-                SessaoCategoria.instance.setCategoria((Categoria) spnCategoria.getSelectedItem());
-                SessaoTransacao.instance.getTransacao().setFkCategoria(((Categoria)spnCategoria.getSelectedItem()).getId());
-                atualizarSubCategoria(usuario);
-
+                atualizarSubCategoria();
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
-        //spin SubCategoria
-        atualizarSubCategoria(usuario);
-        //spin Tipo Transacao
-        ArrayList<TipoTransacao> tipoTransacaos = new TransacaoServices().listarTiposTransacao();
+
+        //cria spin tipo de transacao
+        ArrayList<TipoTransacao> tipoTransacaos = transacaoServices.listarTiposTransacao();
         ArrayAdapter adapterTipoTransacao = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, tipoTransacaos);
-        adapterContas.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterTipoTransacao.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnTipoTransacao.setAdapter(adapterTipoTransacao);
         spnTipoTransacao.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 spnTipoTransacao.setSelection(position,true);
-                SessaoTransacao.instance.getTransacao().setTipoTransacao((TipoTransacao)spnTipoTransacao.getSelectedItem());
-                trocarImagemPorTipo(spnTipoTransacao);
+                transacao.setTipoTransacao((TipoTransacao) spnTipoTransacao.getSelectedItem());
+                trocarImagemPorTipoTransacao();
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        //data
-        textData = findViewById(R.id.str_data_transacao);
+        //Abre o dialog de datas para o usuario setar
         textData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,7 +129,7 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
             }
         });
 
-        btnSalvar = findViewById(R.id.button_salvar_transacao);
+        //salva a transacao
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,33 +137,45 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
             }
         });
 
-        trocarImagemPorTipo(spnTipoTransacao);
+        //atualiza a imagem de acordo com a escolha do usuario
+        transacao.setTipoTransacao((TipoTransacao) getIntent().getExtras().get("TipoTransacao"));
+        trocarImagemPorTipoTransacao();
+        getIntent().getExtras().clear();
 
-
-
-
-
+        //atualiza o spinner de subcategoria
+        atualizarSubCategoria();
     }
 
+
+    //começa o processo de salvar transacao(não valida dados(ainda))
     private void salvarTransacao() {
-        Transacao transacao = SessaoTransacao.instance.getTransacao();
+        transacao = criaTransacao();
+        String data = textData.getText().toString();
+        SessaoTransacao.instance.setTransacao(transacao);
+        transacaoServices.cadastrarTransacao(data);
+        showToast("Transação Feita com sucesso");
+        inicioIntent();
+    }
+
+    //função padrao de toast
+    private void showToast(String s) {Toast.makeText(TransacaoActivity.this, s, Toast.LENGTH_LONG).show();}
+
+    //controi um objeto transacao com os dados setados
+    private Transacao criaTransacao() {
         transacao.setTitulo(editDescricao.getText().toString());
         transacao.setValor(new BigDecimal(editSaldo.getText().toString()));
         transacao.setQntParcelas(Integer.parseInt(editParcelas.getText().toString()));
-        transacao.setFkUsuario(SessaoUsuario.instance.getUsuario().getId());
-        //System.out.println(transacao);
-        String data = textData.getText().toString();
-        TransacaoServices transacaoServices = new TransacaoServices();
-        transacaoServices.cadastrarTransacao(transacao, data);
-        Toast.makeText(TransacaoActivity.this, "Feito com sucesso", Toast.LENGTH_LONG).show();
-
-
-
+        transacao.setFkUsuario(usuario.getId());
+        transacao.setTipoTransacao((TipoTransacao) spnTipoTransacao.getSelectedItem());
+        transacao.setFkCategoria(((Categoria) spnCategoria.getSelectedItem()).getId());
+        transacao.setFkSubCategoria(((SubCategoria) spnSubCategorias.getSelectedItem()).getId());
+        transacao.setFkConta(((Conta) spnConta.getSelectedItem()).getId());
+        return transacao;
     }
 
-    private void atualizarSubCategoria(Usuario usuario) {
-        final Spinner spnSubCategorias = findViewById(R.id.spinner_sub_categoria_transacao);
-        ArrayList<SubCategoria> subCategorias = new SubCategoriaServices().listarAllSubCategorias(usuario.getId(), SessaoCategoria.instance.getCategoria().getId());
+    //atualiza o spinner de subcategoria
+    private void atualizarSubCategoria() {
+        ArrayList<SubCategoria> subCategorias = subCategoriaServices.listarAllSubCategorias(usuario.getId(), ((Categoria) spnCategoria.getSelectedItem()).getId());
         ArrayAdapter adapterSubCategorias = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, subCategorias);
         adapterSubCategorias.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnSubCategorias.setAdapter(adapterSubCategorias);
@@ -178,19 +183,13 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 spnSubCategorias.setSelection(position,true);
-                SessaoSubCategoria.instance.setSubCategoria((SubCategoria) spnSubCategorias.getSelectedItem());
-                SessaoTransacao.instance.getTransacao().setFkSubCategoria(((SubCategoria)spnSubCategorias.getSelectedItem()).getId());
-
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
-
+    //pega a data e seta
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar c = Calendar.getInstance();
@@ -199,32 +198,32 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         c.add(Calendar.DATE, 0);
         Date date = c.getTime();
-        //System.out.println(date);
-        SimpleDateFormat formatdate = new SimpleDateFormat("dd/MM/yyyy");
-        String datestr = formatdate.format(date);
-        TextView strData = findViewById(R.id.str_data_transacao);
-        strData.setText(datestr);
+        textData.setText(formatdate.format(date));
     }
 
+    //vai para o inicio
     @Override
     public void onBackPressed() {
+        inicioIntent();
+    }
+
+    //vai para o inicio
+    private void inicioIntent() {
         startActivity(new Intent(TransacaoActivity.this, MainActivity.class));
     }
 
-    public void trocarImagemPorTipo(Spinner spnTipoTransacao){
-        if (SessaoTransacao.instance.getTransacao().getTipoTransacao().toString() == "Receita"){
+    //troca a imagem do topo da página
+    public void trocarImagemPorTipoTransacao(){
+        if (transacao.getTipoTransacao() == TipoTransacao.RECEITA){
             spnTipoTransacao.setSelection(0);
             imageTipo.setBackgroundResource(R.drawable.background_nova_receita);
-        } else if (SessaoTransacao.instance.getTransacao().getTipoTransacao().toString() == "Despesa"){
+        } else if (transacao.getTipoTransacao() == TipoTransacao.DESPESA){
             spnTipoTransacao.setSelection(1);
             imageTipo.setBackgroundResource(R.drawable.background_nova_despesa);
         } else {
-            //do nothing yet
+            spnTipoTransacao.setSelection(0);
+            imageTipo.setBackgroundResource(R.drawable.background_nova_receita);
+            showToast("Opção ainda indisponivel");
         }
-
-
-
     }
-
-
 }

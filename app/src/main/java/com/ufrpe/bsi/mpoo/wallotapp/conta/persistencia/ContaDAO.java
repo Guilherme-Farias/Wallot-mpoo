@@ -3,7 +3,6 @@ package com.ufrpe.bsi.mpoo.wallotapp.conta.persistencia;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.Conta;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.TipoConta;
@@ -16,20 +15,28 @@ import java.util.ArrayList;
 public class ContaDAO {
     private DBHelper dbHelper = new DBHelper();
 
+    //Cadastra uma conta nova
     public long cadastraConta(Conta conta){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = getContentValues(conta);
+        long res = db.insert(DBHelper.TABELA_CONTA, null, values);
+        db.close();
+        return res;
+    }
+
+    //pega o content values de forma mais organizada
+    private ContentValues getContentValues(Conta conta) {
         ContentValues values = new ContentValues();
         values.put(DBHelper.CONTA_COL_NOME, conta.getNome());
         values.put(DBHelper.CONTA_COL_SALDO, conta.getSaldo().toString());
         values.put(DBHelper.CONTA_FK_USUARIO, conta.getFkUsuario());
         values.put(DBHelper.CONTA_FK_TIPO_CONTA, String.valueOf(conta.getTipoConta().ordinal() + 1));
         values.put(DBHelper.CONTA_FK_TIPO_ESTADO_CONTA, String.valueOf(conta.getTipoEstadoConta().ordinal() + 1));
-        long res = db.insert(DBHelper.TABELA_CONTA, null, values);
-        db.close();
-        return res;
+        return values;
     }
 
-    public Conta criaConta(Cursor cursor){
+    //controi a conta
+    private Conta criaConta(Cursor cursor){
         Conta conta = new Conta();
         int indexId = cursor.getColumnIndex(DBHelper.CONTA_COL_ID);
         int indexNome = cursor.getColumnIndex(DBHelper.CONTA_COL_NOME);
@@ -45,11 +52,12 @@ public class ContaDAO {
         conta.setTipoEstadoConta(TipoEstadoConta.values()[cursor.getInt(indexTipoEstadoConta) - 1]);
         return conta;
     }
-
-    public ArrayList<Conta> getContas(long usuarioId){
-        ArrayList<Conta> contas = new ArrayList<Conta>();
+    //pega contas(ativas/todas)
+    public ArrayList<Conta> getContas(long usuarioId, boolean querAtivas){
+        ArrayList<Conta> contas = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String query = "SELECT * FROM "+DBHelper.TABELA_CONTA+" WHERE "+DBHelper.CONTA_FK_USUARIO + " = ?";
+        if (querAtivas){query += " AND " + DBHelper.CONTA_FK_TIPO_ESTADO_CONTA + " = 1";}
         String[] args = {String.valueOf(usuarioId)};
         Cursor cursor = db.rawQuery(query, args);
         if(cursor.moveToFirst()){
@@ -58,24 +66,11 @@ public class ContaDAO {
                 contas.add(conta);
             } while (cursor.moveToNext());
         }
+        closeArgs(db,cursor);
         return contas;
     }
 
-    public ArrayList<Conta> getContasAtivas(long usuarioId){
-        ArrayList<Conta> contas = new ArrayList<Conta>();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String query = "SELECT * FROM "+DBHelper.TABELA_CONTA+" WHERE "+DBHelper.CONTA_FK_USUARIO + " = ? AND " + DBHelper.CONTA_FK_TIPO_ESTADO_CONTA + " = 1"  ;
-        String[] args = {String.valueOf(usuarioId)};
-        Cursor cursor = db.rawQuery(query, args);
-        if(cursor.moveToFirst()){
-            do {
-                Conta conta = criaConta(cursor);
-                contas.add(conta);
-            } while (cursor.moveToNext());
-        }
-        return contas;
-    }
-
+    //altera o nome da conta
     public void alterarNome(Conta conta){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -84,6 +79,7 @@ public class ContaDAO {
         db.close();
     }
 
+    //altera o saldo no bancoz
     public void alterarSaldo(Conta conta){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -92,6 +88,7 @@ public class ContaDAO {
         db.close();
     }
 
+    //altera se está ativo ou inativo
     public void alterarTipoEstadoConta(Conta conta) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -99,6 +96,8 @@ public class ContaDAO {
         db.update(DBHelper.TABELA_CONTA,values,DBHelper.CONTA_COL_ID + " = ?",new String[]{String.valueOf(conta.getId())});
         db.close();
     }
+
+    //altera o tipo de conta
     public void alterarTipoConta(Conta conta) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -107,48 +106,51 @@ public class ContaDAO {
         db.close();
     }
 
+    //pega a conta pelo id
     public Conta getConta(long idConta){
+        Conta conta = null;
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String query = "SELECT * FROM "+DBHelper.TABELA_CONTA+" WHERE " + DBHelper.CONTA_COL_ID + " = ?";
+        String query = "SELECT * FROM "+ DBHelper.TABELA_CONTA + " WHERE " + DBHelper.CONTA_COL_ID + " =?";
         String[] args = {String.valueOf(idConta)};
         Cursor cursor = db.rawQuery(query, args);
-        Conta conta = null;
         if(cursor.moveToFirst()){
             conta = criaConta(cursor);
         }
-        cursor.close();
-        db.close();
+        closeArgs(db, cursor);
         return conta;
     }
 
+    //pega conta pelo id do usuario e nome da conta para ver se a conta existe
     public Conta getConta(long idUsuario, String nomeConta){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String query = "SELECT * FROM "+DBHelper.TABELA_CONTA+" WHERE "+DBHelper.CONTA_FK_USUARIO + " = ?" + " and " + DBHelper.CONTA_COL_NOME + " = ?";
+        String query = "SELECT * FROM "+DBHelper.TABELA_CONTA+" WHERE "+DBHelper.CONTA_FK_USUARIO + " = ?" + " AND " + DBHelper.CONTA_COL_NOME + " = ?";
         String[] args = {String.valueOf(idUsuario), nomeConta};
         Cursor cursor = db.rawQuery(query, args);
         Conta conta = null;
         if(cursor.moveToFirst()){
             conta = criaConta(cursor);
         }
-        cursor.close();
-        db.close();
+        closeArgs(db, cursor);
         return conta;
     }
 
+    //pega todos os tipos de conta
     public ArrayList<TipoConta> getTiposConta(){
-        ArrayList<TipoConta> tipoContas = new ArrayList<TipoConta>();
+        ArrayList<TipoConta> tipoContas = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String query = "SELECT * FROM "+DBHelper.TABELA_TIPO_CONTA;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()){
             do {
-                TipoConta tipo = TipoConta.values()[(cursor.getInt(cursor.getColumnIndex(DBHelper.TIPO_CONTA_COL_ID)))-1];
-                tipoContas.add(tipo);
+                TipoConta tipoConta = TipoConta.values()[(cursor.getInt(cursor.getColumnIndex(DBHelper.TIPO_CONTA_COL_ID)))-1];
+                tipoContas.add(tipoConta);
             } while (cursor.moveToNext());
         }
+        closeArgs(db,cursor);
         return tipoContas;
     }
 
+    //pega o valor total todas as contas
     public BigDecimal getSaldoContas(long usuarioId){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String query = "SELECT * FROM "+DBHelper.TABELA_CONTA+" WHERE "+DBHelper.CONTA_FK_USUARIO + " = ?";
@@ -161,21 +163,27 @@ public class ContaDAO {
                 saldo = saldo.add(valorConta);
             } while (cursor.moveToNext());
         }
+        closeArgs(db,cursor);
         return saldo;
     }
 
+    //verifica se existe conta ativa
     public Conta existContaAtiva(long idUsuario, long idConta) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String query = "SELECT * FROM "+DBHelper.TABELA_CONTA + " WHERE "+DBHelper.CONTA_FK_USUARIO + " = ?" + " and " + DBHelper.CONTA_FK_TIPO_ESTADO_CONTA + " = ? AND NOT " + DBHelper.CONTA_COL_ID + " = ?";
+        String query = "SELECT * FROM "+DBHelper.TABELA_CONTA + " WHERE "+DBHelper.CONTA_FK_USUARIO + " = ?" + " AND " + DBHelper.CONTA_FK_TIPO_ESTADO_CONTA + " = ? AND NOT " + DBHelper.CONTA_COL_ID + " = ?";
         String[] args = {String.valueOf(idUsuario), String.valueOf(1), String.valueOf(idConta)};
         Cursor cursor = db.rawQuery(query, args);
         Conta exist = null;
         if(cursor.moveToFirst()){
             exist = criaConta(cursor);
         }
-        cursor.close();
-        db.close();
+        closeArgs(db, cursor);
         return exist;
 
+    }
+    //fecha db e o cursor
+    private void closeArgs(SQLiteDatabase db, Cursor cursor) {
+        cursor.close();
+        db.close();
     }
 }

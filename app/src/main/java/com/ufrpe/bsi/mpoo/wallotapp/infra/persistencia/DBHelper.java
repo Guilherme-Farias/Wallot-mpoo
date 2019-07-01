@@ -7,7 +7,7 @@ import com.ufrpe.bsi.mpoo.wallotapp.infra.app.WallotApp;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String NOME_BANCO = "wallot.db";
-    private static final int VERSAO = 15;
+    private static final int VERSAO = 11;
 
     //TABELA DE USUARIO(ENTROU NA VERSÃO 1)
     public static final String TABELA_USUARIO = "TABELA_USUARIO";
@@ -97,7 +97,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     private static final String[] TABELAS = {
-            TABELA_USUARIO, TABELA_CONTA, TABELA_TIPO_CONTA, TABELA_TIPO_ESTADO_CONTA, TABELA_CATEGORIA, TABELA_SUBCATEGORIA, TABELA_TRANSACAO, TABELA_PARCELA, TABELA_TIPO_TRANSACAO, TABELA_TIPO_STATUS
+            TABELA_USUARIO, TABELA_CONTA, TABELA_TIPO_CONTA, TABELA_TIPO_ESTADO_CONTA,
+            TABELA_CATEGORIA, TABELA_SUBCATEGORIA, TABELA_TRANSACAO, TABELA_PARCELA,
+            TABELA_TIPO_TRANSACAO, TABELA_TIPO_STATUS
     };
 
     public DBHelper() {
@@ -159,7 +161,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "CREATE TABLE %1$s ( " +
                         "  %2$s INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "  %3$s TEXT NOT NULL, " +
-                        "  %4$s TEXT NOT NULL, " +
+                        "  %4$s INTEGER NOT NULL, " +
                         "  %5$s TEXT NOT NULL, " +
                         "  %6$s TEXT NOT NULL, " +
                         "  %7$s TEXT NOT NULL " +
@@ -328,7 +330,5 @@ public class DBHelper extends SQLiteOpenHelper {
             db.execSQL(dropTable.toString());
         }
     }
-
-
 
 }

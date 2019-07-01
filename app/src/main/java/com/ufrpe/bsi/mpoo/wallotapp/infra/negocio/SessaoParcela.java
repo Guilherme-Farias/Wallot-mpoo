@@ -1,16 +1,16 @@
 package com.ufrpe.bsi.mpoo.wallotapp.infra.negocio;
 
-import com.ufrpe.bsi.mpoo.wallotapp.categoria.dominio.Categoria;
+import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.Parcela;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SessaoCategoria {
-    public static final SessaoCategoria instance = new SessaoCategoria();
+public class SessaoParcela {
+    public static final SessaoParcela instance = new SessaoParcela();
     private Map<String, Object> values = new HashMap<>();
 
-    public Categoria getCategoria(){return (Categoria) values.get("sessao.Categoria");}
-    public void setCategoria(Categoria categoria){setValue("sessao.Categoria", categoria);}
+    public Parcela getParcela(){return (Parcela) values.get("sessao.Parcela");}
+    public void setParcela(Parcela parcela){setValue("sessao.Parcela", parcela);}
 
     @SuppressWarnings("WeakerAccess")
     public void setValue(String key, Object value) {

@@ -10,7 +10,9 @@
         android:roundIcon="@drawable/icone_app_wallot"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".subcategoria.gui.CrudSubCategoriaActivity"></activity>
+        <activity android:name=".transacao.gui.ParcelasDaTransacaoActivity"></activity>
+        <activity android:name=".transacao.gui.CrudParcelaActivity" />
+        <activity android:name=".subcategoria.gui.CrudSubCategoriaActivity" />
         <activity
             android:name=".infra.gui.SplashScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -20,7 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".transacao.gui.ParcelasActivity" />
         <activity
             android:name=".transacao.gui.TransacaoActivity"
             android:parentActivityName=".infra.gui.MainActivity" />
@@ -40,7 +41,7 @@
             android:name=".usuario.gui.EditarUsuarioActivity"
             android:parentActivityName=".infra.gui.ConfiguracaoActivity" />
         <activity
-            android:name=".infra.gui.RegisterActivity"
+            android:name=".usuario.gui.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".infra.gui.MainActivity"
@@ -49,8 +50,8 @@
             android:name=".infra.gui.ConfiguracaoActivity"
             android:parentActivityName=".infra.gui.MainActivity" />
         <activity
-            android:name=".infra.gui.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".usuario.gui.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

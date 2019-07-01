@@ -1,13 +1,6 @@
 package com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio;
 
-import com.ufrpe.bsi.mpoo.wallotapp.categoria.dominio.Categoria;
-import com.ufrpe.bsi.mpoo.wallotapp.categoria.persistencia.CategoriaDAO;
-import com.ufrpe.bsi.mpoo.wallotapp.subcategoria.dominio.SubCategoria;
-import com.ufrpe.bsi.mpoo.wallotapp.subcategoria.persistencia.SubCategoriaDAO;
-
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class Transacao {
     private long id;
@@ -48,9 +41,7 @@ public class Transacao {
         return tipoTransacao;
     }
 
-    public void setTipoTransacao(TipoTransacao tipoTransacao) {
-        this.tipoTransacao = tipoTransacao;
-    }
+    public void setTipoTransacao(TipoTransacao tipoTransacao) {this.tipoTransacao = tipoTransacao;}
 
     public long getQntParcelas() {
         return qntParcelas;

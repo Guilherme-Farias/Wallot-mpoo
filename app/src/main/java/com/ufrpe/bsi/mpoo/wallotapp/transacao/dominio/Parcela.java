@@ -53,8 +53,7 @@ public class Parcela {
     }
 
     public String dataFormatada(){
-        String strData = new SimpleDateFormat("dd/MM/yyyy").format(this.dataTransacao);
-        return strData;
+        return new SimpleDateFormat("dd/MM/yyyy").format(this.dataTransacao);
     }
 
     public TipoDeStatusTransacao getTipoDeStatusTransacao() {

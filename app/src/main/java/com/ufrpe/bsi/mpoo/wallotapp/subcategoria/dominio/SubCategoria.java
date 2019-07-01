@@ -3,6 +3,7 @@ package com.ufrpe.bsi.mpoo.wallotapp.subcategoria.dominio;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 
 public class SubCategoria {
     private long id;
@@ -34,10 +35,6 @@ public class SubCategoria {
     public void setIcone(byte[] icone) {
         this.icone = icone;
     }
-    public Drawable byteArrayToDrawable(byte[] byteArray) {
-        Drawable drawable = new BitmapDrawable(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
-        return drawable;
-    }
 
     public long getFkCategoria() {return fkCategoria;}
 
@@ -51,6 +48,10 @@ public class SubCategoria {
         this.fkUsuario = fkUsuario;
     }
 
+    //pega o byte e transforma em drawable
+    public Drawable byteArrayToDrawable(byte[] byteArray) {return new BitmapDrawable(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));}
+
+    @NonNull
     @Override
     public String toString() {
         return this.nome;

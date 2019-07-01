@@ -14,347 +14,151 @@ public class DBFill {
         cadastraSubCategorias();
     }
     private void cadastraCategorias(){
-        Categoria categoria;
-
-
-        categoria = new Categoria();
-        categoria.setNome("Sem Categoria");
-        categoria.setIcone(categoriaServices.bitmapToByteArray(R.drawable.icone_custom));
+        //categoria sem categoria
+        Categoria categoria = getCategoria("Sem Categoria", R.drawable.icone_custom);
         categoria.setFkUsuario(0);
         categoriaServices.cadastrar(categoria);
 
         //Categoria Alimentação
-        categoria = new Categoria();
-        categoria.setNome("Alimentação");
-        categoria.setIcone(categoriaServices.bitmapToByteArray(R.drawable.icone_alimentacao));
-        categoriaServices.cadastroInicial(categoria);
+        criaCategoria("Alimentação", R.drawable.icone_alimentacao);
 
         //Categoria Casa
-        categoria = new Categoria();
-        categoria.setNome("Casa");
-        categoria.setIcone(categoriaServices.bitmapToByteArray(R.drawable.icone_casa));
-        categoriaServices.cadastroInicial(categoria);
+        criaCategoria("Casa", R.drawable.icone_casa);
 
 
         //Categoria Compras
-        categoria = new Categoria();
-        categoria.setNome("Compras");
-        categoria.setIcone(categoriaServices.bitmapToByteArray(R.drawable.icone_compras));
-        categoriaServices.cadastroInicial(categoria);
+        criaCategoria("Compras", R.drawable.icone_compras);
 
         //Categoria Comunicação
-        categoria = new Categoria();
-        categoria.setNome("Comunicação");
-        categoria.setIcone(categoriaServices.bitmapToByteArray(R.drawable.icone_comunicacao));
-        categoriaServices.cadastroInicial(categoria);
+        criaCategoria("Comunicação", R.drawable.icone_comunicacao);
 
         //Categoria Transporte
-        categoria = new Categoria();
-        categoria.setNome("Transporte");
-        categoria.setIcone(categoriaServices.bitmapToByteArray(R.drawable.icone_transporte));
-        categoriaServices.cadastroInicial(categoria);
+        criaCategoria("Transporte", R.drawable.icone_transporte);
 
 
         //Categoria Veículo
-        categoria = new Categoria();
-        categoria.setNome("Veículo");
-        categoria.setIcone(categoriaServices.bitmapToByteArray(R.drawable.icone_veiculo));
-        categoriaServices.cadastroInicial(categoria);
+        criaCategoria("Veículo", R.drawable.icone_veiculo);
 
         //Categoria Vida e Lazer
-        categoria = new Categoria();
-        categoria.setNome("Vida e Lazer");
-        categoria.setIcone(categoriaServices.bitmapToByteArray(R.drawable.icone_vida_lazer));
-        categoriaServices.cadastroInicial(categoria);
+        criaCategoria("Vida e Lazer", R.drawable.icone_vida_lazer);
 
         //Categoria Outros
-        categoria = new Categoria();
-        categoria.setNome("Outros");
-        categoria.setIcone(categoriaServices.bitmapToByteArray(R.drawable.icone_custom));
+        criaCategoria("Outros", R.drawable.icone_custom);
+    }
+
+    private void criaCategoria(String outros, int p) {
+        Categoria categoria = getCategoria(outros, p);
         categoriaServices.cadastroInicial(categoria);
     }
 
-    public void cadastraSubCategorias() {
-        SubCategoria subCategoria;
+    private Categoria getCategoria(String outros, int p) {
+        Categoria categoria = new Categoria();
+        categoria.setNome(outros);
+        categoria.setIcone(categoriaServices.bitmapToByteArray(p));
+        return categoria;
+    }
 
-        //Subcategoria Sem Subcategoria (Sem Categoria)
+    private void cadastraSubCategorias() {
 
-        subCategoria = new SubCategoria();
-
-        subCategoria.setId(1);
-        subCategoria.setNome("Sem SubCategoria");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_custom));
-        subCategoria.setFkCategoria(1);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        //Subcategoria sem subcategoria
+        cadastraSubcategoria("Sem Subcategoria", R.drawable.icone_custom, 1);
 
         //Subcategoria Fast Food (Alimentação)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Fast Food");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_fast_food));
-        subCategoria.setFkCategoria(2);;
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Fast Food", R.drawable.icone_fast_food, 2);
 
         //Subcategoria Feira (Alimentação)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Feira");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_feira));
-        subCategoria.setFkCategoria(2);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Feira", R.drawable.icone_feira, 2);
 
         //Subcategoria Restaurante (Alimentação)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Restaurante");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_restaurante));
-        subCategoria.setFkCategoria(2);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Restaurante", R.drawable.icone_restaurante, 2);
 
         //Subcategoria Água (Casa)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Água");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_agua));
-        subCategoria.setFkCategoria(3);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Água", R.drawable.icone_agua, 3);
 
         //Subcategoria Aluguel (Casa)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Aluguel");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_aluguel));
-        subCategoria.setFkCategoria(3);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Aluguel", R.drawable.icone_aluguel, 3);
 
         //Subcategoria Gás (Casa)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Gás");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_gas));
-        subCategoria.setFkCategoria(3);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Gás", R.drawable.icone_gas, 3);
 
         //Subcategoria Luz (Casa)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Luz");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_luz));
-        subCategoria.setFkCategoria(3);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Luz", R.drawable.icone_luz, 3);
 
         //Subcategoria Manuntenção (Casa)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Manuntenção");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_manuntencao_casa));
-        subCategoria.setFkCategoria(3);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Manuntenção", R.drawable.icone_manuntencao_casa, 3);
 
         //Subcategoria Animais (Compras)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Animais");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_animais));
-        subCategoria.setFkCategoria(4);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Animais", R.drawable.icone_animais, 4);
 
         //Subcategoria Beleza (Compras)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Beleza");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_beleza));
-        subCategoria.setFkCategoria(4);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Beleza", R.drawable.icone_beleza, 4);
 
         //Subcategoria Eletrônicos (Compras)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Eletrônicos");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_eletronicos));
-        subCategoria.setFkCategoria(4);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Eletrônicos", R.drawable.icone_eletronicos, 4);
 
         //Subcategoria Farmácia (Compras)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Farmácia");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_farmacia));
-        subCategoria.setFkCategoria(4);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Farmácia", R.drawable.icone_farmacia, 4);
 
         //Subcategoria Vestuário (Compras)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Vestuário");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_vestuario));
-        subCategoria.setFkCategoria(4);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Vestuário", R.drawable.icone_vestuario, 4);
 
         //Subcategoria Internet (Comunicação)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Internet");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_internet));
-        subCategoria.setFkCategoria(5);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Internet", R.drawable.icone_internet, 5);
 
         //Subcategoria Serviços Postais (Comunicação)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Serviços Postais");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_servicos_postais));
-        subCategoria.setFkCategoria(5);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Serviços Postais", R.drawable.icone_servicos_postais, 5);
 
         //Subcategoria Telefone (Comunicação)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Telefone");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_telefone));
-        subCategoria.setFkCategoria(5);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Telefone", R.drawable.icone_telefone, 5);
 
         //Subcategoria Longas Distâncias (Transportes)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Longas Distâncias");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_longas_distancias));
-        subCategoria.setFkCategoria(6);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Longas Distâncias", R.drawable.icone_longas_distancias, 6);
 
         //Subcategoria Particular (Transportes)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Particular");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_transporte_particular));
-        subCategoria.setFkCategoria(6);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Particular", R.drawable.icone_transporte_particular, 6);
 
         //Subcategoria Público (Transportes)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Público");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_transporte_publico));
-        subCategoria.setFkCategoria(6);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Público", R.drawable.icone_transporte_publico, 6);
 
         //Subcategoria Combustível (Veículo)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Combustível");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_combustivel));
-        subCategoria.setFkCategoria(7);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Combustível", R.drawable.icone_combustivel, 7);
 
         //Subcategoria Estacionamento (Veículo)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Estacionamento");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_estacionamento));
-        subCategoria.setFkCategoria(7);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Estacionamento", R.drawable.icone_estacionamento, 7);
 
         //Subcategoria Manuntenção (Veículo)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Manuntenção");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_manuntencao_carro));
-        subCategoria.setFkCategoria(7);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Manuntenção", R.drawable.icone_manuntencao_carro, 7);
 
         //Subcategoria Seguro (Veículo)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Seguro");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_seguro));
-        subCategoria.setFkCategoria(7);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Seguro", R.drawable.icone_seguro, 7);
 
         //Subcategoria Bebida e Cigarro (Vida e Lazer)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Bebida e Cigarro");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_bebida_cigarro));
-        subCategoria.setFkCategoria(8);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Bebida e Cigarro", R.drawable.icone_bebida_cigarro, 8);
 
         //Subcategoria Educação (Vida e Lazer)
-
-        subCategoria = new SubCategoria();;
-        subCategoria.setNome("Educação");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_educacao));
-        subCategoria.setFkCategoria(8);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Educação", R.drawable.icone_educacao, 8);
 
         //Subcategoria Fitness (Vida e Lazer)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Fitness");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_fitness));
-        subCategoria.setFkCategoria(8);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Fitness", R.drawable.icone_fitness, 8);
 
         //Subcategoria Saúde (Vida e Lazer)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Saúde");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_saude));
-        subCategoria.setFkCategoria(8);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Saúde", R.drawable.icone_saude, 8);
 
         //Subcategoria Software e Jogos (Vida e Lazer)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Software e Jogos");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_software));
-        subCategoria.setFkCategoria(8);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("Software e Jogos", R.drawable.icone_software, 8);
 
         //Subcategoria TV e Streaming (Vida e Lazer)
-
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("TV e Streaming");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_tv_streaming));
-        subCategoria.setFkCategoria(8);
-
-        subCategoriaServices.cadastrarInicial(subCategoria);
+        cadastraSubcategoria("TV e Streaming", R.drawable.icone_tv_streaming, 8);
 
         //Subcategoria Viagens (Vida e Lazer)
-        subCategoria = new SubCategoria();
-        subCategoria.setNome("Viagens");
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(R.drawable.icone_viagens));
-        subCategoria.setFkCategoria(8);
+        cadastraSubcategoria("Viagens", R.drawable.icone_viagens, 8);
+    }
 
+    private void cadastraSubcategoria(String viagens, int p, int i) {
+        SubCategoria subCategoria = new SubCategoria();
+        subCategoria.setNome(viagens);
+        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(p));
+        subCategoria.setFkCategoria(i);
         subCategoriaServices.cadastrarInicial(subCategoria);
     }
 }

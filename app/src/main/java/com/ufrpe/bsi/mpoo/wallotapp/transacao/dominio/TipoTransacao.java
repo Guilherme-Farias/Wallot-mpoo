@@ -1,6 +1,6 @@
 package com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio;
 
-import java.math.BigDecimal;
+import android.support.annotation.NonNull;
 
 public enum TipoTransacao {
     RECEITA("Receita", 1),
@@ -15,15 +15,14 @@ public enum TipoTransacao {
         this.multiplicador = multiplicador;
     }
 
+    public int getMultiplicador() {
+        return multiplicador;
+    }
 
-
+    @NonNull
     @Override
     public String toString() {
         return this.descricao;
-    }
-
-    public int getMultiplicador() {
-        return multiplicador;
     }
 
 }

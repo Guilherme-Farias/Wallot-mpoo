@@ -12,7 +12,8 @@ import java.util.ArrayList;
 public class SubCategoriaDAO {
     private DBHelper dbHelper = new DBHelper();
 
-    public SubCategoria criaSubCategoria(Cursor cursor) {
+    //controi o objeto subcategoria a partir de um cursor do banco de dados
+    private SubCategoria criaSubCategoria(Cursor cursor) {
         SubCategoria subCategoria = new SubCategoria();
         int indexId = cursor.getColumnIndex(DBHelper.SUBCATEGORIA_COL_ID);
         int indexNome = cursor.getColumnIndex(DBHelper.SUBCATEGORIA_COL_NOME);
@@ -27,11 +28,15 @@ public class SubCategoriaDAO {
         return subCategoria;
     }
 
-    public ArrayList<SubCategoria> getSubcategorias(long usuarioId, long idCategoria) {
-        ArrayList<SubCategoria> subCategorias = new ArrayList<SubCategoria>();
+    //pega categorias(todas/sem categoria + todas)
+    public ArrayList<SubCategoria> getSubcategorias(long usuarioId, long idCategoria, boolean querTodas) {
+        ArrayList<SubCategoria> subCategorias = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String query = "SELECT * FROM "+ DBHelper.TABELA_SUBCATEGORIA + " WHERE " + DBHelper.SUBCATEGORIA_FK_CATEGORIA +" =? " + " AND  (" +DBHelper.SUBCATEGORIA_FK_USUARIO + " = ? " + " OR " + DBHelper.SUBCATEGORIA_FK_USUARIO + " IS NULL)";
-        String[] args = {String.valueOf(idCategoria), String.valueOf(usuarioId)};
+        String query = "SELECT * FROM " + DBHelper.TABELA_SUBCATEGORIA + " WHERE (" + DBHelper.SUBCATEGORIA_FK_USUARIO + " = ? " + " OR " + DBHelper.SUBCATEGORIA_FK_USUARIO + " IS NULL) AND " + DBHelper.SUBCATEGORIA_FK_CATEGORIA + " =?" ;
+        if (querTodas){
+            query += " OR " + DBHelper.SUBCATEGORIA_FK_CATEGORIA + " = 1";
+        }
+        String[] args = {String.valueOf(usuarioId), String.valueOf(idCategoria)};
         Cursor cursor = db.rawQuery(query, args);
         if(cursor.moveToFirst()){
             do {
@@ -39,24 +44,11 @@ public class SubCategoriaDAO {
                 subCategorias.add(subcategoria);
             } while (cursor.moveToNext());
         }
+        closeArgs(db, cursor);
         return subCategorias;
     }
 
-    public ArrayList<SubCategoria> getAllSubcategorias(long idUsuario, long idCategoria) {
-        ArrayList<SubCategoria> subCategorias = new ArrayList<SubCategoria>();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String query = "SELECT * FROM " + DBHelper.TABELA_SUBCATEGORIA + " WHERE " + DBHelper.SUBCATEGORIA_FK_CATEGORIA + " =?" +  " OR " + DBHelper.SUBCATEGORIA_FK_CATEGORIA + " = 1" + " AND "  + "(" + DBHelper.SUBCATEGORIA_FK_USUARIO + " =?" + " OR " + DBHelper.SUBCATEGORIA_FK_USUARIO + " IS NULL)";
-        String[] args = {String.valueOf(idCategoria), String.valueOf(idUsuario)};
-        Cursor cursor = db.rawQuery(query, args);
-        if(cursor.moveToFirst()){
-            do {
-                SubCategoria subcategoria = criaSubCategoria(cursor);
-                subCategorias.add(subcategoria);
-            } while (cursor.moveToNext());
-        }
-        return subCategorias;
-    }
-
+    //pega uma subcategoria especifica com o id dela
     public SubCategoria getSubCategoria(long idSubcategoria){
         String sql = "SELECT * FROM " + DBHelper.TABELA_SUBCATEGORIA + " WHERE " + DBHelper.SUBCATEGORIA_COL_ID + " = ?;";
         String[] args = {String.valueOf(idSubcategoria)};
@@ -70,6 +62,8 @@ public class SubCategoriaDAO {
         db.close();
         return subCategoria;
     }
+
+    //verifica se nome da categoria existe ou não
     public SubCategoria nomeCategoriaExist(long idUsuario, String nomeSubcategoria){
         String sql = "SELECT * FROM " + DBHelper.TABELA_SUBCATEGORIA + " WHERE (" + DBHelper.SUBCATEGORIA_FK_USUARIO + " = ? OR " + DBHelper.SUBCATEGORIA_FK_USUARIO + " IS NULL) AND " + DBHelper.SUBCATEGORIA_COL_NOME + " LIKE ?" ;
         String[] args = {String.valueOf(idUsuario), nomeSubcategoria};
@@ -79,36 +73,31 @@ public class SubCategoriaDAO {
         if(cursor.moveToFirst()){
             subCategoria = criaSubCategoria(cursor);
         }
-        cursor.close();
-        db.close();
+        closeArgs(db,cursor);
         return subCategoria;
     }
 
-
+    //cadastra subcategoria do usuario
     public long cadastrar(SubCategoria subCategoria) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DBHelper.SUBCATEGORIA_COL_NOME, subCategoria.getNome());
-        values.put(DBHelper.SUBCATEGORIA_COL_ICONE, subCategoria.getIcone());
-        values.put(DBHelper.SUBCATEGORIA_FK_CATEGORIA, subCategoria.getFkCategoria());
+        ContentValues values = getContentValues(subCategoria);
         values.put(DBHelper.SUBCATEGORIA_FK_USUARIO, subCategoria.getFkUsuario());
         long res = db.insert(DBHelper.TABELA_SUBCATEGORIA, null, values);
         db.close();
         return res;
     }
 
+    //cadastra as subcategorias já construidas pela equipe
     public long cadastroInicial(SubCategoria subCategoria){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DBHelper.SUBCATEGORIA_COL_NOME, subCategoria.getNome());
-        values.put(DBHelper.SUBCATEGORIA_COL_ICONE, subCategoria.getIcone());
-        values.put(DBHelper.SUBCATEGORIA_FK_CATEGORIA, subCategoria.getFkCategoria());
+        ContentValues values = getContentValues(subCategoria);
         values.putNull(DBHelper.SUBCATEGORIA_FK_USUARIO);
         long res = db.insert(DBHelper.TABELA_SUBCATEGORIA, null, values);
         db.close();
         return res;
     }
 
+    //altera o icone da subcategoria
     public void alterarIcone(SubCategoria subCategoria) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -116,6 +105,8 @@ public class SubCategoriaDAO {
         db.update(DBHelper.TABELA_SUBCATEGORIA,values,DBHelper.SUBCATEGORIA_COL_ID + " = ?",new String[]{String.valueOf(subCategoria.getId())});
         db.close();
     }
+
+    //altera o nome da subcategoria
     public void alterarNome(SubCategoria subCategoria) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -124,6 +115,7 @@ public class SubCategoriaDAO {
         db.close();
     }
 
+    //altera a categoria pai dela
     public void alteraCategoria(SubCategoria subCategoria) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -132,11 +124,27 @@ public class SubCategoriaDAO {
         db.close();
     }
 
+    //deleta subcategoria
     public void deletarSubcategoria(SubCategoria subCategoria){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String sql = "DELETE FROM "+ DBHelper.TABELA_SUBCATEGORIA + " WHERE " + DBHelper.SUBCATEGORIA_COL_ID + " = " + subCategoria.getId() + ";" ;
         db.execSQL(sql);
         db.close();
+    }
+
+    //fecha o db e o cursor
+    private void closeArgs(SQLiteDatabase db, Cursor cursor) {
+        db.close();
+        cursor.close();
+    }
+
+    //pega os valores padroes dos objetos
+    private ContentValues getContentValues(SubCategoria subCategoria) {
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.SUBCATEGORIA_COL_NOME, subCategoria.getNome());
+        values.put(DBHelper.SUBCATEGORIA_COL_ICONE, subCategoria.getIcone());
+        values.put(DBHelper.SUBCATEGORIA_FK_CATEGORIA, subCategoria.getFkCategoria());
+        return values;
     }
 
 }

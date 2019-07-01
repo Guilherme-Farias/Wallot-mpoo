@@ -11,7 +11,7 @@ import com.ufrpe.bsi.mpoo.wallotapp.categoria.gui.CategoriasActivity;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.gui.ContasActivity;
 import com.ufrpe.bsi.mpoo.wallotapp.usuario.gui.EditarUsuarioActivity;
 
-public class ConfiguracaoActivity extends AppCompatActivity implements View.OnClickListener{
+public class ConfiguracaoActivity extends AppCompatActivity{
     private CardView cvUsuario, cvConta, cvCategoria;
 
     @Override
@@ -20,10 +20,14 @@ public class ConfiguracaoActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_configuracao);
         getSupportActionBar().setTitle("Configurações");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //pega dados do layout
         cvUsuario = findViewById(R.id.cardViewUsuario);
         cvConta = findViewById(R.id.cardViewConta);
         cvCategoria = findViewById(R.id.cardViewCategoria);
 
+
+        //listener dos cardviews para ir editar(usuario/conta/categoria
         cvUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,26 +49,16 @@ public class ConfiguracaoActivity extends AppCompatActivity implements View.OnCl
 
 
     }
+    //intent de categorias
+    private void listarCategoriasIntent() {startActivity(new Intent(ConfiguracaoActivity.this, CategoriasActivity.class));}
 
-    private void listarCategoriasIntent() {
-        startActivity(new Intent(ConfiguracaoActivity.this, CategoriasActivity.class));
-    }
+    //intent de contas
+    private void listarContasIntent() {startActivity(new Intent(ConfiguracaoActivity.this, ContasActivity.class));}
 
-    private void listarContasIntent() {
-        startActivity(new Intent(ConfiguracaoActivity.this, ContasActivity.class));
-    }
+    //intent de usuario
+    private void editarUsuarioIntert() {startActivity(new Intent(ConfiguracaoActivity.this, EditarUsuarioActivity.class));}
 
-    private void editarUsuarioIntert() {
-        startActivity(new Intent(ConfiguracaoActivity.this, EditarUsuarioActivity.class));
-    }
-
+    //volto para o inicio
     @Override
-    public void onClick(View v) {
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(ConfiguracaoActivity.this, MainActivity.class));
-    }
+    public void onBackPressed() {startActivity(new Intent(ConfiguracaoActivity.this, MainActivity.class));}
 }

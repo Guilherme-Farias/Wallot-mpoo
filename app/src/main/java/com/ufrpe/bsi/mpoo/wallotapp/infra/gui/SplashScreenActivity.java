@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import com.ufrpe.bsi.mpoo.wallotapp.R;
 import com.ufrpe.bsi.mpoo.wallotapp.categoria.negocio.CategoriaServices;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.persistencia.DBFill;
+import com.ufrpe.bsi.mpoo.wallotapp.usuario.gui.LoginActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -19,9 +20,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        if (new CategoriaServices().getCategoria(1) == null) {
-            new DBFill().start();
-        }
+        if (new CategoriaServices().getCategoria(1) == null) {new DBFill().start();}
 
         new Handler().postDelayed(new Runnable() {
             @Override

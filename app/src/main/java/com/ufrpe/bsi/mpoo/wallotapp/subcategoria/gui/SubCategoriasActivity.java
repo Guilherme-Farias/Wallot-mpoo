@@ -23,53 +23,54 @@ import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
 import java.util.ArrayList;
 
 public class SubCategoriasActivity extends AppCompatActivity implements OnRecyclerListener {
-    RecyclerView mRecyclerView;
-    ArrayList<SubCategoria> subCategorias;
-    FloatingActionButton btnCriarSubCategoria;
+    private RecyclerView mRecyclerView;
+    private ArrayList<SubCategoria> subCategorias;
+    private FloatingActionButton btnCriarSubCategoria;
+    private Categoria categoria = SessaoCategoria.instance.getCategoria();
+    private Usuario usuario = SessaoUsuario.instance.getUsuario();
+    private SubCategoriaServices subCategoriaServices = new SubCategoriaServices();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_categorias);
-        final  Categoria categoria = SessaoCategoria.instance.getCategoria();
-        final Usuario usuario = SessaoUsuario.instance.getUsuario();
         getSupportActionBar().setTitle("Subcategorias");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.recyclerview_sub_categoria);
+        //pega itens
+        btnCriarSubCategoria = findViewById(R.id.nova_subcategoria_fab);
+
+        //cria recycler
+        mRecyclerView = findViewById(R.id.recyclerview_sub_categoria);
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(SubCategoriasActivity.this);
         mRecyclerView.setLayoutManager(llm);
 
-        subCategorias = new SubCategoriaServices().listarSubCategorias(usuario.getId(), categoria.getId());
+        //pega alista e coloca no banco
+        subCategorias = subCategoriaServices.listarSubCategorias(usuario.getId(), categoria.getId());
         RecyclerViewAdapterSubCategoria adapter = new RecyclerViewAdapterSubCategoria(SubCategoriasActivity.this, subCategorias, this);
         mRecyclerView.setAdapter(adapter);
 
-        btnCriarSubCategoria = findViewById(R.id.nova_subcategoria_fab);
+        //cria uma subcategoria
         btnCriarSubCategoria.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                SessaoSubCategoria.instance.reset();
-                startActivity(new Intent(SubCategoriasActivity.this, CrudSubCategoriaActivity.class));
+            public void onClick(View v) {crudSubcategoriaIntent();
             }
         });
-
-    }
-
-
-
-    @Override
-    public void onBackPressed(){
-        startActivity(new Intent(SubCategoriasActivity.this, CategoriasActivity.class));
     }
 
     @Override
     public void onClickRecycler(int position) {
         if(subCategorias.get(position).getFkUsuario() != 0){
             SessaoSubCategoria.instance.setSubCategoria(subCategorias.get(position));
-            startActivity(new Intent(SubCategoriasActivity.this, CrudSubCategoriaActivity.class));
-        } else {
-            Toast.makeText(SubCategoriasActivity.this, "Subcategoria padrão", Toast.LENGTH_LONG).show();
-        }
+            crudSubcategoriaIntent();
+        } else {showToast("Subcategoria padrão");}
     }
+
+    private void showToast(String s) {Toast.makeText(SubCategoriasActivity.this, s, Toast.LENGTH_LONG).show();}
+
+    private void crudSubcategoriaIntent() {startActivity(new Intent(SubCategoriasActivity.this, CrudSubCategoriaActivity.class));}
+
+    @Override
+    public void onBackPressed(){startActivity(new Intent(SubCategoriasActivity.this, CategoriasActivity.class));}
 }

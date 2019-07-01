@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ufrpe.bsi.mpoo.wallotapp.R;
-import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.Conta;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.OnRecyclerListener;
 import com.ufrpe.bsi.mpoo.wallotapp.subcategoria.dominio.SubCategoria;
 
@@ -29,11 +28,11 @@ public class RecyclerViewAdapterSubCategoria extends RecyclerView.Adapter<Recycl
         this.onRecyclerListener = onRecyclerListener;
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_categoria_sub, parent, false);
-        ViewHolder holder = new ViewHolder(view, onRecyclerListener);
-        return holder;
+        return new ViewHolder(view, onRecyclerListener);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class RecyclerViewAdapterSubCategoria extends RecyclerView.Adapter<Recycl
         OnRecyclerListener onRecyclerListener;
 
 
-        public ViewHolder(@NonNull View itemView, OnRecyclerListener onRecyclerListener) {
+        private ViewHolder(@NonNull View itemView, OnRecyclerListener onRecyclerListener) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imagem_categoria_sub_list);
             nome = itemView.findViewById(R.id.nome_categoria_sub_list);
@@ -69,6 +68,8 @@ public class RecyclerViewAdapterSubCategoria extends RecyclerView.Adapter<Recycl
             onRecyclerListener.onClickRecycler(getAdapterPosition());
         }
     }
+
+    //vai adicionar itens ao recycler
     public void addListItem(SubCategoria s, int position){
         subCategorias.add(s);
         notifyItemInserted(position);

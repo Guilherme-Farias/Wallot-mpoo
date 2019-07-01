@@ -1,5 +1,7 @@
 package com.ufrpe.bsi.mpoo.wallotapp.conta.dominio;
 
+import android.support.annotation.NonNull;
+
 import java.math.BigDecimal;
 
 public class Conta {
@@ -58,11 +60,17 @@ public class Conta {
         this.fkUsuario = fkUsuario;
     }
 
-
+    //add da Classe BigDecimal
     public void addSaldo(BigDecimal valor){
         this.saldo = this.saldo.add(valor);
     }
 
+    //substract da Classe Bidecimal
+    public void subtractSaldo(BigDecimal valor){
+        this.saldo = this.saldo.subtract(valor);
+    }
+
+    @NonNull
     @Override
     public String toString() {
         return this.nome;

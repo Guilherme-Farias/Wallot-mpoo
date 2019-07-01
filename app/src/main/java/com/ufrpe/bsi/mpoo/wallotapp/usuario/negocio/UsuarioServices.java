@@ -1,5 +1,7 @@
 package com.ufrpe.bsi.mpoo.wallotapp.usuario.negocio;
 
+import android.util.Log;
+
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.Conta;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.TipoConta;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.TipoEstadoConta;
@@ -14,57 +16,61 @@ import java.math.BigDecimal;
 public class UsuarioServices {
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
     private ContaDAO contaDAO = new ContaDAO();
+    private Usuario usuarioSessao = SessaoUsuario.instance.getUsuario();
 
+    //loga o usuario no sistema setando ele na sessão
     public void login(String email, String senha) throws WallotAppException{
         Usuario usuario = usuarioDAO.getUsuario(email, senha);
-        if(usuario == null){
-            throw new WallotAppException("Login inválido");
-        } else {
-            SessaoUsuario.instance.setUsuario(usuario);
-        }
+        if(usuario == null){throw new WallotAppException("Login inválido");
+        } else {SessaoUsuario.instance.setUsuario(usuario);}
     }
 
+    //reseta a Sessao
     public void logout(){
         SessaoUsuario sessaoUsuario = SessaoUsuario.instance;
         sessaoUsuario.reset();
     }
 
-    public Usuario cadastrar(Usuario usuario) throws WallotAppException{
+    public void cadastrar(Usuario usuario) throws WallotAppException{
         if(emailCadastrado(usuario) != null){
             throw new WallotAppException("Email já cadastrado");
         } else {
             long userId = usuarioDAO.cadastrar(usuario);
-            usuario.setId(userId);
-
-            Conta conta = new Conta();
-            conta.setNome("Carteira");
-            conta.setSaldo(new BigDecimal("0.00"));
-            conta.setTipoConta(TipoConta.DINHEIRO);
-            conta.setTipoEstadoConta(TipoEstadoConta.ATIVO);
-            conta.setFkUsuario(userId);
+            Conta conta = criaContaPadrao(userId);
             contaDAO.cadastraConta(conta);
         }
-        return usuario;
     }
 
+    //conotroi uma conta padrão e seta no usuario
+    private Conta criaContaPadrao(long userId) {
+        Conta conta = new Conta();
+        conta.setNome("Carteira");
+        conta.setSaldo(new BigDecimal("00.00"));
+        conta.setTipoConta(TipoConta.DINHEIRO);
+        conta.setTipoEstadoConta(TipoEstadoConta.ATIVO);
+        conta.setFkUsuario(userId);
+        return conta;
+    }
+
+
+    //verifica se o email já está cadastrado
     public Usuario emailCadastrado(Usuario usuario) {
         return this.usuarioDAO.getUsuario(usuario.getEmail());
     }
 
+    //altera todos os dados do usuario
     public void alterarDados(Usuario usuario){
-        Usuario usuarioSessao = SessaoUsuario.instance.getUsuario();
-        if (!usuario.getEmail().isEmpty() && usuario.getEmail() != usuarioSessao.getEmail()){
+        if (!usuario.getEmail().isEmpty() && !usuario.getEmail().equals(usuarioSessao.getEmail())){
             usuarioSessao.setEmail(usuario.getEmail());
             usuarioDAO.alterarEmail(usuarioSessao);
         }
-        if (!usuario.getNome().isEmpty() && usuario.getNome() != usuarioSessao.getNome()){
+        if (!usuario.getNome().isEmpty() && !usuario.getNome().equals(usuarioSessao.getNome())){
             usuarioSessao.setNome(usuario.getNome());
             usuarioDAO.alterarNome(usuarioSessao);
         }
-        if (!usuario.getSenha().isEmpty()&& usuario.getSenha() != usuarioSessao.getSenha()){
+        if (!usuario.getSenha().isEmpty() && !usuario.getSenha().equals(usuarioSessao.getSenha())){
             usuarioSessao.setSenha(usuario.getSenha());
             usuarioDAO.alterarSenha(usuarioSessao);
         }
     }
-
 }

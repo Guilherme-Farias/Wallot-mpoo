@@ -26,11 +26,11 @@ public class RecyclerViewAdapterConta extends RecyclerView.Adapter<RecyclerViewA
         this.onRecyclerListener = onRecyclerListener;
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_conta_list, parent, false);
-        ViewHolder holder = new ViewHolder(view, onRecyclerListener);
-        return holder;
+        return new ViewHolder(view, onRecyclerListener);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class RecyclerViewAdapterConta extends RecyclerView.Adapter<RecyclerViewA
         OnRecyclerListener onRecyclerListener;
 
 
-        public ViewHolder(@NonNull View itemView, OnRecyclerListener onRecyclerListener) {
+        private ViewHolder(@NonNull View itemView, OnRecyclerListener onRecyclerListener) {
             super(itemView);
             nome = itemView.findViewById(R.id.nome_conta_list);
             parentLayout = itemView.findViewById(R.id.layout_conta);
@@ -63,6 +63,8 @@ public class RecyclerViewAdapterConta extends RecyclerView.Adapter<RecyclerViewA
             onRecyclerListener.onClickRecycler(getAdapterPosition());
         }
     }
+
+    //ira adicionar itens no recycler
     public void addListItem(Conta c, int position){
         contas.add(c);
         notifyItemInserted(position);

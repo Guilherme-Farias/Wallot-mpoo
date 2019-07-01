@@ -15,13 +15,8 @@
         android:orientation="horizontal">
         <EditText
             android:text="Pesquise"
-            android:layout_width="180dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp" />
-        <TextView
-            android:text="filtro"
-            android:layout_width="20dp"
-            android:layout_height="50dp" />
-
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

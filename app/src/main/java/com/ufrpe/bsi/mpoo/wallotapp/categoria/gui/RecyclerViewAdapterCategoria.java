@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewAdapterCategoria extends RecyclerView.Adapter<RecyclerViewAdapterCategoria.ViewHolder>{
-    private ArrayList<Categoria> categorias;
     private Context context;
+    private ArrayList<Categoria> categorias;
     private OnRecyclerListener onRecyclerListener;
 
     public RecyclerViewAdapterCategoria(Context context, ArrayList<Categoria> categorias, OnRecyclerListener onRecyclerListener) {
@@ -27,12 +27,11 @@ public class RecyclerViewAdapterCategoria extends RecyclerView.Adapter<RecyclerV
         this.categorias = categorias;
         this.onRecyclerListener = onRecyclerListener;
     }
-
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_categoria_sub, parent, false);
-        ViewHolder holder = new ViewHolder(view, onRecyclerListener);
-        return holder;
+        return new ViewHolder(view, onRecyclerListener);
     }
 
     @Override
@@ -53,7 +52,7 @@ public class RecyclerViewAdapterCategoria extends RecyclerView.Adapter<RecyclerV
         OnRecyclerListener onRecyclerListener;
 
 
-        public ViewHolder(@NonNull View itemView, OnRecyclerListener onRecyclerListener) {
+        private ViewHolder(@NonNull View itemView, OnRecyclerListener onRecyclerListener) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imagem_categoria_sub_list);
             nome = itemView.findViewById(R.id.nome_categoria_sub_list);
@@ -68,6 +67,7 @@ public class RecyclerViewAdapterCategoria extends RecyclerView.Adapter<RecyclerV
             onRecyclerListener.onClickRecycler(getAdapterPosition());
         }
     }
+    //metodo que ira adicionar itens ao recycler
     public void addListItem(Categoria c, int position){
         categorias.add(c);
         notifyItemInserted(position);

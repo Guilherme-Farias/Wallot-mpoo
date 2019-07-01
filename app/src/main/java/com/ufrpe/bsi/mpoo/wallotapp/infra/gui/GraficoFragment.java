@@ -4,6 +4,7 @@ package com.ufrpe.bsi.mpoo.wallotapp.infra.gui;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -11,13 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import com.ufrpe.bsi.mpoo.wallotapp.R;
@@ -28,10 +27,8 @@ import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 
 
@@ -39,19 +36,25 @@ import java.util.Date;
  * A simple {@link Fragment} subclass.
  */
 public class GraficoFragment extends Fragment {
+    private Usuario usuario = SessaoUsuario.instance.getUsuario();
+    private ContaDAO contaDAO = new ContaDAO();
+    private TransacaoDAO transacaoDAO = new TransacaoDAO();
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
 
     public GraficoFragment() {
-        // Required empty public constructor
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_grafico, container, false);
 
-        LineChart mChart = (LineChart) view.findViewById(R.id.line_chart);
+        //ainda está sendo modificado(está com algumass falhas)
+
+        //pega dados do layout
+        LineChart mChart = view.findViewById(R.id.line_chart);
 
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(false);
@@ -85,31 +88,27 @@ public class GraficoFragment extends Fragment {
 
         //FORMATANDO AS DATAS PARA BUSCA
 
-        String strDate1 = new SimpleDateFormat("yyyyMMdd").format(date1);
-        String strDate2 = new SimpleDateFormat("yyyyMMdd").format(date2);
-        String strDate3 = new SimpleDateFormat("yyyyMMdd").format(date3);
-        String strDate4 = new SimpleDateFormat("yyyyMMdd").format(date4);
-        String strDate5 = new SimpleDateFormat("yyyyMMdd").format(date5);
-        String strDate6 = new SimpleDateFormat("yyyyMMdd").format(date6);
-        String strDate7 = new SimpleDateFormat("yyyyMMdd").format(date7);
+        String strDate1 = dateFormat.format(date1);
+        String strDate2 = dateFormat.format(date2);
+        String strDate3 = dateFormat.format(date3);
+        String strDate4 = dateFormat.format(date4);
+        String strDate5 = dateFormat.format(date5);
+        String strDate6 = dateFormat.format(date6);
+        String strDate7 = dateFormat.format(date7);
 
 
         //PEGANDO OS VALORES DO EIXO Y (SALDO) #######################
 
-        ContaDAO contaDAO = new ContaDAO();
-        TransacaoDAO transacaoDAO = new TransacaoDAO();
-
-        int saldo1 = contaDAO.getSaldoContas(SessaoUsuario.instance.getUsuario().getId()).intValue();
-        int saldo2 = transacaoDAO.getSaldoEntreDatas(SessaoUsuario.instance.getUsuario().getId(), strDate2, strDate1, new BigDecimal(saldo1)).intValue();
-        int saldo3 = transacaoDAO.getSaldoEntreDatas(SessaoUsuario.instance.getUsuario().getId(), strDate3, strDate2, new BigDecimal(saldo2)).intValue();
-        int saldo4 = transacaoDAO.getSaldoEntreDatas(SessaoUsuario.instance.getUsuario().getId(), strDate4, strDate3, new BigDecimal(saldo3)).intValue();
-        int saldo5 = transacaoDAO.getSaldoEntreDatas(SessaoUsuario.instance.getUsuario().getId(), strDate5, strDate4, new BigDecimal(saldo4)).intValue();
-        int saldo6 = transacaoDAO.getSaldoEntreDatas(SessaoUsuario.instance.getUsuario().getId(), strDate6, strDate5, new BigDecimal(saldo5)).intValue();
-        int saldo7 = transacaoDAO.getSaldoEntreDatas(SessaoUsuario.instance.getUsuario().getId(), strDate7, strDate6, new BigDecimal(saldo6)).intValue();
+        int saldo1 = contaDAO.getSaldoContas(usuario.getId()).intValue();
+        int saldo2 = transacaoDAO.getSaldoEntreDatas(usuario.getId(), strDate2, strDate1, new BigDecimal(saldo1)).intValue();
+        int saldo3 = transacaoDAO.getSaldoEntreDatas(usuario.getId(), strDate3, strDate2, new BigDecimal(saldo2)).intValue();
+        int saldo4 = transacaoDAO.getSaldoEntreDatas(usuario.getId(), strDate4, strDate3, new BigDecimal(saldo3)).intValue();
+        int saldo5 = transacaoDAO.getSaldoEntreDatas(usuario.getId(), strDate5, strDate4, new BigDecimal(saldo4)).intValue();
+        int saldo6 = transacaoDAO.getSaldoEntreDatas(usuario.getId(), strDate6, strDate5, new BigDecimal(saldo5)).intValue();
+        int saldo7 = transacaoDAO.getSaldoEntreDatas(usuario.getId(), strDate7, strDate6, new BigDecimal(saldo6)).intValue();
 
 
         //COLOCANDO VALORES NO GRÁFICO ###############################
-
         ArrayList<Entry> values = new ArrayList<>();
 
         values.add(new Entry(day7, saldo7));
@@ -122,20 +121,17 @@ public class GraficoFragment extends Fragment {
 
 
         //PERSONALIZANDO O EIXO X
-
         XAxis xAxis = mChart.getXAxis();
         xAxis.setTextColor(Color.parseColor("#00574B"));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextSize(12);
 
         //PERSONALIZANDO O EIXO Y
-
         YAxis yAxis = mChart.getAxisLeft();
         xAxis.setTextColor(Color.parseColor("#00574B"));
         yAxis.setTextSize(12);
 
         //PERSONALIZANDO A LINHA
-
         LineDataSet lineDataSet = new LineDataSet(values, "Histórico do Saldo");
         lineDataSet.setColor(Color.parseColor("#32B543"));
         lineDataSet.setLineWidth(5f);
@@ -144,13 +140,11 @@ public class GraficoFragment extends Fragment {
         lineDataSet.setCircleHoleColor(Color.parseColor("#32B543"));
 
         //PREENCHENDO O GRÁFICO
-
         Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.chart_gradient);
         lineDataSet.setDrawFilled(true);
         lineDataSet.setFillDrawable(drawable);
 
         //AJUSTES VISUAIS
-
         mChart.getLegend().setEnabled(false);
         mChart.getAxisRight().setEnabled(false);
         mChart.getXAxis().setDrawGridLines(false);
@@ -160,12 +154,10 @@ public class GraficoFragment extends Fragment {
         mChart.getAxisLeft().setAxisLineWidth(2.5f);
 
         //PLOTANDO O GRAFICO
-
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(lineDataSet);
 
         LineData data = new LineData(dataSets);
-
         mChart.setData(data);
 
         return view;

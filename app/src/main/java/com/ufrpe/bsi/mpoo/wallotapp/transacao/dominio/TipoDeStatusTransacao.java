@@ -1,5 +1,7 @@
 package com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio;
 
+import android.support.annotation.NonNull;
+
 public enum TipoDeStatusTransacao {
     CONSOLIDADO("Consolidado"),
     NAO_CONSOLIDADO("Não consolidado");
@@ -14,6 +16,7 @@ public enum TipoDeStatusTransacao {
         return descricao;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return this.descricao;
