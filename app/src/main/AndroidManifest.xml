@@ -5,26 +5,16 @@
     <application
         android:name=".infra.app.WallotApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icone_app_wallot"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/icone_app_wallot"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".transacao.gui.TransacaoActivity"></activity>
-        <activity android:name=".subcategoria.gui.SubCategoriasActivity" />
-        <activity android:name=".categoria.gui.CategoriasActivity" />
-        <activity android:name=".conta.gui.ContasActivity" />
-        <activity android:name=".conta.gui.CrudContaActivity" />
-        <activity android:name=".usuario.gui.EditarUsuarioActivity" />
+        <activity android:name=".transacao.gui.ParcelasDaTransacaoActivity"></activity>
+        <activity android:name=".transacao.gui.CrudParcelaActivity" />
+        <activity android:name=".subcategoria.gui.CrudSubCategoriaActivity" />
         <activity
-            android:name=".infra.gui.RegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".infra.gui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".infra.gui.ConfiguracaoActivity" />
-        <activity
-            android:name=".infra.gui.LoginActivity"
+            android:name=".infra.gui.SplashScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,6 +22,36 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".transacao.gui.TransacaoActivity"
+            android:parentActivityName=".infra.gui.MainActivity" />
+        <activity
+            android:name=".subcategoria.gui.SubCategoriasActivity"
+            android:parentActivityName=".categoria.gui.CategoriasActivity" />
+        <activity
+            android:name=".categoria.gui.CategoriasActivity"
+            android:parentActivityName=".infra.gui.ConfiguracaoActivity" />
+        <activity
+            android:name=".conta.gui.ContasActivity"
+            android:parentActivityName=".infra.gui.ConfiguracaoActivity" />
+        <activity
+            android:name=".conta.gui.CrudContaActivity"
+            android:parentActivityName=".conta.gui.ContasActivity" />
+        <activity
+            android:name=".usuario.gui.EditarUsuarioActivity"
+            android:parentActivityName=".infra.gui.ConfiguracaoActivity" />
+        <activity
+            android:name=".usuario.gui.RegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".infra.gui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".infra.gui.ConfiguracaoActivity"
+            android:parentActivityName=".infra.gui.MainActivity" />
+        <activity
+            android:name=".usuario.gui.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

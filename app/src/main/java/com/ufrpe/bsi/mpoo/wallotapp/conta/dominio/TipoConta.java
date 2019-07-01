@@ -1,7 +1,10 @@
 package com.ufrpe.bsi.mpoo.wallotapp.conta.dominio;
 
+import android.support.annotation.NonNull;
+
 public enum TipoConta {
-    DINHEIRO("Dinheiro");
+    DINHEIRO("Dinheiro"),
+    CREDITO("Cartão de crédito");
 
     private final String descricao;
 
@@ -9,10 +12,7 @@ public enum TipoConta {
         this.descricao = descricao;
     }
 
-    public String getDescricao() {
-        return descricao;
-    }
-
+    @NonNull
     @Override
     public String toString() {
         return this.descricao;

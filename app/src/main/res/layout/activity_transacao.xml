@@ -6,18 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".transacao.gui.TransacaoActivity">
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/tipo_transacao_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Descrição da transação"
             android:fontFamily="@font/bold"
-            android:textSize="20dp"/>
+            android:text="Descrição da transação"
+            android:textSize="20dp" />
         <EditText
             android:id="@+id/descricao_transacao"
             android:layout_width="match_parent"

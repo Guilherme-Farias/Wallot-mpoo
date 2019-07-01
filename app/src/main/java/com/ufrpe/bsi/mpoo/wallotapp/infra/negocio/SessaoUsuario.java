@@ -7,7 +7,6 @@ import java.util.Map;
 
 public class SessaoUsuario {
     public static final SessaoUsuario instance = new SessaoUsuario();
-
     private Map<String, Object> values = new HashMap<>();
 
 

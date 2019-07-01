@@ -1,4 +1,4 @@
-package com.ufrpe.bsi.mpoo.wallotapp.infra.gui;
+package com.ufrpe.bsi.mpoo.wallotapp.usuario.gui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ufrpe.bsi.mpoo.wallotapp.R;
-import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoUsuario;
 import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
 import com.ufrpe.bsi.mpoo.wallotapp.usuario.negocio.UsuarioServices;
 
@@ -25,13 +24,16 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        //pega itens
         editNome = findViewById(R.id.edittext_nome_cadastro);
         editEmail = findViewById(R.id.edittext_email_cadastro);
-        editSenha = findViewById(R.id.edittext_confirmar_senha_cadastro);
+        editSenha = findViewById(R.id.edittext_senha_cadastro);
         editConfirmarSenha = findViewById(R.id.edittext_confirmar_senha_cadastro);
         textIntentLogin = findViewById(R.id.textview_logar);
         cadastroButton = findViewById(R.id.cadastrar_button);
 
+        //começa processo de cadastro
         cadastroButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        //vai para o login
         textIntentLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,35 +51,46 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void loginIntent() {
-        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-    }
-
+    //cadastra o usuario
     private void cadastrar(){
-        String nome = editNome.getText().toString();
-        String email = editEmail.getText().toString();
-        String senha = editSenha.getText().toString();
-        String confirmarSenha = editConfirmarSenha.getText().toString();
-        if(validateFields(nome, email, senha, confirmarSenha)){
-            Usuario usuario = new Usuario(nome,email,senha);
+        if(validateFields()){
+            Usuario usuario = criaUsuario();
             try {
                 usuarioServices.cadastrar(usuario);
-                SessaoUsuario.instance.setUsuario(usuario);
                 loginIntent();
             } catch (Exception e){
-                Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                showExceptionToast(e);
             }
         }
 
     }
 
-    private boolean validateFields(String nome, String email, String senha, String confirmarSenha){
+    //controi um objeto usuario
+    private Usuario criaUsuario() {
+        Usuario usuario = new Usuario();
+        usuario.setNome(editNome.getText().toString());
+        usuario.setEmail(editEmail.getText().toString());
+        usuario.setSenha(editSenha.getText().toString());
+        return usuario;
+    }
+
+    //validador de campos
+    private boolean validateFields(){
+        //pega valores dos itens
+        String nome = editNome.getText().toString();
+        String email = editEmail.getText().toString();
+        String senha = editSenha.getText().toString();
+        String confirmarSenha = editConfirmarSenha.getText().toString();
+
+        //reseta erros
         boolean res = true;
         editEmail.setError(null);
         editSenha.setError(null);
         editSenha.setError(null);
         editConfirmarSenha.setError(null);
         View focusView = null;
+
+        //valida nome
         if (nome.isEmpty()){
             editNome.setError("Campo obrigatório");
             focusView = editNome;
@@ -86,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
             focusView = editNome;
             res = false;
         }
+        //valida senhas
         if (senha.isEmpty()){
             editSenha.setError("Campo obrigatório");
             focusView = editSenha;
@@ -99,6 +114,8 @@ public class RegisterActivity extends AppCompatActivity {
             focusView = editSenha;
             res = false;
         }
+
+        //valida email
         if(email.isEmpty()){
             editEmail.setError("Campo obrigatório");
             focusView = editEmail;
@@ -111,19 +128,25 @@ public class RegisterActivity extends AppCompatActivity {
         return res;
     }
 
-    private boolean validateEqualsPassword(String senha, String confirmarSenha) {
-        return senha.equals(confirmarSenha);
-    }
+    //valida se as senhas são iguais
+    private boolean validateEqualsPassword(String senha, String confirmarSenha) {return senha.equals(confirmarSenha);}
 
-    private boolean validateEmail(String email) {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
+    //valida email pelo patterns
+    private boolean validateEmail(String email) {return Patterns.EMAIL_ADDRESS.matcher(email).matches();}
 
-    private boolean validatePassword(String senha) {
-        return senha.length() > 5;
-    }
+    //valida tamanho da senha
+    private boolean validatePassword(String senha) {return senha.length() > 5;}
 
-    private boolean validateName (String nome) {
-        return nome.matches("^[a-zA-ZÁÂÃÀÇÉÊÍÓÔÕÚÜáâãàçéêíóôõúü ]*$");
-    }
+    //verifica se o nome tem caracteres especiais
+    private boolean validateName (String nome) {return nome.matches("^[a-zA-ZÁÂÃÀÇÉÊÍÓÔÕÚÜáâãàçéêíóôõúü ]*$");}
+
+    //vai para o login
+    private void loginIntent() {startActivity(new Intent(RegisterActivity.this, LoginActivity.class));}
+
+    //Toast do Exception
+    private void showExceptionToast(Exception e) {Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();}
+
+    //volta para o login
+    @Override
+    public void onBackPressed() {loginIntent();}
 }

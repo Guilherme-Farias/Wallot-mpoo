@@ -1,5 +1,7 @@
 package com.ufrpe.bsi.mpoo.wallotapp.conta.dominio;
 
+import android.support.annotation.NonNull;
+
 public enum TipoEstadoConta {
     ATIVO("Ativo"),
     INATIVO("Inativo");
@@ -10,10 +12,7 @@ public enum TipoEstadoConta {
         this.descricao = descricao;
     }
 
-    public String getDescricao() {
-        return descricao;
-    }
-
+    @NonNull
     @Override
     public String toString() {
         return this.descricao;

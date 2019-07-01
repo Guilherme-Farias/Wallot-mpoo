@@ -7,8 +7,6 @@ import java.util.Map;
 
 public class SessaoSubCategoria {
     public static final SessaoSubCategoria instance = new SessaoSubCategoria();
-
-
     private Map<String, Object> values = new HashMap<>();
 
     public SubCategoria getSubCategoria(){return (SubCategoria) values.get("sessao.SubCategoria");}

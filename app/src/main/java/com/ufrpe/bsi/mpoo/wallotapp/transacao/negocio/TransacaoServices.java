@@ -1,94 +1,210 @@
 package com.ufrpe.bsi.mpoo.wallotapp.transacao.negocio;
 
-import android.widget.Toast;
+import android.util.Log;
 
-import com.ufrpe.bsi.mpoo.wallotapp.categoria.dominio.Categoria;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.Conta;
-import com.ufrpe.bsi.mpoo.wallotapp.conta.negocio.ContaServices;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.persistencia.ContaDAO;
-import com.ufrpe.bsi.mpoo.wallotapp.infra.app.WallotApp;
-import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoCategoria;
-import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoConta;
-import com.ufrpe.bsi.mpoo.wallotapp.subcategoria.dominio.SubCategoria;
+import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoParcela;
+import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoTransacao;
+import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.WallotAppException;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.Parcela;
+import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.TipoDeStatusTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.TipoTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.Transacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.persistencia.TransacaoDAO;
+import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class TransacaoServices {
-    SimpleDateFormat padraoData = new SimpleDateFormat("dd/MM/yyyy");
-    TransacaoDAO transacaoDAO = new TransacaoDAO();
-    ContaDAO contaDAO = new ContaDAO();
+    private SimpleDateFormat padraoData = new SimpleDateFormat("dd/MM/yyyy");
+    private TransacaoDAO transacaoDAO = new TransacaoDAO();
+    private ContaDAO contaDAO = new ContaDAO();
+    private Transacao transacao = SessaoTransacao.instance.getTransacao();
+    private Parcela parcelaSessao = SessaoParcela.instance.getParcela();
 
-    /*public spnCategoria.ArrayList<TipoTransacao> listarSubCategorias(long id) {
-        retutn trasaccaoDAO.Parcelas
-    }*/
-
-    public ArrayList<TipoTransacao> listarTiposConta(){
+    //lista se é receita/despesa/transferencia
+    public ArrayList<TipoTransacao> listarTiposTransacao(){
         return transacaoDAO.getTiposTransacao();
     }
 
-    public void cadastrarTransacao(Transacao transacao, String strData) {
-        final Conta conta = SessaoConta.instance.getConta();
-        TransacaoDAO transacaoDAO = new TransacaoDAO();
-        long res = transacaoDAO.cadastrarTransacao(transacao);
+    //cadastra transacao e suas parcelas
+    public void cadastrarTransacao(String strData) {
+        transacao = SessaoTransacao.instance.getTransacao();
+        long idTransacao = transacaoDAO.cadastrarTransacao(transacao);
+        Conta conta = contaDAO.getConta(transacao.getFkConta());
+        Parcela parcela = criaPrimeiraParcela(strData, idTransacao);
+        transacaoDAO.cadastrarParcela(parcela);
+        conta.addSaldo(parcela.getValorParcela());
+        contaDAO.alterarSaldo(conta);
+         if(transacao.getQntParcelas()>1) {
+            parcela.setTipoDeStatusTransacao(TipoDeStatusTransacao.NAO_CONSOLIDADO);
+            parcela.setValorParcela(getValorParcela(false));
+            for (long nParcela = 2; nParcela <= transacao.getQntParcelas(); nParcela++) {
+                parcela.setNumeroParcela(nParcela);
+                parcela.setDataTransacao(getProxMesParcela(parcela));
+                transacaoDAO.cadastrarParcela(parcela);
+            }
+        }
+    }
+
+
+
+
+    //pega o proximo mes de cada parcela a mais em uma transacao
+    private Date getProxMesParcela(Parcela parcela) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(parcela.getDataTransacao());
+        c.add(Calendar.MONTH, 1);
+        return c.getTime();
+    }
+
+    //pega o valor da primeira parcela ou da segunda parcela
+    private BigDecimal getValorParcela(boolean isPrimeiraParcela) {
+        BigDecimal[] valoresParcelas = getValoresParcelas();
+        BigDecimal valorParcela = valoresParcelas[0];
+        if(isPrimeiraParcela){
+            valorParcela = valorParcela.add(valoresParcelas[1]);
+        }
+        return valorParcela.divide(new BigDecimal("100.00"));
+    }
+
+    //faz as divisoes nas parcelas para ver se sobra resto e já põe o valor de multiplicado (positivo ou negativo)
+    private BigDecimal[] getValoresParcelas() {
+        BigDecimal multiplicador = new BigDecimal(transacao.getTipoTransacao().getMultiplicador());
+        BigDecimal valorTotal = transacao.getValor().multiply(multiplicador);
+        BigDecimal nParcelas = new BigDecimal(transacao.getQntParcelas());
+        return (valorTotal.multiply(new BigDecimal("100.00"))).divideAndRemainder(nParcelas);
+    }
+
+    //construtor da primeira parcela
+    private Parcela criaPrimeiraParcela(String strData, long idTransacao) {
         Parcela parcela = new Parcela();
-        parcela.setFkTransacao(res);
-        parcela.setNumeroParcela(1);
+        parcela.setTipoDeStatusTransacao(TipoDeStatusTransacao.CONSOLIDADO);
         parcela.setDataTransacao(pegarDateFormat(strData));
-        if (transacao.getQntParcelas() == 1){
-            parcela.setValorParcela(transacao.getValor());
-            transacaoDAO.cadastrarParcela(parcela);
-            BigDecimal valorConta = conta.getSaldo();
-            BigDecimal multiplicador = new BigDecimal(transacao.getTipoTransacao().getMultiplicador());
-            BigDecimal valorTransacao = transacao.getValor();
-            BigDecimal b = valorConta.add(valorTransacao.multiply(multiplicador));
-            conta.setSaldo(b);
-            contaDAO.alterarSaldo(conta);
-
-
-        } else {
-            //cadastra varias
-        }
-        /*transacaoDAO.cadastrarTransacao(transacao, strData);*/
-
-
-
-
+        parcela.setNumeroParcela(1);
+        parcela.setFkTransacao(idTransacao);
+        parcela.setValorParcela(getValorParcela(true));
+        return parcela;
     }
 
+    //pega o valor da data de string e devolve como Date
     private Date pegarDateFormat(String strData) {
+        Date data = null;
         try {
-            Date data = padraoData.parse(strData);
-            return data;
+            data = padraoData.parse(strData);
         } catch (Exception e){
-            Toast.makeText(WallotApp.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            new WallotAppException("Data errada:", e);
         }
-        return null;
+        return data;
     }
 
-    public ArrayList<Transacao> listarTransacaoPorData(long idUsuario){
-        ArrayList<Transacao> contas = transacaoDAO.getTransacaosPorData(idUsuario);
-        return contas;
+    //lista as parcelas(ainda em desenvolvimento)
+    public ArrayList<Parcela> listarParcelasPorData(long idUsuario){
+        return transacaoDAO.getParcelasPorData(idUsuario);
     }
-    /*public ArrayList<Transacao> listarTransacaoPorCategoria(long idUsuario, long idTransacao){
-        ArrayList<Transacao> contas = transacaoDAO.getTransacaosPorCategoria(idUsuario);
-        return contas;
+
+    //pega uma transacão pelo id da transacao
+    public Transacao getTransacao(long idTransacao) {
+        return transacaoDAO.getTransacao(idTransacao);
     }
-    public ArrayList<Transacao> listarTransacaoPorSubCategoria(long idUsuario, long idTransacao){
-        ArrayList<Transacao> contas = transacaoDAO.getTransacaosPorSubCategoria(idUsuario);
-        return contas;
+
+    //altera todos os dados
+    public void editarParcela(Parcela novaParcela) {
+        Conta conta = contaDAO.getConta(transacao.getFkConta());
+        if(!parcelaSessao.getValorParcela().equals(novaParcela.getValorParcela())) {
+            alterarSaldo(novaParcela, conta);
+        } else if(!(parcelaSessao.getTipoDeStatusTransacao().equals(novaParcela.getTipoDeStatusTransacao()))){
+            alterarStatus(novaParcela, conta);
+        }
+        if(!parcelaSessao.getDataTransacao().equals(novaParcela.getDataTransacao())){
+            alterarData(novaParcela);
+        }
     }
-    public ArrayList<Transacao> listarTransacaoPorTipoTransacao(long idUsuario, long idTransacao){
-        ArrayList<Transacao> contas = transacaoDAO.getTransacaosPorTipoTransacao(idUsuario);
-        return contas;
-    }*/
 
+    //vai alterar a data da parcela
+    private void alterarData(Parcela novaParcela) {
+        parcelaSessao.setDataTransacao(novaParcela.getDataTransacao());
+        transacaoDAO.alteraDataParcela(parcelaSessao);
+    }
 
+    //vai alterar o status da parcela
+    private void alterarStatus(Parcela novaParcela, Conta conta) {
+        parcelaSessao.setTipoDeStatusTransacao(novaParcela.getTipoDeStatusTransacao());
+        if (isConsolidado(parcelaSessao)){
+            conta.addSaldo(novaParcela.getValorParcela());
+        } else{
+            conta.subtractSaldo(novaParcela.getValorParcela());
+        }
+        contaDAO.alterarSaldo(conta);
+        transacaoDAO.alteraStatusParcela(parcelaSessao);
+    }
 
+    //altera o saldo(ele ve todas as possibilidades e altera de acordo com elas
+    private void alterarSaldo(Parcela novaParcela, Conta conta) {
+        if (isConsolidado(parcelaSessao) && isConsolidado(novaParcela)) {
+            BigDecimal variacao = novaParcela.getValorParcela().subtract(parcelaSessao.getValorParcela());
+            conta.addSaldo(variacao);
+        } else if (isConsolidado(parcelaSessao) && !isConsolidado(novaParcela)) {
+            conta.subtractSaldo(parcelaSessao.getValorParcela());
+            parcelaSessao.setTipoDeStatusTransacao(TipoDeStatusTransacao.NAO_CONSOLIDADO);
+            transacaoDAO.alteraStatusParcela(parcelaSessao);
+        } else if (!isConsolidado(parcelaSessao) && isConsolidado(novaParcela)){
+            conta.addSaldo(novaParcela.getValorParcela());
+            parcelaSessao.setTipoDeStatusTransacao(TipoDeStatusTransacao.CONSOLIDADO);
+            transacaoDAO.alteraStatusParcela(parcelaSessao);
+        }
+        contaDAO.alterarSaldo(conta);
+        parcelaSessao.setValorParcela(novaParcela.getValorParcela());
+        transacaoDAO.alteraValorParcela(parcelaSessao);
+    }
+
+    private boolean isConsolidado(Parcela p){
+        return p.getTipoDeStatusTransacao() == TipoDeStatusTransacao.CONSOLIDADO;
+    }
+
+    //deleta a parcela
+    public void deletarParcela(Parcela parcela){
+        if (isConsolidado(parcela)){
+            Conta conta = contaDAO.getConta(transacao.getFkConta());
+            conta.subtractSaldo(parcela.getValorParcela());
+            contaDAO.alterarSaldo(conta);
+        }
+        transacaoDAO.deletarParcela(parcela);
+        if (transacao.getQntParcelas() == 1){
+            transacaoDAO.deletarTransacao(transacao);
+        } else {
+            transacao.setQntParcelas(transacao.getQntParcelas() - 1);
+            transacaoDAO.alteraQntParcela(transacao);
+        }
+    }
+
+    //lista toda as parcelas desta Transacao
+    public ArrayList<Parcela> listarParcelasTransacao(long idTransacao) {
+        return transacaoDAO.getParcelasDaTransacao(idTransacao);
+    }
+
+    //pega o valor total da transacao(futuramente pegará 3 valores(valores pagos/valor esperado inicial/valor esperedo atual)
+    public BigDecimal[] getValorTotalTransacao(long idTransacao) {
+        return transacaoDAO.getValorTotalTransacao(idTransacao);
+    }
+
+    public void cadastraParcela(Parcela parcela) {
+        Conta conta = contaDAO.getConta(transacao.getFkConta());
+        conta.addSaldo(parcela.getValorParcela());
+        contaDAO.alterarSaldo(conta);
+        transacaoDAO.cadastrarParcela(parcela);
+        transacao.setQntParcelas(transacao.getQntParcelas() + 1);
+        transacaoDAO.alteraQntParcela(transacao);
+
+    }
+
+    //será utilizado para pegar os ultimos valores pela data
+    public ArrayList<Parcela> getParcelasPelaData(long idUsuario, String date) {
+        return transacaoDAO.getUltimasParcelas(idUsuario, Integer.parseInt(date));
+    }
 }

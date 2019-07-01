@@ -6,10 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SessaoTransacao {
-
     public static final SessaoTransacao instance = new SessaoTransacao();
-
-
     private Map<String, Object> values = new HashMap<>();
 
     public Transacao getTransacao(){return (Transacao) values.get("sessao.Transacao");}
