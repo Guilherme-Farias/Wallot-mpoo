@@ -41,16 +41,16 @@ public class InicioFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_inicio, container, false);
 
         //pega itens do layout
-        FloatingActionButton fab_1 = view.findViewById(R.id.nova_receita);
-        FloatingActionButton fab_2 = view.findViewById(R.id.nova_despesa);
-        FloatingActionButton fab_3 = view.findViewById(R.id.nova_transferencia);
+        FloatingActionButton fabReceita = view.findViewById(R.id.nova_receita);
+        FloatingActionButton fabDespesa = view.findViewById(R.id.nova_despesa);
+        FloatingActionButton fabTransferencia = view.findViewById(R.id.nova_transferencia);
         TextView valorTotalConta = view.findViewById(R.id.saldo_total_inicio);
 
         //pega o saldo de todas as contas do usuario e mostra aqui
         valorTotalConta.setText(getSaldoContas());
 
         //vai fazer uma nova receita
-        fab_1.setOnClickListener(new View.OnClickListener() {
+        fabDespesa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showToast("Nova receita");
@@ -58,7 +58,7 @@ public class InicioFragment extends Fragment {
             }
         });
         //vai fazer uma nova despesa
-        fab_2.setOnClickListener(new View.OnClickListener() {
+        fabDespesa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showToast("Nova despesa");
@@ -66,7 +66,7 @@ public class InicioFragment extends Fragment {
             }
         });
         //vai fazer uma nova transferencia
-        fab_3.setOnClickListener(new View.OnClickListener() {
+        fabTransferencia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showToast("Nova tranferência");
