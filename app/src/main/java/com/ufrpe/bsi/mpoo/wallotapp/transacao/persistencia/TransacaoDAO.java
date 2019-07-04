@@ -22,7 +22,7 @@ public class TransacaoDAO {
 
     //pega tipos de tranção enum
     public ArrayList<TipoTransacao> getTiposTransacao(){
-        ArrayList<TipoTransacao> tiposTransacao = new ArrayList<TipoTransacao>();
+        ArrayList<TipoTransacao> tiposTransacao = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String query = "SELECT * FROM "+ DBHelper.TABELA_TIPO_TRANSACAO;
         Cursor cursor = db.rawQuery(query, null);
@@ -308,4 +308,5 @@ public class TransacaoDAO {
         db.execSQL(sql);
         db.close();
     }
+
 }

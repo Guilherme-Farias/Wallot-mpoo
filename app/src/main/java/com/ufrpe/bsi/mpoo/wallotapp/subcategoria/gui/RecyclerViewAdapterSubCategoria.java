@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RecyclerViewAdapterSubCategoria extends RecyclerView.Adapter<RecyclerViewAdapterSubCategoria.ViewHolder>{
+public class RecyclerViewAdapterSubCategoria extends RecyclerView.Adapter<RecyclerViewAdapterSubCategoria.SubCategoriaViewHolder>{
     private ArrayList<SubCategoria> subCategorias;
     private Context context;
     private OnRecyclerListener onRecyclerListener;
@@ -30,13 +30,13 @@ public class RecyclerViewAdapterSubCategoria extends RecyclerView.Adapter<Recycl
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+    public SubCategoriaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_categoria_sub, parent, false);
-        return new ViewHolder(view, onRecyclerListener);
+        return new SubCategoriaViewHolder(view, onRecyclerListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SubCategoriaViewHolder holder, int position) {
         holder.imageView.setImageDrawable(subCategorias.get(position).byteArrayToDrawable(subCategorias.get(position).getIcone()));
         holder.nome.setText(subCategorias.get(position).getNome());
     }
@@ -46,14 +46,14 @@ public class RecyclerViewAdapterSubCategoria extends RecyclerView.Adapter<Recycl
         return subCategorias.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class SubCategoriaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         CircleImageView imageView;
         TextView nome;
         RelativeLayout parentLayout;
         OnRecyclerListener onRecyclerListener;
 
 
-        private ViewHolder(@NonNull View itemView, OnRecyclerListener onRecyclerListener) {
+        private SubCategoriaViewHolder(@NonNull View itemView, OnRecyclerListener onRecyclerListener) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imagem_categoria_sub_list);
             nome = itemView.findViewById(R.id.nome_categoria_sub_list);

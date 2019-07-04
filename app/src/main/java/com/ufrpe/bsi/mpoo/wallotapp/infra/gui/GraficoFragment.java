@@ -43,6 +43,7 @@ public class GraficoFragment extends Fragment {
 
 
     public GraficoFragment() {
+        // Required empty public constructor
     }
 
 

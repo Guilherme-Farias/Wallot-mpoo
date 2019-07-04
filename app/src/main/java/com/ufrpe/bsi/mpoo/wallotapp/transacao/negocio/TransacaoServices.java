@@ -1,7 +1,5 @@
 package com.ufrpe.bsi.mpoo.wallotapp.transacao.negocio;
 
-import android.util.Log;
-
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.Conta;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.persistencia.ContaDAO;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoParcela;
@@ -12,7 +10,6 @@ import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.TipoDeStatusTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.TipoTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.Transacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.persistencia.TransacaoDAO;
-import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;

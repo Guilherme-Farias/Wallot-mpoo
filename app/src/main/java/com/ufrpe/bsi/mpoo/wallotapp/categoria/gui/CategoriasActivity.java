@@ -19,13 +19,13 @@ import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
 import java.util.ArrayList;
 
 public class CategoriasActivity extends AppCompatActivity implements OnRecyclerListener {
-    private RecyclerView mRecyclerView;
     private ArrayList<Categoria> categorias;
     private Usuario usuario = SessaoUsuario.instance.getUsuario();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RecyclerView mRecyclerView;
         setContentView(R.layout.activity_categorias);
         getSupportActionBar().setTitle("Categorias");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

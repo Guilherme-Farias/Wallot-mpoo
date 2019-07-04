@@ -15,13 +15,11 @@ public class CategoriaServices {
 
     //cadastra as categorias do usuario(ainda não disponibilizado para o usuario)
     public long cadastrar(Categoria categoria) {
-        long res = categoriaDAO.cadastrar(categoria);
-        return res;
+        return categoriaDAO.cadastrar(categoria);
     }
     //pre cadastra as nossas categorias já selecionadas
     public long cadastroInicial(Categoria categoria) {
-        long res = categoriaDAO.cadastroInicial(categoria);
-        return res;
+        return categoriaDAO.cadastroInicial(categoria);
     }
 
     //pega todas as categorias do usuario menos a categoria "Sem categoria"

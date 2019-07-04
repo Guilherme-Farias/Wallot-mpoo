@@ -1,8 +1,5 @@
 package com.ufrpe.bsi.mpoo.wallotapp.conta.negocio;
 
-
-import android.util.Log;
-
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.Conta;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.TipoConta;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.persistencia.ContaDAO;

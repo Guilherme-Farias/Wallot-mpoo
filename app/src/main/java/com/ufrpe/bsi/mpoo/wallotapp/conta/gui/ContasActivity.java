@@ -33,7 +33,7 @@ public class ContasActivity extends AppCompatActivity implements OnRecyclerListe
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Cria recycler
-        mRecyclerView = (RecyclerView)findViewById(R.id.recyclerview_conta);
+        mRecyclerView = findViewById(R.id.recyclerview_conta);
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(ContasActivity.this);
         mRecyclerView.setLayoutManager(llm);

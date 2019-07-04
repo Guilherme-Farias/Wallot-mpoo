@@ -24,16 +24,18 @@ import com.ufrpe.bsi.mpoo.wallotapp.usuario.negocio.UsuarioServices;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
     private UsuarioServices usuarioServices = new UsuarioServices();
     private NavigationView navigationView;
     private Usuario usuario =  SessaoUsuario.instance.getUsuario();
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActionBarDrawerToggle drawerToggle;
+        Toolbar toolbar;
+
         //pega itens do layout
         toolbar = findViewById(R.id.toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);

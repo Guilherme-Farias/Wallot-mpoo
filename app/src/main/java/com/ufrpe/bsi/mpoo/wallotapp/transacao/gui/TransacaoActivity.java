@@ -44,7 +44,10 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
     private ImageView imageTipo;
     private Usuario usuario = SessaoUsuario.instance.getUsuario();
     private ContaServices contaServices = new ContaServices();
-    private Spinner spnConta, spnCategoria, spnTipoTransacao, spnSubCategorias;
+    private Spinner spnConta;
+    private Spinner spnCategoria;
+    private Spinner spnTipoTransacao;
+    private Spinner spnSubCategorias;
     private SimpleDateFormat formatdate = new SimpleDateFormat("dd/MM/yyyy");
     private CategoriaServices categoriaServices = new CategoriaServices();
     private SubCategoriaServices subCategoriaServices = new SubCategoriaServices();

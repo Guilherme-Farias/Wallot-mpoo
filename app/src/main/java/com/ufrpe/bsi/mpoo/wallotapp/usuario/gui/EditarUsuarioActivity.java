@@ -16,8 +16,9 @@ import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
 import com.ufrpe.bsi.mpoo.wallotapp.usuario.negocio.UsuarioServices;
 
 public class EditarUsuarioActivity extends AppCompatActivity {
-    private EditText editNome,editEmail,editSenha;
-    private Button btnSalvar;
+    private EditText editNome;
+    private EditText editEmail;
+    private EditText editSenha;
     private Usuario usuario = SessaoUsuario.instance.getUsuario();
     private UsuarioServices usuarioServices = new UsuarioServices();
 
@@ -27,6 +28,8 @@ public class EditarUsuarioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editar_usuario);
         getSupportActionBar().setTitle("Editar Usuário");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Button btnSalvar;
 
         //pega itens
         editNome = findViewById(R.id.edit_nome_alterar);

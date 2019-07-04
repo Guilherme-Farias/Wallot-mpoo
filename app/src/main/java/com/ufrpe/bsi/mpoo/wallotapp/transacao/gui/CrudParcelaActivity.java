@@ -37,7 +37,6 @@ public class CrudParcelaActivity extends AppCompatActivity implements DatePicker
     private EditText valorParcela;
     private CheckBox checkConsolidado;
     private TextView dataStr;
-    private Button btnSalvar, btnExluir;
     private SimpleDateFormat formatdate = new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
@@ -46,6 +45,9 @@ public class CrudParcelaActivity extends AppCompatActivity implements DatePicker
         setContentView(R.layout.activity_crud_parcela);
         getSupportActionBar().setTitle("Criar parcela");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Button btnSalvar;
+        Button btnExluir;
 
         //pega itens do layout
         checkConsolidado = findViewById(R.id.consolidado_parcela_crud);

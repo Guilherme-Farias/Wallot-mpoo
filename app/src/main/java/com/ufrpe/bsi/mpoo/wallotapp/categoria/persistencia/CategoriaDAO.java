@@ -3,7 +3,6 @@ package com.ufrpe.bsi.mpoo.wallotapp.categoria.persistencia;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.ufrpe.bsi.mpoo.wallotapp.categoria.dominio.Categoria;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.persistencia.DBHelper;

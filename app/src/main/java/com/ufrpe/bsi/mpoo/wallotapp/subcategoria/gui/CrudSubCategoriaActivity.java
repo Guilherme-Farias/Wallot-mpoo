@@ -28,7 +28,6 @@ import java.util.ArrayList;
 public class CrudSubCategoriaActivity extends AppCompatActivity {
     private Spinner spnCategoriaPai;
     private EditText editNome;
-    private Button btnSalvar, btnExcluir;
     private Usuario usuario = SessaoUsuario.instance.getUsuario();
     private Categoria categoria = SessaoCategoria.instance.getCategoria();
     private SubCategoria subCategoria = SessaoSubCategoria.instance.getSubCategoria();
@@ -38,6 +37,8 @@ public class CrudSubCategoriaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Button btnSalvar;
+        Button btnExcluir;
         setContentView(R.layout.activity_crud_sub_categoria);
         getSupportActionBar().setTitle("Criar Subcategoria");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -125,7 +126,7 @@ public class CrudSubCategoriaActivity extends AppCompatActivity {
 
     //salva subcategoria
     private void salvarSubcategoria() {
-        if(ValidateField()){
+        if(validateField()){
             Categoria categoria = (Categoria) spnCategoriaPai.getSelectedItem();
             SubCategoria subCategoriaEditada = criaSubCategoria(categoria);
             if(subCategoria == null){
@@ -150,7 +151,7 @@ public class CrudSubCategoriaActivity extends AppCompatActivity {
     }
 
     //valida todos os campos
-    private boolean ValidateField() {
+    private boolean validateField() {
         //pega valores
         String nome = editNome.getText().toString();
 

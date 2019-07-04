@@ -17,6 +17,7 @@ public class MetaFragment extends Fragment {
 
 
     public MetaFragment() {
+        // Required empty public constructor
     }
 
 

@@ -17,6 +17,7 @@ public class OrcamentoFragment extends Fragment {
 
 
     public OrcamentoFragment() {
+        // Required empty public constructor
     }
 
 

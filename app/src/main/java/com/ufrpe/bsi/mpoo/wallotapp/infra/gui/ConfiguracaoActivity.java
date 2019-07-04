@@ -12,7 +12,6 @@ import com.ufrpe.bsi.mpoo.wallotapp.conta.gui.ContasActivity;
 import com.ufrpe.bsi.mpoo.wallotapp.usuario.gui.EditarUsuarioActivity;
 
 public class ConfiguracaoActivity extends AppCompatActivity{
-    private CardView cvUsuario, cvConta, cvCategoria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +19,10 @@ public class ConfiguracaoActivity extends AppCompatActivity{
         setContentView(R.layout.activity_configuracao);
         getSupportActionBar().setTitle("Configurações");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        CardView cvUsuario;
+        CardView cvConta;
+        CardView cvCategoria;
 
         //pega dados do layout
         cvUsuario = findViewById(R.id.cardViewUsuario);
