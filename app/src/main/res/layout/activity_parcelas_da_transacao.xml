@@ -84,7 +84,7 @@
 
     </android.support.v7.widget.CardView>
     <TextView
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="200dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Parcelas:"
@@ -92,7 +92,7 @@
         android:fontFamily="@font/bold"/>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="225dp"
+        android:layout_marginTop="245dp"
         android:id="@+id/recycler_parcelas_da_transacao"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -42,7 +41,6 @@ import java.util.Date;
 public class TransacaoActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
     private EditText editDescricao, editSaldo, editParcelas;
     private TextView textData;
-    private Button btnSalvar;
     private ImageView imageTipo;
     private Usuario usuario = SessaoUsuario.instance.getUsuario();
     private ContaServices contaServices = new ContaServices();
@@ -69,7 +67,7 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
         imageTipo = findViewById(R.id.tipo_transacao_image);
         spnCategoria = findViewById(R.id.spinner_categoria_transacao);
         spnTipoTransacao = findViewById(R.id.spinner_tipo_transacao);
-        btnSalvar = findViewById(R.id.button_salvar_transacao);
+        Button btnSalvar = findViewById(R.id.button_salvar_transacao);
         spnSubCategorias = findViewById(R.id.spinner_sub_categoria_transacao);
 
         //seta a data atual

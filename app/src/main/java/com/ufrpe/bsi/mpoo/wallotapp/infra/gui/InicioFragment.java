@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.ufrpe.bsi.mpoo.wallotapp.R;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.negocio.ContaServices;
-import com.ufrpe.bsi.mpoo.wallotapp.conta.persistencia.ContaDAO;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoUsuario;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.TipoTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.gui.TransacaoActivity;
