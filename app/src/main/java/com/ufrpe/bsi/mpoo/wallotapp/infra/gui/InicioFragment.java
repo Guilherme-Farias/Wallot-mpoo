@@ -50,7 +50,7 @@ public class InicioFragment extends Fragment {
         valorTotalConta.setText(getSaldoContas());
 
         //vai fazer uma nova receita
-        fabDespesa.setOnClickListener(new View.OnClickListener() {
+        fabReceita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showToast("Nova receita");

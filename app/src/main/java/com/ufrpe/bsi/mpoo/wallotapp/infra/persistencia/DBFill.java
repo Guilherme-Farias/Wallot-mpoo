@@ -154,11 +154,12 @@ public class DBFill {
         cadastraSubcategoria("Viagens", R.drawable.icone_viagens, 8);
     }
 
-    private void cadastraSubcategoria(String viagens, int p, int i) {
+    private void cadastraSubcategoria(String nome, int p, int i) {
         SubCategoria subCategoria = new SubCategoria();
-        subCategoria.setNome(viagens);
+        subCategoria.setNome(nome);
         subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(p));
         subCategoria.setFkCategoria(i);
         subCategoriaServices.cadastrarInicial(subCategoria);
     }
+
 }
