@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".estatistica.gui.CriaOrcamentoActivity"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:fontFamily="@font/bold"
+            android:text="Data Inicial:"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/str_data_inicial_orcamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/light_grey"
+            android:gravity="center_vertical"
+            android:text="88/88/8888"
+            android:textSize="25dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:fontFamily="@font/bold"
+            android:text="Data Final:"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/str_data_final_orcamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/light_grey"
+            android:gravity="center_vertical"
+            android:text="88/88/8888"
+            android:textSize="25dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:fontFamily="@font/bold"
+            android:text="Valor planejado:"
+            android:textSize="20dp" />
+        <EditText
+            android:id="@+id/valor_planejado_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/light_grey"
+            android:gravity="center_vertical"
+            android:text="0.00"
+            android:textSize="25dp" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_salvar_orcamento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:text="SALVAR"/>
+
+</LinearLayout>

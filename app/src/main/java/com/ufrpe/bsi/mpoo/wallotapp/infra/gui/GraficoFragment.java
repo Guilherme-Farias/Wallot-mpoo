@@ -147,7 +147,7 @@ public class GraficoFragment extends Fragment {
 
         //AJUSTES VISUAIS
         mChart.getLegend().setEnabled(false);
-
+        mChart.getAxisRight().setEnabled(false);
         mChart.getXAxis().setDrawGridLines(false);
         mChart.getAxisLeft().setDrawGridLines(false);
         mChart.getDescription().setEnabled(false);

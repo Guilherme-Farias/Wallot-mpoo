@@ -8,6 +8,56 @@
             <set />
           </value>
         </entry>
+        <entry key="/fragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../aguaDeBanho/app/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../aguaDeBanho/app/src/main/AndroidManifest.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../apresentar/Wallot-mpoo/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/infra/gui/OrcamentoFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../apresentar/Wallot-mpoo/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/infra/gui/RegistroFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../apresentar/Wallot-mpoo/app/src/main/res/layout/fragment_grafico.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../apresentar/Wallot-mpoo/app/src/main/res/layout/fragment_orcamento.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../apresentar/Wallot-mpoo/app/src/main/res/layout/fragment_registro.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../apresentar/Wallot-mpoo/app/src/main/res/layout/header.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../apresentar/Wallot-mpoo/app/src/main/res/values/strings.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/build.gradle">
           <value>
             <set />
@@ -83,6 +133,61 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/estatistica/Orcamento.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/estatistica/OrcamentoDAO.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/estatistica/dominio/Orcamento.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/estatistica/dominio/OrcamentoPorCategoria.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/estatistica/gui/CriaOrcamentoActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/estatistica/gui/EstatisticaActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/estatistica/gui/RecyclerViewAdapterOrcamento.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/estatistica/gui/RecyclerViewOrcamento.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/estatistica/negocio/LinearRegression.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/estatistica/negocio/OrcamentoServices.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/estatistica/persistencia/OrcamentoDAO.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/infra/gui/ConfiguracaoActivity.java">
           <value>
             <set />
@@ -139,6 +244,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/infra/negocio/SessaoConta.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ufrpe/bsi/mpoo/wallotapp/infra/negocio/SessaoOrcamento.java">
           <value>
             <set />
           </value>
@@ -293,6 +403,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_cria_orcamento.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_crud_conta.xml">
           <value>
             <set />
@@ -309,6 +424,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_editar_usuario.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_estatistica.xml">
           <value>
             <set />
           </value>
@@ -343,12 +463,42 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/fragment_meta.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/fragment_orcamento.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/fragment_registro.xml">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/header.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/layout_orcamento_list.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/layout_orcamento_poha.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/layout_transacao_list.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/t.xml">
           <value>
             <set />
           </value>

@@ -19,6 +19,7 @@ import java.util.Date;
 
 public class TransacaoServices {
     private SimpleDateFormat padraoData = new SimpleDateFormat("dd/MM/yyyy");
+    private SimpleDateFormat padraoData2 = new SimpleDateFormat("yyyyMMdd");
     private TransacaoDAO transacaoDAO = new TransacaoDAO();
     private ContaDAO contaDAO = new ContaDAO();
     private Transacao transacao = SessaoTransacao.instance.getTransacao();
@@ -203,5 +204,9 @@ public class TransacaoServices {
     //será utilizado para pegar os ultimos valores pela data
     public ArrayList<Parcela> getParcelasPelaData(long idUsuario, String date) {
         return transacaoDAO.getUltimasParcelas(idUsuario, Integer.parseInt(date));
+    }
+
+    public BigDecimal getValorTotalData(Date data, long id) {
+        return null/*transacaoDAO.getValorTotalData(padraoData2.format(data), id)*/;
     }
 }
