@@ -12,11 +12,14 @@
         android:layout_gravity="top"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal">
-        <EditText
-            android:text="Pesquise"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+
+            android:text="Ultimas transações"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="wrap_content"
+            android:textSize="30dp"/>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

@@ -8,6 +8,7 @@
     android:orientation="vertical"
     app:layout_constrainedHeight="true"
     app:layout_constrainedWidth="true"
+    android:background="@drawable/editar_conta"
     tools:context=".usuario.gui.RegisterActivity">
 
     <ImageView
@@ -127,7 +128,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginRight="50dp"
-        android:layout_marginTop="13dp">
+        android:layout_marginTop="13dp"
+        android:layout_gravity="end">
 
         <TextView
             android:layout_width="wrap_content"

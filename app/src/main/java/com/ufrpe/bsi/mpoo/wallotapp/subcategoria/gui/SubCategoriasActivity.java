@@ -23,9 +23,7 @@ import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
 import java.util.ArrayList;
 
 public class SubCategoriasActivity extends AppCompatActivity implements OnRecyclerListener {
-    private RecyclerView mRecyclerView;
     private ArrayList<SubCategoria> subCategorias;
-    private FloatingActionButton btnCriarSubCategoria;
     private Categoria categoria = SessaoCategoria.instance.getCategoria();
     private Usuario usuario = SessaoUsuario.instance.getUsuario();
     private SubCategoriaServices subCategoriaServices = new SubCategoriaServices();
@@ -33,6 +31,8 @@ public class SubCategoriasActivity extends AppCompatActivity implements OnRecycl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RecyclerView mRecyclerView;
+        FloatingActionButton btnCriarSubCategoria;
         setContentView(R.layout.activity_sub_categorias);
         getSupportActionBar().setTitle("Subcategorias");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

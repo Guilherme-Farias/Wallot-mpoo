@@ -42,6 +42,7 @@ public class RegistroFragment extends Fragment implements OnRecyclerListener{
     int position = 0;
 
     public RegistroFragment() {
+        // Required empty public constructor
     }
 
     @Override

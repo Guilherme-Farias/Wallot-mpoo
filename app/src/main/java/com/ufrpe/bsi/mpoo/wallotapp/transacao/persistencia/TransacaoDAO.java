@@ -22,7 +22,7 @@ public class TransacaoDAO {
 
     //pega tipos de tranção enum
     public ArrayList<TipoTransacao> getTiposTransacao(){
-        ArrayList<TipoTransacao> tiposTransacao = new ArrayList<TipoTransacao>();
+        ArrayList<TipoTransacao> tiposTransacao = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String query = "SELECT * FROM "+ DBHelper.TABELA_TIPO_TRANSACAO;
         Cursor cursor = db.rawQuery(query, null);
@@ -192,7 +192,8 @@ public class TransacaoDAO {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String query = " SELECT * FROM " +
                 DBHelper.TABELA_TRANSACAO + " INNER JOIN " + DBHelper.TABELA_PARCELA + " ON " + DBHelper.TRANSACAO_COL_ID + " = " + DBHelper.PARCELA_COL_FK_TRANSACAO + " WHERE " +
-                DBHelper.PARCELA_COL_DATE + " > " + dataInicial + " AND " + DBHelper.PARCELA_COL_DATE + " <= " + dataFinal + " AND " + DBHelper.TRANSACAO_COL_FK_USUARIO + " =?;";
+                DBHelper.PARCELA_COL_DATE + " > " + dataInicial + " AND " + DBHelper.PARCELA_TIPO_DE_STATUS + " = " + " 1 " + " AND " +
+                DBHelper.PARCELA_COL_DATE + " <= " + dataFinal + " AND " + DBHelper.TRANSACAO_COL_FK_USUARIO + " =?;";
         String[] args = {String.valueOf(idUsuario)};
         Cursor cursor = db.rawQuery(query, args);
         if (cursor.moveToFirst()) {
@@ -204,6 +205,26 @@ public class TransacaoDAO {
         closeArgs(db, cursor);
         return saldo;
     }
+    //pega gastos dando uma certa diferença de tempo
+    public BigDecimal getGastoEntreDatas(long idUsuario, String dataInicial, String dataFinal) {
+        BigDecimal gastos = new BigDecimal("0.00");
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = " SELECT * FROM " +
+                DBHelper.TABELA_TRANSACAO + " INNER JOIN " + DBHelper.TABELA_PARCELA + " ON " + DBHelper.TRANSACAO_COL_ID + " = " + DBHelper.PARCELA_COL_FK_TRANSACAO + " WHERE " +
+                DBHelper.PARCELA_COL_DATE + " > " + dataInicial + " AND " + DBHelper.PARCELA_COL_DATE + " <= " + dataFinal + " AND " + DBHelper.TRANSACAO_COL_TIPO_TRANSACAO + " = " + " 2" + " AND " +
+                DBHelper.PARCELA_TIPO_DE_STATUS + " = " + " 1 " + " AND " + DBHelper.TRANSACAO_COL_FK_USUARIO + " =?;";
+        String[] args = {String.valueOf(idUsuario)};
+        Cursor cursor = db.rawQuery(query, args);
+        if (cursor.moveToFirst()) {
+            do {
+                BigDecimal valorParcela = new BigDecimal(cursor.getString(cursor.getColumnIndex(DBHelper.PARCELA_COL_VALOR)));
+                gastos = gastos.add(valorParcela.multiply(new BigDecimal(-1)));
+            } while (cursor.moveToNext());
+        }
+        closeArgs(db, cursor);
+        return gastos;
+    }
+
 
     //pega valor total das contas e depois vai fazendo esse deregue jhonson
     //criar uma função que devolve uma lista de BigDecimal // parcelas listadas ao contrario e daí eu organizo no mapa
@@ -308,4 +329,5 @@ public class TransacaoDAO {
         db.execSQL(sql);
         db.close();
     }
+
 }

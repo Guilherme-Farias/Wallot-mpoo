@@ -15,7 +15,7 @@ import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.OnRecyclerListener;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapterConta extends RecyclerView.Adapter<RecyclerViewAdapterConta.ViewHolder>{
+public class RecyclerViewAdapterConta extends RecyclerView.Adapter<RecyclerViewAdapterConta.ContaViewHolder>{
     private ArrayList<Conta> contas;
     private Context context;
     private OnRecyclerListener onRecyclerListener;
@@ -28,13 +28,13 @@ public class RecyclerViewAdapterConta extends RecyclerView.Adapter<RecyclerViewA
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+    public ContaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_conta_list, parent, false);
-        return new ViewHolder(view, onRecyclerListener);
+        return new ContaViewHolder(view, onRecyclerListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ContaViewHolder holder, int position) {
         holder.nome.setText(contas.get(position).getNome());
     }
 
@@ -43,13 +43,13 @@ public class RecyclerViewAdapterConta extends RecyclerView.Adapter<RecyclerViewA
         return contas.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ContaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView nome;
         RelativeLayout parentLayout;
         OnRecyclerListener onRecyclerListener;
 
 
-        private ViewHolder(@NonNull View itemView, OnRecyclerListener onRecyclerListener) {
+        private ContaViewHolder(@NonNull View itemView, OnRecyclerListener onRecyclerListener) {
             super(itemView);
             nome = itemView.findViewById(R.id.nome_conta_list);
             parentLayout = itemView.findViewById(R.id.layout_conta);

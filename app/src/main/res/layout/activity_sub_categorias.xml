@@ -19,8 +19,8 @@
         android:id="@+id/nova_subcategoria_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:fab_colorNormal="#9fe678"
-        app:fab_colorPressed="#32b543"
+        app:fab_colorNormal="#32B543"
+        app:fab_colorPressed="#116030"
         app:fab_icon="@drawable/ic_add" />
 
 </FrameLayout>

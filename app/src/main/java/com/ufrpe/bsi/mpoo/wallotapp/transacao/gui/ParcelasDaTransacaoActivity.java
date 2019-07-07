@@ -23,11 +23,7 @@ import java.util.ArrayList;
 
 public class ParcelasDaTransacaoActivity extends AppCompatActivity implements OnRecyclerListener {
     private Transacao transacao = SessaoTransacao.instance.getTransacao();
-    private TextView valorPagoTransacao, valorTotalTransacao;
-    private FloatingActionButton fabCriaParcela;
-    private RecyclerView mRecyclerView;
     private ArrayList<Parcela> parcelas;
-    private RecyclerViewAdapterTransacao adapter;
     private TransacaoServices transacaoServices = new TransacaoServices();
 
     @Override
@@ -35,9 +31,14 @@ public class ParcelasDaTransacaoActivity extends AppCompatActivity implements On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parcelas_da_transacao);
 
+        TextView valorPagoTransacao;
+        TextView valorTotalTransacao;
+        FloatingActionButton fabCriaParcela;
+        RecyclerView mRecyclerView;
+        RecyclerViewAdapterTransacao adapter;
+
         valorPagoTransacao = findViewById(R.id.valor_pago_transacao_parcela);
         valorTotalTransacao = findViewById(R.id.valor_total_transacao_parcela);
-        fabCriaParcela = findViewById(R.id.nova_parcela_transacao);
 
 
         BigDecimal[] valores = transacaoServices.getValorTotalTransacao(transacao.getId());
@@ -46,7 +47,7 @@ public class ParcelasDaTransacaoActivity extends AppCompatActivity implements On
 
 
         //cria o recycler view
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_parcelas_da_transacao);
+        mRecyclerView = findViewById(R.id.recycler_parcelas_da_transacao);
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(ParcelasDaTransacaoActivity.this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);

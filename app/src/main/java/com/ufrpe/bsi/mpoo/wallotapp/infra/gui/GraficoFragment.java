@@ -54,7 +54,7 @@ public class GraficoFragment extends Fragment {
         //ainda está sendo modificado(está com algumass falhas)
 
         //pega dados do layout
-        LineChart mChart = view.findViewById(R.id.line_chart);
+        LineChart mChart = view.findViewById(R.id.line_chart_saldo);
 
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(false);

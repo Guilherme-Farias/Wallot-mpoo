@@ -15,15 +15,17 @@ import com.ufrpe.bsi.mpoo.wallotapp.infra.gui.MainActivity;
 import com.ufrpe.bsi.mpoo.wallotapp.usuario.negocio.UsuarioServices;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText editEmail, editSenha;
-    private TextView textIntentRegister;
-    private Button loginButton;
+    private EditText editEmail;
+    private EditText editSenha;
     private UsuarioServices usuarioServices = new UsuarioServices();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        TextView textIntentRegister;
+        Button loginButton;
 
         //pega os itens
         editEmail = findViewById(R.id.edittext_email_login);

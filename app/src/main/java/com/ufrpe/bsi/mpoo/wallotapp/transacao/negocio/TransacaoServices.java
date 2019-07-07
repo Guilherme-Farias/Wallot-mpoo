@@ -1,7 +1,5 @@
 package com.ufrpe.bsi.mpoo.wallotapp.transacao.negocio;
 
-import android.util.Log;
-
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.Conta;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.persistencia.ContaDAO;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoParcela;
@@ -12,7 +10,6 @@ import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.TipoDeStatusTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.TipoTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.Transacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.persistencia.TransacaoDAO;
-import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -22,6 +19,7 @@ import java.util.Date;
 
 public class TransacaoServices {
     private SimpleDateFormat padraoData = new SimpleDateFormat("dd/MM/yyyy");
+    private SimpleDateFormat padraoData2 = new SimpleDateFormat("yyyyMMdd");
     private TransacaoDAO transacaoDAO = new TransacaoDAO();
     private ContaDAO contaDAO = new ContaDAO();
     private Transacao transacao = SessaoTransacao.instance.getTransacao();
@@ -206,5 +204,9 @@ public class TransacaoServices {
     //será utilizado para pegar os ultimos valores pela data
     public ArrayList<Parcela> getParcelasPelaData(long idUsuario, String date) {
         return transacaoDAO.getUltimasParcelas(idUsuario, Integer.parseInt(date));
+    }
+
+    public BigDecimal getValorTotalData(Date data, long id) {
+        return null/*transacaoDAO.getValorTotalData(padraoData2.format(data), id)*/;
     }
 }

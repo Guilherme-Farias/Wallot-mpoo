@@ -1,19 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".subcategoria.gui.CrudSubCategoriaActivity">
 
+    <ImageView
+        android:id="@+id/image_crud_subcategoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/subcategoria"/>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_crud_subcategoria"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="-3dp"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@color/green_button"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,25 +48,32 @@
             android:layout_height="wrap_content"
             android:hint="Nome subcategoria"/>
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_gravity="center">
             <Button
                 android:id="@+id/button_salvar_subcategoria"
                 android:layout_width="80dp"
                 android:layout_height="50dp"
-                android:text="SALVAR"/>
+                android:text="SALVAR"
+                android:background="@drawable/button"
+                android:textColor="#FFFFFF"/>
             <Button
                 android:id="@+id/button_excluir_subcategoria"
                 android:layout_width="80dp"
                 android:layout_height="50dp"
                 android:text="EXCLUIR"
                 android:clickable="false"
-                android:visibility="invisible"/>
+                android:visibility="invisible"
+                android:background="@drawable/button"
+                android:textColor="#FFFFFF"/>
         </LinearLayout>
     </LinearLayout>
 
 
 
 
-</ScrollView>
+</RelativeLayout>

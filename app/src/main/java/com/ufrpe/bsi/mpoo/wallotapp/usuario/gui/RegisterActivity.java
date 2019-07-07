@@ -15,15 +15,19 @@ import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
 import com.ufrpe.bsi.mpoo.wallotapp.usuario.negocio.UsuarioServices;
 
 public class RegisterActivity extends AppCompatActivity {
-    private EditText editNome, editEmail, editSenha, editConfirmarSenha;
-    private TextView textIntentLogin;
-    private Button cadastroButton;
+    private EditText editNome;
+    private EditText editEmail;
+    private EditText editSenha;
+    private EditText editConfirmarSenha;
     private UsuarioServices usuarioServices = new UsuarioServices();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        TextView textIntentLogin;
+        Button cadastroButton;
 
         //pega itens
         editNome = findViewById(R.id.edittext_nome_cadastro);

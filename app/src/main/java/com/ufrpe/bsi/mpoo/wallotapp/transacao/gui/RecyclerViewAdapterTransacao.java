@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RecyclerViewAdapterTransacao extends RecyclerView.Adapter<RecyclerViewAdapterTransacao.ViewHolder>{
+public class RecyclerViewAdapterTransacao extends RecyclerView.Adapter<RecyclerViewAdapterTransacao.TransacaoViewHolder>{
     private Context context;
     private ArrayList<Parcela> parcelas;
     private OnRecyclerListener onRecyclerListener;
@@ -43,13 +43,13 @@ public class RecyclerViewAdapterTransacao extends RecyclerView.Adapter<RecyclerV
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+    public TransacaoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_transacao_list, parent, false);
-        return new ViewHolder(view, onRecyclerListener);
+        return new TransacaoViewHolder(view, onRecyclerListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull TransacaoViewHolder holder, final int position) {
         //pega variaveis necessarias
         Transacao transacao = new TransacaoServices().getTransacao(parcelas.get(position).getFkTransacao());
         Categoria categoria = new CategoriaServices().getCategoria(transacao.getFkCategoria());
@@ -71,7 +71,7 @@ public class RecyclerViewAdapterTransacao extends RecyclerView.Adapter<RecyclerV
         }
 
         //coloca no card o mais específico(subcategoria se houver, caso contrario a categoria)
-        if(!(subCategoria.getId() == 1)){
+        if(subCategoria.getId() != 1){
             holder.image.setImageDrawable(subCategoria.byteArrayToDrawable(subCategoria.getIcone()));
             holder.categoriaSub.setText(subCategoria.toString());
         } else {
@@ -87,15 +87,22 @@ public class RecyclerViewAdapterTransacao extends RecyclerView.Adapter<RecyclerV
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class TransacaoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         CircleImageView image;
-        TextView titulo, valor, data, categoriaSub, conta, status;
+        TextView titulo;
+        TextView valor;
+        TextView data;
+        TextView categoriaSub;
+        TextView conta;
+        TextView status;
+
+
         RelativeLayout parentLayout;
         OnRecyclerListener onRecyclerListener;
 
 
-        private ViewHolder(@NonNull View itemView, OnRecyclerListener onRecyclerListener) {
+        private TransacaoViewHolder(@NonNull View itemView, OnRecyclerListener onRecyclerListener) {
             super(itemView);
             image = itemView.findViewById(R.id.imagem_transacao_list);
             titulo = itemView.findViewById(R.id.titulo_transacao_list);
