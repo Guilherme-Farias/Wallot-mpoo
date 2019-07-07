@@ -56,6 +56,13 @@ public class Orcamento {
         return fkUsuario;
     }
 
+    public String getDataInicialFormatada() {
+        return new SimpleDateFormat("dd/MM/yyyy").format(this.dataInicial);
+    }
+
+    public String getDataFinalFormatada() {
+        return new SimpleDateFormat("dd/MM/yyyy").format(this.dataFinal);
+    }
     public String[] getDatesFormatada(){
         return new String[] {new SimpleDateFormat("dd/MM/yyyy").format(this.dataInicial),new SimpleDateFormat("dd/MM/yyyy").format(this.dataFinal)};
     }

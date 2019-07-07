@@ -206,14 +206,14 @@ public class TransacaoDAO {
         return saldo;
     }
     //pega gastos dando uma certa diferença de tempo
-    public BigDecimal getGastoEntreDatas(long idUsuario, long idCategoria, String dataInicial, String dataFinal) {
+    public BigDecimal getGastoEntreDatas(long idUsuario, String dataInicial, String dataFinal) {
         BigDecimal gastos = new BigDecimal("0.00");
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String query = " SELECT * FROM " +
                 DBHelper.TABELA_TRANSACAO + " INNER JOIN " + DBHelper.TABELA_PARCELA + " ON " + DBHelper.TRANSACAO_COL_ID + " = " + DBHelper.PARCELA_COL_FK_TRANSACAO + " WHERE " +
                 DBHelper.PARCELA_COL_DATE + " > " + dataInicial + " AND " + DBHelper.PARCELA_COL_DATE + " <= " + dataFinal + " AND " + DBHelper.TRANSACAO_COL_TIPO_TRANSACAO + " = " + " 2" + " AND " +
-                DBHelper.PARCELA_TIPO_DE_STATUS + " = " + " 1 " + " AND " + DBHelper.TRANSACAO_COL_FK_CATEGORIA + " =? " + " AND " + DBHelper.TRANSACAO_COL_FK_USUARIO + " =?;";
-        String[] args = {String.valueOf(idCategoria), String.valueOf(idUsuario)};
+                DBHelper.PARCELA_TIPO_DE_STATUS + " = " + " 1 " + " AND " + DBHelper.TRANSACAO_COL_FK_USUARIO + " =?;";
+        String[] args = {String.valueOf(idUsuario)};
         Cursor cursor = db.rawQuery(query, args);
         if (cursor.moveToFirst()) {
             do {

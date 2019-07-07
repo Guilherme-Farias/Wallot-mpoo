@@ -6,7 +6,7 @@
     tools:context=".infra.gui.GraficoFragment">
 
     <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/line_chart"
+        android:id="@+id/line_chart_saldo"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_centerVertical="true"

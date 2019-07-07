@@ -7,7 +7,7 @@ import com.ufrpe.bsi.mpoo.wallotapp.infra.app.WallotApp;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String NOME_BANCO = "wallot.db";
-    private static final int VERSAO = 11;
+    private static final int VERSAO = 12;
 
     //TABELA DE USUARIO(ENTROU NA VERSÃO 1)
     public static final String TABELA_USUARIO = "TABELA_USUARIO";
@@ -85,8 +85,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TIPO_STATUS_COL_ID = "ID_TIPO_STATUS";
     public static final String TIPO_STATUS_COL_DESCRICAO = "DESCRIÇÃO_TIPO_STATUS";
 
-
-
+    //TABELA DE ORÇAMENTO
+    public static final String TABELA_ORCAMENTO = "TABELA_ORCAMENTO";
+    public static final String ORCAMENTO_COL_ID = "ID_ORCAMENTO";
+    public static final String ORCAMENTO_GASTO_ESTIMADO = "GASTO_ESTIMADO_ORCAMENTO";
+    public static final String ORCAMENTO_DATA_INICIAL = "DATA_INICIAL_ORCAMENTO";
+    public static final String ORCAMENTO_DATA_FINAL = "DATA_FINAL_ORCAMENTO";
+    public static final String ORCAMENTO_FK_USUARIO = "FK_USUARIO_ORCAMENTO";
 
 
     private String sqlTipoTipoTransacaoInit = "INSERT INTO " + TABELA_TIPO_TRANSACAO + " ( " + TIPO_TRANSACAO_COL_ID + ", " + TIPO_TRANSACAO_COL_DESCRICAO + ", " + TIPO_TRANSACAO_COL_MULTIPLICADOR + ") VALUES " + "(1,'Receita', '1')," + "(2,'Despesa', '-1')," + "(3, 'Transferência', '-1')";
@@ -99,7 +104,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String[] TABELAS = {
             TABELA_USUARIO, TABELA_CONTA, TABELA_TIPO_CONTA, TABELA_TIPO_ESTADO_CONTA,
             TABELA_CATEGORIA, TABELA_SUBCATEGORIA, TABELA_TRANSACAO, TABELA_PARCELA,
-            TABELA_TIPO_TRANSACAO, TABELA_TIPO_STATUS
+            TABELA_TIPO_TRANSACAO, TABELA_TIPO_STATUS, TABELA_ORCAMENTO
     };
 
     public DBHelper() {
@@ -118,14 +123,35 @@ public class DBHelper extends SQLiteOpenHelper {
         criaTbTransaccao(db);
         criaTbParcela(db);
         criaTbTipoTransacao(db);
-        criaTBTipoStatus(db);
+        criaTbTipoStatus(db);
+        criaTbOrcamento(db);
         db.execSQL(sqlTipoContaInit);
         db.execSQL(sqlTipoEstadoContaInit);
         db.execSQL(sqlTipoStatusInit);
         db.execSQL(sqlTipoTipoTransacaoInit);
     }
 
-    private void criaTBTipoStatus(SQLiteDatabase db) {
+    private void criaTbOrcamento(SQLiteDatabase db) {
+        String sqlTbOrcamento =
+                "CREATE TABLE %1$s ( " +
+                        " %2$s INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        " %3$s TEXT NOT NULL, " +
+                        " %4$s INTEGER NOT NULL, " +
+                        " %5$s INTEGER NOT NULL, " +
+                        " %6$s TEXT NOT NULL " +
+                        ");";
+        sqlTbOrcamento = String.format(sqlTbOrcamento,
+                TABELA_ORCAMENTO,
+                ORCAMENTO_COL_ID,
+                ORCAMENTO_GASTO_ESTIMADO,
+                ORCAMENTO_DATA_INICIAL,
+                ORCAMENTO_DATA_FINAL,
+                ORCAMENTO_FK_USUARIO
+        );
+        db.execSQL(sqlTbOrcamento);
+    }
+
+    private void criaTbTipoStatus(SQLiteDatabase db) {
         String sqlTbTipoStatus =
                 "CREATE TABLE %1$s ( " +
                         "  %2$s INTEGER PRIMARY KEY AUTOINCREMENT, " +
