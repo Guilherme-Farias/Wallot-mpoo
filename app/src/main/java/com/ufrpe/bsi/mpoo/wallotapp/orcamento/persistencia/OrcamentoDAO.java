@@ -1,10 +1,10 @@
-package com.ufrpe.bsi.mpoo.wallotapp.estatistica.persistencia;
+package com.ufrpe.bsi.mpoo.wallotapp.orcamento.persistencia;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.ufrpe.bsi.mpoo.wallotapp.estatistica.dominio.Orcamento;
+import com.ufrpe.bsi.mpoo.wallotapp.orcamento.dominio.Orcamento;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.WallotAppException;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.persistencia.DBHelper;
 
@@ -50,20 +50,8 @@ public class OrcamentoDAO {
         return values;
     }
 
-    public Orcamento getOrcamento(long idOrcamento) {
-        Orcamento orcamento = null;
-        String sql = " SELECT * FROM " + DBHelper.TABELA_ORCAMENTO + " WHERE " + DBHelper.ORCAMENTO_COL_ID + " LIKE ?;";
-        String[] args = {String.valueOf(idOrcamento)};
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(sql, args);
-        if (cursor.moveToFirst()) {
-            orcamento = criaOrcamento(cursor);
-        }
-        closeArgs(db, cursor);
-        return orcamento;
-    }
 
-    public Orcamento getOrcamentoByIdUsuario(long idUsuario) {
+    public Orcamento getOrcamento(long idUsuario) {
         Orcamento orcamento = null;
         String sql = " SELECT * FROM " + DBHelper.TABELA_ORCAMENTO + " WHERE " + DBHelper.ORCAMENTO_FK_USUARIO + " LIKE ?;";
         String[] args = {String.valueOf(idUsuario)};
@@ -74,6 +62,23 @@ public class OrcamentoDAO {
         }
         closeArgs(db, cursor);
         return orcamento;
+    }
+
+    public ArrayList<Orcamento> getOrcamentos(long idUsuario) {
+        ArrayList<Orcamento> orcamentos = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = " SELECT * FROM " + DBHelper.TABELA_ORCAMENTO + " WHERE " + DBHelper.ORCAMENTO_FK_USUARIO + " LIKE ?;";
+        String[] args = {String.valueOf(idUsuario)};
+        Cursor cursor = db.rawQuery(query, args);
+        if (cursor.moveToFirst()) {
+            do {
+                Orcamento orcamento = criaOrcamento(cursor);
+                orcamentos.add(orcamento);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return orcamentos;
     }
 
     private Date getDataDoSQLite(String datastr) {
@@ -91,7 +96,4 @@ public class OrcamentoDAO {
         db.close();
     }
 
-    public ArrayList<Orcamento> getOrcamentosPorData(long idUsuario) {
-        return null;
-    }
 }

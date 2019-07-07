@@ -1,4 +1,4 @@
-package com.ufrpe.bsi.mpoo.wallotapp.estatistica.gui;
+package com.ufrpe.bsi.mpoo.wallotapp.orcamento.gui;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ufrpe.bsi.mpoo.wallotapp.R;
-import com.ufrpe.bsi.mpoo.wallotapp.estatistica.dominio.Orcamento;
+import com.ufrpe.bsi.mpoo.wallotapp.orcamento.dominio.Orcamento;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.OnRecyclerListener;
 
 import java.math.BigDecimal;

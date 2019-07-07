@@ -1,4 +1,4 @@
-package com.ufrpe.bsi.mpoo.wallotapp.estatistica.dominio;
+package com.ufrpe.bsi.mpoo.wallotapp.orcamento.dominio;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -57,11 +57,11 @@ public class Orcamento {
     }
 
     public String getDataInicialFormatada() {
-        return new SimpleDateFormat("dd/MM/yyyy").format(this.dataInicial);
+        return new SimpleDateFormat("yyyymmdd").format(this.dataInicial);
     }
 
     public String getDataFinalFormatada() {
-        return new SimpleDateFormat("dd/MM/yyyy").format(this.dataFinal);
+        return new SimpleDateFormat("yyyymmdd").format(this.dataFinal);
     }
     public String[] getDatesFormatada(){
         return new String[] {new SimpleDateFormat("dd/MM/yyyy").format(this.dataInicial),new SimpleDateFormat("dd/MM/yyyy").format(this.dataFinal)};

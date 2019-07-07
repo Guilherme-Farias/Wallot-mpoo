@@ -1,4 +1,4 @@
-package com.ufrpe.bsi.mpoo.wallotapp.estatistica.negocio;
+package com.ufrpe.bsi.mpoo.wallotapp.orcamento.negocio;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

@@ -11,12 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.ufrpe.bsi.mpoo.wallotapp.R;
-import com.ufrpe.bsi.mpoo.wallotapp.estatistica.dominio.Orcamento;
-import com.ufrpe.bsi.mpoo.wallotapp.estatistica.gui.RecyclerViewAdapterOrcamento;
-import com.ufrpe.bsi.mpoo.wallotapp.estatistica.negocio.OrcamentoServices;
+import com.ufrpe.bsi.mpoo.wallotapp.orcamento.dominio.Orcamento;
+import com.ufrpe.bsi.mpoo.wallotapp.orcamento.gui.CriaOrcamentoActivity;
+import com.ufrpe.bsi.mpoo.wallotapp.orcamento.gui.RecyclerViewAdapterOrcamento;
+import com.ufrpe.bsi.mpoo.wallotapp.orcamento.negocio.OrcamentoServices;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.OnRecyclerListener;
-import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoOrcamento;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoUsuario;
 import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
 
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 public class OrcamentoFragment extends Fragment implements OnRecyclerListener {
     private RecyclerView mRecyclerView;
     private ArrayList<Orcamento> orcamentos;
+    private FloatingActionButton btnCriarOrcamento;
     private RecyclerViewAdapterOrcamento adapter;
     private OrcamentoServices orcamentoServices = new OrcamentoServices();
     private Usuario usuario = SessaoUsuario.instance.getUsuario();
@@ -43,9 +45,9 @@ public class OrcamentoFragment extends Fragment implements OnRecyclerListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_orcamento, container, false);
+        View view = inflater.inflate(R.layout.fragment_orcamento, container, false);
 
-        mRecyclerView =  v.findViewById(R.id.recyclerview_orcamento);
+        mRecyclerView =  view.findViewById(R.id.recyclerview_orcamento);
 
         //cria o Recycler
         mRecyclerView.setHasFixedSize(true);
@@ -54,11 +56,24 @@ public class OrcamentoFragment extends Fragment implements OnRecyclerListener {
         mRecyclerView.setLayoutManager(llm);
 
         //seta a lista no recycler
-        orcamentos = orcamentoServices.listarOrcamentosPorData(usuario.getId());
+        orcamentos = orcamentoServices.listarOrcamentos(usuario.getId());
         adapter = new RecyclerViewAdapterOrcamento(getActivity(), orcamentos, this);
         mRecyclerView.setAdapter(adapter);
 
-        return v;
+        //Criar novo orçamento
+        btnCriarOrcamento = view.findViewById(R.id.nova_orcamento_fab);
+        btnCriarOrcamento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                criarOrcamentoIntent();
+            }
+        });
+
+        return view;
+    }
+
+    private void criarOrcamentoIntent() {
+        startActivity(new Intent(getActivity(), CriaOrcamentoActivity.class));
     }
 
     @Override

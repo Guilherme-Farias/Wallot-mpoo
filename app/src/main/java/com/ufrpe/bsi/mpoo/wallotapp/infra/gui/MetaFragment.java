@@ -9,26 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.ufrpe.bsi.mpoo.wallotapp.R;
-import com.ufrpe.bsi.mpoo.wallotapp.estatistica.dominio.Orcamento;
-import com.ufrpe.bsi.mpoo.wallotapp.estatistica.persistencia.OrcamentoDAO;
+import com.ufrpe.bsi.mpoo.wallotapp.orcamento.dominio.Orcamento;
+import com.ufrpe.bsi.mpoo.wallotapp.orcamento.persistencia.OrcamentoDAO;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoUsuario;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.persistencia.TransacaoDAO;
 import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,6 +39,8 @@ public class MetaFragment extends Fragment {
     private Usuario usuario = SessaoUsuario.instance.getUsuario();
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
+    TextView feedbackUsuario;
+
     public MetaFragment() {
         // Required empty public constructor
     }
@@ -53,7 +51,7 @@ public class MetaFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meta, container, false);
 
-        Orcamento orcamento = orcamentoDAO.getOrcamentoByIdUsuario(usuario.getId());
+        Orcamento orcamento = orcamentoDAO.getOrcamento(usuario.getId());
 
         Date dataInicial = orcamento.getDataInicial();
         Date dataFinal = orcamento.getDataFinal();
@@ -69,16 +67,14 @@ public class MetaFragment extends Fragment {
         dataInicialCal.setTime(dataInicial);
         Calendar dataFinalCal = Calendar.getInstance();
         dataFinalCal.setTime(dataFinal);
+        Calendar dataAtualCal = Calendar.getInstance();
 
         dataFinalCal.add(Calendar.DATE, - dataInicialCal.get(Calendar.DAY_OF_MONTH));
         int totalDias = dataFinalCal.get(Calendar.DAY_OF_MONTH);
+        int diasContados = dataAtualCal.get(Calendar.DAY_OF_MONTH);
 
-        dataFinalCal.add(Calendar.DATE, dataInicialCal.get(Calendar.DAY_OF_MONTH));
-        dataFinalCal.add(Calendar.DATE, - Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        int diasContados = dataFinalCal.get(Calendar.DAY_OF_MONTH);
-
-        BigDecimal mediaGastoEstimado = gastoEstimado.divide(new BigDecimal(totalDias));
-        BigDecimal mediaGastoPrevisto = gastoAtual.divide(new BigDecimal(diasContados));
+        BigDecimal mediaGastoEstimado = gastoEstimado.divide(new BigDecimal(totalDias), RoundingMode.UP);
+        BigDecimal mediaGastoPrevisto = gastoAtual.divide(new BigDecimal(diasContados), RoundingMode.UP);
 
 
         //PEGA OS DADOS DO LAYOUT
@@ -122,7 +118,7 @@ public class MetaFragment extends Fragment {
         yAxis.setTextSize(12);
 
         //PERSONALIZANDO A LINHA DE GASTOS ESTIMADOS
-        LineDataSet lineDataEstimado = new LineDataSet(linhaGastosEstimados, "");
+        LineDataSet lineDataEstimado = new LineDataSet(linhaGastosEstimados, "Gasto Estimado Pelo Usuário");
         lineDataEstimado.setColor(Color.parseColor("#116030"));
         lineDataEstimado.setLineWidth(5f);
         lineDataEstimado.setValueTextSize(0);
@@ -130,7 +126,7 @@ public class MetaFragment extends Fragment {
         lineDataEstimado.setCircleHoleColor(Color.parseColor("#116030"));
 
         //PERSONALIZANDO A LINHA DE GASTOS PREVISTOS
-        LineDataSet lineDataPrevisto = new LineDataSet(linhaGastosPrevistos, "");
+        LineDataSet lineDataPrevisto = new LineDataSet(linhaGastosPrevistos, "Gasto Previsto");
         lineDataPrevisto.setColor(Color.parseColor("#32B543"));
         lineDataPrevisto.setLineWidth(5f);
         lineDataPrevisto.setValueTextSize(0);
@@ -138,7 +134,6 @@ public class MetaFragment extends Fragment {
         lineDataPrevisto.setCircleHoleColor(Color.parseColor("#32B543"));
 
         //AJUSTES VISUAIS
-        mChart.getLegend().setEnabled(false);
         mChart.getAxisRight().setEnabled(false);
         mChart.getXAxis().setDrawGridLines(false);
         mChart.getAxisLeft().setDrawGridLines(false);
@@ -154,6 +149,13 @@ public class MetaFragment extends Fragment {
         LineData data = new LineData(dataSets);
         mChart.setData(data);
 
+        feedbackUsuario = view.findViewById(R.id.feedback_orcamento);
+
+        if (mediaGastoEstimado.intValue() > mediaGastoPrevisto.intValue()) {
+            feedbackUsuario.setText("Você está economizando bem. Parabéns!");
+        } else {
+            feedbackUsuario.setText("Seus gastos estão acima do recomendado. Cuidado.");
+        }
 
         return view;
 

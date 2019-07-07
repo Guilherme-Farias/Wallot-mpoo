@@ -1,6 +1,6 @@
 package com.ufrpe.bsi.mpoo.wallotapp.infra.negocio;
 
-import com.ufrpe.bsi.mpoo.wallotapp.estatistica.dominio.Orcamento;
+import com.ufrpe.bsi.mpoo.wallotapp.orcamento.dominio.Orcamento;
 
 import java.util.HashMap;
 import java.util.Map;

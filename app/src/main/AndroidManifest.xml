@@ -10,7 +10,7 @@
         android:roundIcon="@drawable/icone_app_wallot"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".estatistica.gui.CriaOrcamentoActivity" />
+        <activity android:name=".orcamento.gui.CriaOrcamentoActivity" />
         <activity android:name=".transacao.gui.ParcelasDaTransacaoActivity" />
         <activity android:name=".transacao.gui.CrudParcelaActivity" />
         <activity android:name=".subcategoria.gui.CrudSubCategoriaActivity" />

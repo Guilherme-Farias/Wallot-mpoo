@@ -1,4 +1,4 @@
-package com.ufrpe.bsi.mpoo.wallotapp.estatistica.gui;
+package com.ufrpe.bsi.mpoo.wallotapp.orcamento.gui;
 
 import android.app.DatePickerDialog;
 import android.support.v4.app.DialogFragment;
@@ -12,12 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ufrpe.bsi.mpoo.wallotapp.R;
-import com.ufrpe.bsi.mpoo.wallotapp.estatistica.dominio.Orcamento;
-import com.ufrpe.bsi.mpoo.wallotapp.estatistica.negocio.OrcamentoServices;
+import com.ufrpe.bsi.mpoo.wallotapp.orcamento.dominio.Orcamento;
+import com.ufrpe.bsi.mpoo.wallotapp.orcamento.negocio.OrcamentoServices;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.DatePickerFragments;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.SessaoUsuario;
 import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
-import com.ufrpe.bsi.mpoo.wallotapp.usuario.negocio.UsuarioServices;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
