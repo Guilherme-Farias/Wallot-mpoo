@@ -1,2 +1,0 @@
-# Wallot-mpoo
-Project Wallot
