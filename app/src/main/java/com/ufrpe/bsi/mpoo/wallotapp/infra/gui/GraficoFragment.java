@@ -54,10 +54,10 @@ public class GraficoFragment extends Fragment {
         //ainda está sendo modificado(está com algumass falhas)
 
         //pega dados do layout
-        LineChart mChart = view.findViewById(R.id.line_chart_saldo);
+        LineChart saldoChart = view.findViewById(R.id.line_chart_saldo);
 
-        mChart.setDragEnabled(true);
-        mChart.setScaleEnabled(false);
+        saldoChart.setDragEnabled(true);
+        saldoChart.setScaleEnabled(false);
 
         //PEGANDO OS VALORES DO EIXO X (DIAS) #########################
 
@@ -121,13 +121,13 @@ public class GraficoFragment extends Fragment {
 
 
         //PERSONALIZANDO O EIXO X
-        XAxis xAxis = mChart.getXAxis();
+        XAxis xAxis = saldoChart.getXAxis();
         xAxis.setTextColor(Color.parseColor("#00574B"));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextSize(12);
 
         //PERSONALIZANDO O EIXO Y
-        YAxis yAxis = mChart.getAxisLeft();
+        YAxis yAxis = saldoChart.getAxisLeft();
         xAxis.setTextColor(Color.parseColor("#00574B"));
         yAxis.setTextSize(12);
 
@@ -145,20 +145,20 @@ public class GraficoFragment extends Fragment {
         lineDataSet.setFillDrawable(drawable);
 
         //AJUSTES VISUAIS
-        mChart.getLegend().setEnabled(false);
-        mChart.getAxisRight().setEnabled(false);
-        mChart.getXAxis().setDrawGridLines(false);
-        mChart.getAxisLeft().setDrawGridLines(false);
-        mChart.getDescription().setEnabled(false);
-        mChart.getXAxis().setAxisLineWidth(2.5f);
-        mChart.getAxisLeft().setAxisLineWidth(2.5f);
+        saldoChart.getLegend().setEnabled(false);
+        saldoChart.getAxisRight().setEnabled(false);
+        saldoChart.getXAxis().setDrawGridLines(false);
+        saldoChart.getAxisLeft().setDrawGridLines(false);
+        saldoChart.getDescription().setEnabled(false);
+        saldoChart.getXAxis().setAxisLineWidth(2.5f);
+        saldoChart.getAxisLeft().setAxisLineWidth(2.5f);
 
         //PLOTANDO O GRAFICO
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(lineDataSet);
 
         LineData data = new LineData(dataSets);
-        mChart.setData(data);
+        saldoChart.setData(data);
 
         return view;
     }
