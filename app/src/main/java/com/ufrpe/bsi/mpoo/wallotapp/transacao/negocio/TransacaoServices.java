@@ -34,12 +34,12 @@ public class TransacaoServices {
     public void cadastrarTransacao(String strData) {
         transacao = SessaoTransacao.instance.getTransacao();
         long idTransacao = transacaoDAO.cadastrarTransacao(transacao);
-        Conta conta = contaDAO.getConta(transacao.getFkConta());
+        Conta conta = contaDAO.getConta(transacao.getConta().getId());
         Parcela parcela = criaPrimeiraParcela(strData, idTransacao);
         transacaoDAO.cadastrarParcela(parcela);
         conta.addSaldo(parcela.getValorParcela());
         contaDAO.alterarSaldo(conta);
-         if(transacao.getQntParcelas()>1) {
+        if(transacao.getQntParcelas()>1) {
             parcela.setTipoDeStatusTransacao(TipoDeStatusTransacao.NAO_CONSOLIDADO);
             parcela.setValorParcela(getValorParcela(false));
             for (long nParcela = 2; nParcela <= transacao.getQntParcelas(); nParcela++) {
@@ -49,9 +49,6 @@ public class TransacaoServices {
             }
         }
     }
-
-
-
 
     //pega o proximo mes de cada parcela a mais em uma transacao
     private Date getProxMesParcela(Parcela parcela) {
@@ -113,7 +110,7 @@ public class TransacaoServices {
 
     //altera todos os dados
     public void editarParcela(Parcela novaParcela) {
-        Conta conta = contaDAO.getConta(transacao.getFkConta());
+        Conta conta = contaDAO.getConta(transacao.getConta().getId());
         if(!parcelaSessao.getValorParcela().equals(novaParcela.getValorParcela())) {
             alterarSaldo(novaParcela, conta);
         } else if(!(parcelaSessao.getTipoDeStatusTransacao().equals(novaParcela.getTipoDeStatusTransacao()))){
@@ -168,7 +165,7 @@ public class TransacaoServices {
     //deleta a parcela
     public void deletarParcela(Parcela parcela){
         if (isConsolidado(parcela)){
-            Conta conta = contaDAO.getConta(transacao.getFkConta());
+            Conta conta = contaDAO.getConta(transacao.getConta().getId());
             conta.subtractSaldo(parcela.getValorParcela());
             contaDAO.alterarSaldo(conta);
         }
@@ -192,7 +189,7 @@ public class TransacaoServices {
     }
 
     public void cadastraParcela(Parcela parcela) {
-        Conta conta = contaDAO.getConta(transacao.getFkConta());
+        Conta conta = contaDAO.getConta(transacao.getConta().getId());
         conta.addSaldo(parcela.getValorParcela());
         contaDAO.alterarSaldo(conta);
         transacaoDAO.cadastrarParcela(parcela);

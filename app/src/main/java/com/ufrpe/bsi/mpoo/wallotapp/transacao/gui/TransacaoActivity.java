@@ -166,11 +166,11 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
         transacao.setTitulo(editDescricao.getText().toString());
         transacao.setValor(new BigDecimal(editSaldo.getText().toString()));
         transacao.setQntParcelas(Integer.parseInt(editParcelas.getText().toString()));
-        transacao.setFkUsuario(usuario.getId());
         transacao.setTipoTransacao((TipoTransacao) spnTipoTransacao.getSelectedItem());
-        transacao.setFkCategoria(((Categoria) spnCategoria.getSelectedItem()).getId());
-        transacao.setFkSubCategoria(((SubCategoria) spnSubCategorias.getSelectedItem()).getId());
-        transacao.setFkConta(((Conta) spnConta.getSelectedItem()).getId());
+        transacao.setCategoria(((Categoria) spnCategoria.getSelectedItem()));
+        transacao.setSubCategoria(((SubCategoria) spnSubCategorias.getSelectedItem()));
+        transacao.setConta(((Conta) spnConta.getSelectedItem()));
+        transacao.setUsuario(usuario);
         return transacao;
     }
 

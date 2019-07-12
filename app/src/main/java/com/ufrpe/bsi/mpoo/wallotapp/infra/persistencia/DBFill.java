@@ -5,10 +5,12 @@ import com.ufrpe.bsi.mpoo.wallotapp.categoria.dominio.Categoria;
 import com.ufrpe.bsi.mpoo.wallotapp.categoria.negocio.CategoriaServices;
 import com.ufrpe.bsi.mpoo.wallotapp.subcategoria.dominio.SubCategoria;
 import com.ufrpe.bsi.mpoo.wallotapp.subcategoria.negocio.SubCategoriaServices;
+import com.ufrpe.bsi.mpoo.wallotapp.usuario.persistencia.UsuarioDAO;
 
 public class DBFill {
     private CategoriaServices categoriaServices = new CategoriaServices();
     private SubCategoriaServices subCategoriaServices = new SubCategoriaServices();
+
     public void start() {
         cadastraCategorias();
         cadastraSubCategorias();
@@ -25,7 +27,6 @@ public class DBFill {
         //Categoria Casa
         criaCategoria("Casa", R.drawable.icone_casa);
 
-
         //Categoria Compras
         criaCategoria("Compras", R.drawable.icone_compras);
 
@@ -34,7 +35,6 @@ public class DBFill {
 
         //Categoria Transporte
         criaCategoria("Transporte", R.drawable.icone_transporte);
-
 
         //Categoria Veículo
         criaCategoria("Veículo", R.drawable.icone_veiculo);
@@ -154,11 +154,11 @@ public class DBFill {
         cadastraSubcategoria("Viagens", R.drawable.icone_viagens, 8);
     }
 
-    private void cadastraSubcategoria(String viagens, int p, int i) {
+    private void cadastraSubcategoria(String nome, int icone, int idCategoriaPai) {
         SubCategoria subCategoria = new SubCategoria();
-        subCategoria.setNome(viagens);
-        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(p));
-        subCategoria.setFkCategoria(i);
+        subCategoria.setNome(nome);
+        subCategoria.setIcone(subCategoriaServices.bitmapToByteArray(icone));
+        subCategoria.setCategoria(categoriaServices.getCategoria(idCategoriaPai));
         subCategoriaServices.cadastrarInicial(subCategoria);
     }
 }

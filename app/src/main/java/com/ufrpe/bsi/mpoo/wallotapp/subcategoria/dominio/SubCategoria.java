@@ -5,12 +5,15 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 
+import com.ufrpe.bsi.mpoo.wallotapp.categoria.dominio.Categoria;
+import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
+
 public class SubCategoria {
     private long id;
     private String nome;
     private byte[] icone;
-    private long fkCategoria;
-    private long fkUsuario;
+    private Categoria categoria;
+    private Usuario usuario;
 
     public long getId() {
         return id;
@@ -36,16 +39,20 @@ public class SubCategoria {
         this.icone = icone;
     }
 
-    public long getFkCategoria() {return fkCategoria;}
-
-    public void setFkCategoria(long fkCategoria) {this.fkCategoria = fkCategoria;}
-
-    public long getFkUsuario() {
-        return fkUsuario;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setFkUsuario(long fkUsuario) {
-        this.fkUsuario = fkUsuario;
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     //pega o byte e transforma em drawable

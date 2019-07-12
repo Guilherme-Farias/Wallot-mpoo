@@ -147,7 +147,7 @@ public class MetaFragment extends Fragment {
         lineDataPrevisto.setCircleHoleColor(Color.parseColor("#32B543"));
 
         //PERSONALIZANDO OS PONTOS DA REGRESSÃO LINEAR
-        LineDataSet lineDataPontos = new LineDataSet(linhaCoordPontos, "Pontos da Regressão");
+        LineDataSet lineDataPontos = new LineDataSet(linhaCoordPontos, "");
         lineDataPontos.setColor(Color.parseColor("#00000000"));
         lineDataPontos.setLineWidth(0);
         lineDataPontos.setValueTextSize(0);

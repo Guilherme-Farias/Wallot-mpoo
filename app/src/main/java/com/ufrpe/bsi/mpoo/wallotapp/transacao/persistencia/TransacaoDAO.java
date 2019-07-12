@@ -4,13 +4,16 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.ufrpe.bsi.mpoo.wallotapp.categoria.persistencia.CategoriaDAO;
+import com.ufrpe.bsi.mpoo.wallotapp.conta.persistencia.ContaDAO;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.WallotAppException;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.persistencia.DBHelper;
+import com.ufrpe.bsi.mpoo.wallotapp.subcategoria.persistencia.SubCategoriaDAO;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.Parcela;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.TipoDeStatusTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.TipoTransacao;
 import com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio.Transacao;
-import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
+import com.ufrpe.bsi.mpoo.wallotapp.usuario.persistencia.UsuarioDAO;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -20,6 +23,11 @@ import java.util.Date;
 public class TransacaoDAO {
     private DBHelper dbHelper = new DBHelper();
     private SimpleDateFormat padraoDataSQLite = new SimpleDateFormat("yyyyMMdd");
+
+    private CategoriaDAO categoriaDAO = new CategoriaDAO();
+    private SubCategoriaDAO subCategoriaDAO = new SubCategoriaDAO();
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private ContaDAO contaDAO = new ContaDAO();
 
     //pega tipos de tranção enum
     public ArrayList<TipoTransacao> getTiposTransacao(){
@@ -61,8 +69,8 @@ public class TransacaoDAO {
         int indexTitulo = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_TITULO);
         int indexValor = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_VALOR);
         int indexQntParcelas = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_PARCELAS);
-        int indexCategoria = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_FK_CATEGORIA);
-        int indexSubCategoria = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_FK_SUBCATEGORIA);
+        int indexFkCategoria = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_FK_CATEGORIA);
+        int indexFkSubCategoria = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_FK_SUBCATEGORIA);
         int indexTipoTransacao = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_TIPO_TRANSACAO);
         int indexFkUsuario = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_FK_USUARIO);
         int indexFkConta = cursor.getColumnIndex(DBHelper.TRANSACAO_COL_FK_CONTA);
@@ -70,11 +78,11 @@ public class TransacaoDAO {
         transacao.setTitulo(cursor.getString(indexTitulo));
         transacao.setValor(new BigDecimal(cursor.getString(indexValor)));
         transacao.setQntParcelas(cursor.getLong(indexQntParcelas));
-        transacao.setFkCategoria(cursor.getLong(indexCategoria));
-        transacao.setFkSubCategoria(cursor.getLong(indexSubCategoria));
         transacao.setTipoTransacao(TipoTransacao.values()[cursor.getInt(indexTipoTransacao) - 1]);
-        transacao.setFkUsuario(cursor.getLong(indexFkUsuario));
-        transacao.setFkConta(cursor.getLong(indexFkConta));
+        transacao.setCategoria(categoriaDAO.getCategoria(cursor.getLong(indexFkCategoria)));
+        transacao.setSubCategoria(subCategoriaDAO.getSubCategoria(cursor.getLong(indexFkSubCategoria)));
+        transacao.setConta(contaDAO.getConta(cursor.getLong(indexFkConta)));
+        transacao.setUsuario(usuarioDAO.getUsuario(cursor.getLong(indexFkUsuario)));
         return transacao;
     }
 
@@ -94,6 +102,32 @@ public class TransacaoDAO {
         parcela.setDataTransacao(getDataDoSQLite(String.valueOf(cursor.getString(indexData))));
         parcela.setFkTransacao(cursor.getLong(indexTransacao));
         return parcela;
+    }
+
+    //pega valores de transacao
+    private ContentValues getContentValuesTransacao(Transacao transacao) {
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.TRANSACAO_COL_TITULO, transacao.getTitulo());
+        values.put(DBHelper.TRANSACAO_COL_VALOR, transacao.getValor().toString());
+        values.put(DBHelper.TRANSACAO_COL_PARCELAS, String.valueOf(transacao.getQntParcelas()));
+        values.put(DBHelper.TRANSACAO_COL_FK_CONTA, String.valueOf(transacao.getConta().getId()));
+        values.put(DBHelper.TRANSACAO_COL_FK_CATEGORIA, String.valueOf(transacao.getCategoria().getId()));
+        values.put(DBHelper.TRANSACAO_COL_FK_SUBCATEGORIA, String.valueOf(transacao.getSubCategoria().getId()));
+        values.put(DBHelper.TRANSACAO_COL_FK_USUARIO, String.valueOf(transacao.getUsuario().getId()));
+        values.put(DBHelper.TRANSACAO_COL_TIPO_TRANSACAO, String.valueOf(transacao.getTipoTransacao().ordinal() + 1));
+        return values;
+    }
+
+    //pega valores de parcela
+    private ContentValues getContentValuesParcela(Parcela parcela) {
+        ContentValues values = new ContentValues();
+        String dataString = padraoDataSQLite.format(parcela.getDataTransacao());
+        values.put(DBHelper.PARCELA_COL_VALOR, parcela.getValorParcela().toString());
+        values.put(DBHelper.PARCELA_COL_DATE, Integer.parseInt(dataString));
+        values.put(DBHelper.PARCELA_NUMERO_PARCELA, String.valueOf(parcela.getNumeroParcela()));
+        values.put(DBHelper.PARCELA_COL_FK_TRANSACAO, String.valueOf(parcela.getFkTransacao()));
+        values.put(DBHelper.PARCELA_TIPO_DE_STATUS, String.valueOf(parcela.getTipoDeStatusTransacao().ordinal() + 1));
+        return values;
     }
 
     //pega a trnsacao pelo id no DB
@@ -300,31 +334,6 @@ public class TransacaoDAO {
         return valores;
     }
 
-    //pega valores de transacao
-    private ContentValues getContentValuesTransacao(Transacao transacao) {
-        ContentValues values = new ContentValues();
-        values.put(DBHelper.TRANSACAO_COL_TITULO, transacao.getTitulo());
-        values.put(DBHelper.TRANSACAO_COL_VALOR, transacao.getValor().toString());
-        values.put(DBHelper.TRANSACAO_COL_PARCELAS, String.valueOf(transacao.getQntParcelas()));
-        values.put(DBHelper.TRANSACAO_COL_FK_CONTA, String.valueOf(transacao.getFkConta()));
-        values.put(DBHelper.TRANSACAO_COL_FK_CATEGORIA, String.valueOf(transacao.getFkCategoria()));
-        values.put(DBHelper.TRANSACAO_COL_FK_SUBCATEGORIA, String.valueOf(transacao.getFkSubCategoria()));
-        values.put(DBHelper.TRANSACAO_COL_FK_USUARIO, String.valueOf(transacao.getFkUsuario()));
-        values.put(DBHelper.TRANSACAO_COL_TIPO_TRANSACAO, String.valueOf(transacao.getTipoTransacao().ordinal() + 1));
-        return values;
-    }
-
-    //pega valores de parcela
-    private ContentValues getContentValuesParcela(Parcela parcela) {
-        ContentValues values = new ContentValues();
-        String dataString = padraoDataSQLite.format(parcela.getDataTransacao());
-        values.put(DBHelper.PARCELA_COL_VALOR, parcela.getValorParcela().toString());
-        values.put(DBHelper.PARCELA_COL_DATE, Integer.parseInt(dataString));
-        values.put(DBHelper.PARCELA_NUMERO_PARCELA, String.valueOf(parcela.getNumeroParcela()));
-        values.put(DBHelper.PARCELA_COL_FK_TRANSACAO, String.valueOf(parcela.getFkTransacao()));
-        values.put(DBHelper.PARCELA_TIPO_DE_STATUS, String.valueOf(parcela.getTipoDeStatusTransacao().ordinal() + 1));
-        return values;
-    }
 
     //fecha argumentos
     private void closeArgs(SQLiteDatabase db, Cursor cursor) {

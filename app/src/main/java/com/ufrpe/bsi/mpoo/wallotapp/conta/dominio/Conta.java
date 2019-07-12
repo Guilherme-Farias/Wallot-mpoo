@@ -2,6 +2,8 @@ package com.ufrpe.bsi.mpoo.wallotapp.conta.dominio;
 
 import android.support.annotation.NonNull;
 
+import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
+
 import java.math.BigDecimal;
 
 public class Conta {
@@ -10,7 +12,7 @@ public class Conta {
     private BigDecimal saldo;
     private TipoConta tipoConta;
     private TipoEstadoConta tipoEstadoConta;
-    private long fkUsuario;
+    private Usuario usuario;
 
     public long getId() {
         return id;
@@ -52,12 +54,12 @@ public class Conta {
         this.tipoEstadoConta = tipoEstadoConta;
     }
 
-    public long getFkUsuario() {
-        return fkUsuario;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setFkUsuario(long fkUsuario) {
-        this.fkUsuario = fkUsuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     //add da Classe BigDecimal

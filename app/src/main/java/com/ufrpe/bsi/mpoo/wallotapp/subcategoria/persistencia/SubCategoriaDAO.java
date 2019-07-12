@@ -4,13 +4,28 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.ufrpe.bsi.mpoo.wallotapp.categoria.persistencia.CategoriaDAO;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.persistencia.DBHelper;
 import com.ufrpe.bsi.mpoo.wallotapp.subcategoria.dominio.SubCategoria;
+import com.ufrpe.bsi.mpoo.wallotapp.usuario.persistencia.UsuarioDAO;
 
 import java.util.ArrayList;
 
 public class SubCategoriaDAO {
     private DBHelper dbHelper = new DBHelper();
+
+    private CategoriaDAO categoriaDAO = new CategoriaDAO();
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+    //cadastra subcategoria do usuario
+    public long cadastrar(SubCategoria subCategoria) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = getContentValues(subCategoria);
+        values.put(DBHelper.SUBCATEGORIA_FK_USUARIO, subCategoria.getUsuario().getId());
+        long res = db.insert(DBHelper.TABELA_SUBCATEGORIA, null, values);
+        db.close();
+        return res;
+    }
 
     //controi o objeto subcategoria a partir de um cursor do banco de dados
     private SubCategoria criaSubCategoria(Cursor cursor) {
@@ -23,9 +38,18 @@ public class SubCategoriaDAO {
         subCategoria.setId(cursor.getLong(indexId));
         subCategoria.setNome(cursor.getString(indexNome));
         subCategoria.setIcone(cursor.getBlob(indexIcone));
-        subCategoria.setFkCategoria(cursor.getLong(indexCategoria));
-        subCategoria.setFkUsuario(cursor.getLong(indexUsuario));
+        subCategoria.setCategoria(categoriaDAO.getCategoria(cursor.getLong(indexCategoria)));
+        subCategoria.setUsuario(usuarioDAO.getUsuario(cursor.getLong(indexUsuario)));
         return subCategoria;
+    }
+
+    //pega os valores padroes dos objetos
+    private ContentValues getContentValues(SubCategoria subCategoria) {
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.SUBCATEGORIA_COL_NOME, subCategoria.getNome());
+        values.put(DBHelper.SUBCATEGORIA_COL_ICONE, subCategoria.getIcone());
+        values.put(DBHelper.SUBCATEGORIA_FK_CATEGORIA, subCategoria.getCategoria().getId());
+        return values;
     }
 
     //pega categorias(todas/sem categoria + todas)
@@ -77,16 +101,6 @@ public class SubCategoriaDAO {
         return subCategoria;
     }
 
-    //cadastra subcategoria do usuario
-    public long cadastrar(SubCategoria subCategoria) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = getContentValues(subCategoria);
-        values.put(DBHelper.SUBCATEGORIA_FK_USUARIO, subCategoria.getFkUsuario());
-        long res = db.insert(DBHelper.TABELA_SUBCATEGORIA, null, values);
-        db.close();
-        return res;
-    }
-
     //cadastra as subcategorias já construidas pela equipe
     public long cadastroInicial(SubCategoria subCategoria){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -119,7 +133,7 @@ public class SubCategoriaDAO {
     public void alteraCategoria(SubCategoria subCategoria) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DBHelper.SUBCATEGORIA_FK_CATEGORIA, subCategoria.getFkCategoria());
+        values.put(DBHelper.SUBCATEGORIA_FK_CATEGORIA, subCategoria.getCategoria().getId());
         db.update(DBHelper.TABELA_SUBCATEGORIA,values,DBHelper.SUBCATEGORIA_COL_ID + " = ?",new String[]{String.valueOf(subCategoria.getId())});
         db.close();
     }
@@ -136,15 +150,6 @@ public class SubCategoriaDAO {
     private void closeArgs(SQLiteDatabase db, Cursor cursor) {
         db.close();
         cursor.close();
-    }
-
-    //pega os valores padroes dos objetos
-    private ContentValues getContentValues(SubCategoria subCategoria) {
-        ContentValues values = new ContentValues();
-        values.put(DBHelper.SUBCATEGORIA_COL_NOME, subCategoria.getNome());
-        values.put(DBHelper.SUBCATEGORIA_COL_ICONE, subCategoria.getIcone());
-        values.put(DBHelper.SUBCATEGORIA_FK_CATEGORIA, subCategoria.getFkCategoria());
-        return values;
     }
 
 }

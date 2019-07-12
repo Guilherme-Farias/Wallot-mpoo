@@ -122,7 +122,7 @@ public class CrudContaActivity extends AppCompatActivity {
     //controi a conta editada
     private Conta controiConta() {
         Conta novaConta = new Conta();
-        novaConta.setFkUsuario(usuario.getId());
+        novaConta.setUsuario(usuario);
         novaConta.setNome(editNome.getText().toString());
         novaConta.setSaldo(new BigDecimal(editSaldo.getText().toString()));
         novaConta.setTipoConta((TipoConta)spinnerTipoConta.getSelectedItem());
