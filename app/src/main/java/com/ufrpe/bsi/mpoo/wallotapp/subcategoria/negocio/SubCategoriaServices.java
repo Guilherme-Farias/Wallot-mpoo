@@ -67,8 +67,8 @@ public class SubCategoriaServices {
             subCategoriaSessao.setIcone(subCategoriaEditada.getIcone());
             subCategoriasDAO.alterarIcone(subCategoriaSessao);
         }
-        if(subCategoriaSessao.getFkCategoria() != subCategoriaEditada.getFkCategoria()){
-            subCategoriaSessao.setFkCategoria(subCategoriaEditada.getFkCategoria());
+        if(subCategoriaSessao.getCategoria().getId() != subCategoriaEditada.getCategoria().getId()){
+            subCategoriaSessao.setCategoria(subCategoriaEditada.getCategoria());
             subCategoriasDAO.alteraCategoria(subCategoriaSessao);
             transacaoDAO.atualizaSubcategoria(subCategoriaSessao.getId());
         }

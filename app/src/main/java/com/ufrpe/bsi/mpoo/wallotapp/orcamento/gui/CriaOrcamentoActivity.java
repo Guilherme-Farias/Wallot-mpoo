@@ -74,7 +74,7 @@ public class CriaOrcamentoActivity extends AppCompatActivity implements DatePick
     private Orcamento criaOrcamento() {
         Orcamento orcamento = new Orcamento();
         orcamento.setTitulo("Orçamento " +  getValorDate(1));
-        orcamento.setFkUsuario(usuario.getId());
+        orcamento.setUsuario(usuario);
         orcamento.setDataInicial(getValorDate(1));
         orcamento.setDataFinal(getValorDate(2));
         orcamento.setGastoEstimado(new BigDecimal(txtGastoPlanejado.getText().toString()));

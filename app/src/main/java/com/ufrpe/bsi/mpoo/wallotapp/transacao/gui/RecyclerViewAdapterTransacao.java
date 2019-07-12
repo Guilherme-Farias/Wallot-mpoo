@@ -52,9 +52,9 @@ public class RecyclerViewAdapterTransacao extends RecyclerView.Adapter<RecyclerV
     public void onBindViewHolder(@NonNull TransacaoViewHolder holder, final int position) {
         //pega variaveis necessarias
         Transacao transacao = new TransacaoServices().getTransacao(parcelas.get(position).getFkTransacao());
-        Categoria categoria = new CategoriaServices().getCategoria(transacao.getFkCategoria());
-        SubCategoria subCategoria = new SubCategoriaServices().getSubCategoria(transacao.getFkSubCategoria());
-        Conta conta = new ContaServices().getConta(transacao.getFkConta());
+        Categoria categoria = new CategoriaServices().getCategoria(transacao.getCategoria().getId());
+        SubCategoria subCategoria = new SubCategoriaServices().getSubCategoria(transacao.getSubCategoria().getId());
+        Conta conta = new ContaServices().getConta(transacao.getConta().getId());
 
 
         holder.titulo.setText(transacao.getTitulo());

@@ -42,6 +42,20 @@ public class UsuarioDAO {
         return usuario;
     }
 
+    public Usuario getUsuario(long idUsuario) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Usuario usuario = null;
+        String sql = " SELECT * FROM " + DBHelper.TABELA_USUARIO + " WHERE " + DBHelper.USUARIO_COL_ID + " LIKE ?;";
+        String[] args = {String.valueOf(idUsuario)};
+        Cursor cursor = db.rawQuery(sql, args);
+        if (cursor.moveToFirst()) {
+            usuario = criaUsuario(cursor);
+        }
+        cursor.close();
+        db.close();
+        return usuario;
+    }
+
     //pega o usuario pelo email
     public Usuario getUsuario(String email){
         SQLiteDatabase db = dbHelper.getReadableDatabase();

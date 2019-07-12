@@ -8,12 +8,15 @@ import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.Conta;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.TipoConta;
 import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.TipoEstadoConta;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.persistencia.DBHelper;
+import com.ufrpe.bsi.mpoo.wallotapp.usuario.persistencia.UsuarioDAO;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class ContaDAO {
     private DBHelper dbHelper = new DBHelper();
+
+    UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     //Cadastra uma conta nova
     public long cadastraConta(Conta conta){
@@ -29,7 +32,7 @@ public class ContaDAO {
         ContentValues values = new ContentValues();
         values.put(DBHelper.CONTA_COL_NOME, conta.getNome());
         values.put(DBHelper.CONTA_COL_SALDO, conta.getSaldo().toString());
-        values.put(DBHelper.CONTA_FK_USUARIO, conta.getFkUsuario());
+        values.put(DBHelper.CONTA_FK_USUARIO, conta.getUsuario().getId());
         values.put(DBHelper.CONTA_FK_TIPO_CONTA, String.valueOf(conta.getTipoConta().ordinal() + 1));
         values.put(DBHelper.CONTA_FK_TIPO_ESTADO_CONTA, String.valueOf(conta.getTipoEstadoConta().ordinal() + 1));
         return values;
@@ -47,7 +50,7 @@ public class ContaDAO {
         conta.setId(cursor.getLong(indexId));
         conta.setNome(cursor.getString(indexNome));
         conta.setSaldo(new BigDecimal(cursor.getString(indexSaldo)));
-        conta.setFkUsuario(cursor.getLong(indexUsuario));
+        conta.setUsuario(usuarioDAO.getUsuario(cursor.getLong(indexUsuario)));
         conta.setTipoConta(TipoConta.values()[cursor.getInt(indexTipoConta) - 1]);
         conta.setTipoEstadoConta(TipoEstadoConta.values()[cursor.getInt(indexTipoEstadoConta) - 1]);
         return conta;

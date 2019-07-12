@@ -1,5 +1,7 @@
 package com.ufrpe.bsi.mpoo.wallotapp.orcamento.dominio;
 
+import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
+
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,7 +12,7 @@ public class Orcamento {
     private BigDecimal gastoEstimado;
     private Date dataInicial;
     private Date dataFinal;
-    private long fkUsuario;
+    private Usuario usuario;
 
     public long getId() {
         return id;
@@ -52,22 +54,24 @@ public class Orcamento {
         this.dataFinal = dataFinal;
     }
 
-    public long getFkUsuario() {
-        return fkUsuario;
-    }
-
     public String getDataInicialFormatada() {
-        return new SimpleDateFormat("yyyymmdd").format(this.dataInicial);
+        return new SimpleDateFormat("yyyyMMdd").format(this.dataInicial);
     }
 
     public String getDataFinalFormatada() {
-        return new SimpleDateFormat("yyyymmdd").format(this.dataFinal);
-    }
-    public String[] getDatesFormatada(){
-        return new String[] {new SimpleDateFormat("dd/MM/yyyy").format(this.dataInicial),new SimpleDateFormat("dd/MM/yyyy").format(this.dataFinal)};
+        return new SimpleDateFormat("yyyyMMdd").format(this.dataFinal);
     }
 
-    public void setFkUsuario(long fkUsuario) {
-        this.fkUsuario = fkUsuario;
+    public String[] getDatesFormatada() {
+        return new String[]{new SimpleDateFormat("dd/MM/yyyy").format(this.dataInicial), new SimpleDateFormat("dd/MM/yyyy").format(this.dataFinal)};
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }
+
