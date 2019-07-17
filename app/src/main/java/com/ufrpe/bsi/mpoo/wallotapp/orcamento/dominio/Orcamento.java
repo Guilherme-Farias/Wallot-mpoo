@@ -57,11 +57,11 @@ public class Orcamento {
     }
 
     public String getDataInicialFormatada() {
-        return new SimpleDateFormat("yyyymmdd").format(this.dataInicial);
+        return new SimpleDateFormat("yyyyMMdd").format(this.dataInicial);
     }
 
     public String getDataFinalFormatada() {
-        return new SimpleDateFormat("yyyymmdd").format(this.dataFinal);
+        return new SimpleDateFormat("yyyyMMdd").format(this.dataFinal);
     }
     public String[] getDatesFormatada(){
         return new String[] {new SimpleDateFormat("dd/MM/yyyy").format(this.dataInicial),new SimpleDateFormat("dd/MM/yyyy").format(this.dataFinal)};

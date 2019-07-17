@@ -54,10 +54,10 @@ public class GraficoFragment extends Fragment {
         //ainda está sendo modificado(está com algumass falhas)
 
         //pega dados do layout
-        LineChart mChart = view.findViewById(R.id.line_chart_saldo);
+        LineChart saldoChart = view.findViewById(R.id.line_chart_saldo);
 
-        mChart.setDragEnabled(true);
-        mChart.setScaleEnabled(false);
+        saldoChart.setDragEnabled(true);
+        saldoChart.setScaleEnabled(false);
 
         //PEGANDO OS VALORES DO EIXO X (DIAS) #########################
 
@@ -111,23 +111,38 @@ public class GraficoFragment extends Fragment {
         //COLOCANDO VALORES NO GRÁFICO ###############################
         ArrayList<Entry> values = new ArrayList<>();
 
-        values.add(new Entry(day7, saldo7));
-        values.add(new Entry(day6, saldo6));
-        values.add(new Entry(day5, saldo5));
-        values.add(new Entry(day4, saldo4));
-        values.add(new Entry(day3, saldo3));
-        values.add(new Entry(day2, saldo2));
-        values.add(new Entry(day1, saldo1));
+        values.add(new Entry(1, saldo7));
+        values.add(new Entry(5, saldo6));
+        values.add(new Entry(10, saldo5));
+        values.add(new Entry(15, saldo4));
+        values.add(new Entry(20, saldo3));
+        values.add(new Entry(25, saldo2));
+        values.add(new Entry(30, saldo1));
+
+        System.out.println(saldo7);
+        System.out.println(day7);
+        System.out.println(saldo6);
+        System.out.println(day6);
+        System.out.println(saldo5);
+        System.out.println(day5);
+        System.out.println(saldo4);
+        System.out.println(day4);
+        System.out.println(saldo3);
+        System.out.println(day3);
+        System.out.println(saldo2);
+        System.out.println(day2);
+        System.out.println(saldo1);
+        System.out.println(day1);
 
 
         //PERSONALIZANDO O EIXO X
-        XAxis xAxis = mChart.getXAxis();
+        XAxis xAxis = saldoChart.getXAxis();
         xAxis.setTextColor(Color.parseColor("#00574B"));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextSize(12);
 
         //PERSONALIZANDO O EIXO Y
-        YAxis yAxis = mChart.getAxisLeft();
+        YAxis yAxis = saldoChart.getAxisLeft();
         xAxis.setTextColor(Color.parseColor("#00574B"));
         yAxis.setTextSize(12);
 
@@ -145,20 +160,20 @@ public class GraficoFragment extends Fragment {
         lineDataSet.setFillDrawable(drawable);
 
         //AJUSTES VISUAIS
-        mChart.getLegend().setEnabled(false);
-        mChart.getAxisRight().setEnabled(false);
-        mChart.getXAxis().setDrawGridLines(false);
-        mChart.getAxisLeft().setDrawGridLines(false);
-        mChart.getDescription().setEnabled(false);
-        mChart.getXAxis().setAxisLineWidth(2.5f);
-        mChart.getAxisLeft().setAxisLineWidth(2.5f);
+        saldoChart.getLegend().setEnabled(false);
+        saldoChart.getAxisRight().setEnabled(false);
+        saldoChart.getXAxis().setDrawGridLines(false);
+        saldoChart.getAxisLeft().setDrawGridLines(false);
+        saldoChart.getDescription().setEnabled(false);
+        saldoChart.getXAxis().setAxisLineWidth(2.5f);
+        saldoChart.getAxisLeft().setAxisLineWidth(2.5f);
 
         //PLOTANDO O GRAFICO
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(lineDataSet);
 
         LineData data = new LineData(dataSets);
-        mChart.setData(data);
+        saldoChart.setData(data);
 
         return view;
     }
