@@ -61,7 +61,7 @@ public class SubCategoriasActivity extends AppCompatActivity implements OnRecycl
 
     @Override
     public void onClickRecycler(int position) {
-        if(subCategorias.get(position).getFkUsuario() != 0){
+        if(subCategorias.get(position).getUsuario().getId() != 0){
             SessaoSubCategoria.instance.setSubCategoria(subCategorias.get(position));
             crudSubcategoriaIntent();
         } else {showToast("Subcategoria padrão");}

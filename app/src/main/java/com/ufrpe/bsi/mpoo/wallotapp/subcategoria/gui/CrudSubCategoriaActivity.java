@@ -145,8 +145,8 @@ public class CrudSubCategoriaActivity extends AppCompatActivity {
         SubCategoria subCategoria = new SubCategoria();
         subCategoria.setNome(editNome.getText().toString());
         subCategoria.setIcone(categoria.getIcone());
-        subCategoria.setFkCategoria(categoria.getId());
-        subCategoria.setFkUsuario(usuario.getId());
+        subCategoria.setCategoria(categoria);
+        subCategoria.setUsuario(usuario);
         return subCategoria;
     }
 

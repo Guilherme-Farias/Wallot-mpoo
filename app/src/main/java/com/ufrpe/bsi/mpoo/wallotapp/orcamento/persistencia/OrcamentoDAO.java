@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.ufrpe.bsi.mpoo.wallotapp.orcamento.dominio.Orcamento;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.negocio.WallotAppException;
 import com.ufrpe.bsi.mpoo.wallotapp.infra.persistencia.DBHelper;
+import com.ufrpe.bsi.mpoo.wallotapp.usuario.persistencia.UsuarioDAO;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -17,6 +18,8 @@ public class OrcamentoDAO {
 
     private DBHelper dbHelper = new DBHelper();
     private SimpleDateFormat padraoDataSQLite = new SimpleDateFormat("yyyyMMdd");
+
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     public long cadastrarOrcamento(Orcamento orcamento) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -37,7 +40,7 @@ public class OrcamentoDAO {
         orcamento.setGastoEstimado(new BigDecimal(cursor.getString(indexGasto)));
         orcamento.setDataInicial(getDataDoSQLite(String.valueOf(cursor.getString(indexDataInicial))));
         orcamento.setDataFinal(getDataDoSQLite(String.valueOf(cursor.getString(indexDataFinal))));
-        orcamento.setFkUsuario(cursor.getLong(indexUsuario));
+        orcamento.setUsuario(usuarioDAO.getUsuario(cursor.getLong(indexUsuario)));
         return orcamento;
     }
 
@@ -46,7 +49,7 @@ public class OrcamentoDAO {
         values.put(DBHelper.ORCAMENTO_GASTO_ESTIMADO, orcamento.getGastoEstimado().toString());
         values.put(DBHelper.ORCAMENTO_DATA_INICIAL, Integer.parseInt(orcamento.getDataInicialFormatada()));
         values.put(DBHelper.ORCAMENTO_DATA_FINAL, Integer.parseInt(orcamento.getDataFinalFormatada()));
-        values.put(DBHelper.ORCAMENTO_FK_USUARIO, String.valueOf(orcamento.getFkUsuario()));
+        values.put(DBHelper.ORCAMENTO_FK_USUARIO, String.valueOf(orcamento.getUsuario().getId()));
         return values;
     }
 

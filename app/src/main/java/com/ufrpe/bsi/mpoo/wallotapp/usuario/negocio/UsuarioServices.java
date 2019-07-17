@@ -33,20 +33,19 @@ public class UsuarioServices {
         if(emailCadastrado(usuario) != null){
             throw new WallotAppException("Email já cadastrado");
         } else {
-            long userId = usuarioDAO.cadastrar(usuario);
-            Conta conta = criaContaPadrao(userId);
+            Conta conta = criaContaPadrao(usuario);
             contaDAO.cadastraConta(conta);
         }
     }
 
     //conotroi uma conta padrão e seta no usuario
-    private Conta criaContaPadrao(long userId) {
+    private Conta criaContaPadrao(Usuario usuario) {
         Conta conta = new Conta();
         conta.setNome("Carteira");
         conta.setSaldo(new BigDecimal("00.00"));
         conta.setTipoConta(TipoConta.DINHEIRO);
         conta.setTipoEstadoConta(TipoEstadoConta.ATIVO);
-        conta.setFkUsuario(userId);
+        conta.setUsuario(usuario);
         return conta;
     }
 

@@ -1,5 +1,10 @@
 package com.ufrpe.bsi.mpoo.wallotapp.transacao.dominio;
 
+import com.ufrpe.bsi.mpoo.wallotapp.categoria.dominio.Categoria;
+import com.ufrpe.bsi.mpoo.wallotapp.conta.dominio.Conta;
+import com.ufrpe.bsi.mpoo.wallotapp.subcategoria.dominio.SubCategoria;
+import com.ufrpe.bsi.mpoo.wallotapp.usuario.dominio.Usuario;
+
 import java.math.BigDecimal;
 
 public class Transacao {
@@ -8,10 +13,10 @@ public class Transacao {
     private BigDecimal valor;
     private TipoTransacao tipoTransacao;
     private long qntParcelas;
-    private long fkCategoria;
-    private long fkSubCategoria;
-    private long fkUsuario;
-    private long fkConta;
+    private Categoria categoria;
+    private SubCategoria subCategoria;
+    private Usuario usuario;
+    private Conta conta;
 
     public long getId() {
         return id;
@@ -51,36 +56,36 @@ public class Transacao {
         this.qntParcelas = qntParcelas;
     }
 
-    public long getFkCategoria() {
-        return fkCategoria;
+    public Categoria getCategoria(){
+        return categoria;
     }
 
-    public void setFkCategoria(long fkCategoria) {
-        this.fkCategoria = fkCategoria;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
-    public long getFkSubCategoria() {
-        return fkSubCategoria;
+    public SubCategoria getSubCategoria(){
+        return subCategoria;
     }
 
-    public void setFkSubCategoria(long fkSubCategoria) {
-        this.fkSubCategoria = fkSubCategoria;
+    public void setSubCategoria(SubCategoria subCategoria) {
+        this.subCategoria = subCategoria;
     }
 
-    public long getFkUsuario() {
-        return fkUsuario;
+    public Conta getConta(){
+        return conta;
     }
 
-    public void setFkUsuario(long fkUsuario) {
-        this.fkUsuario = fkUsuario;
+    public void setConta(Conta conta) {
+        this.conta = conta;
     }
 
-    public long getFkConta() {
-        return fkConta;
+    public Usuario getUsuario(){
+        return usuario;
     }
 
-    public void setFkConta(long fkConta) {
-        this.fkConta = fkConta;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
 }
