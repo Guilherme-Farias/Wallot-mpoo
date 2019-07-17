@@ -289,6 +289,33 @@ public class TransacaoDAO {
     }
 
 
+    //pega as coordenadas dos gastos do usuario entre um periodo de tempo
+    public ArrayList<Integer> getCoordGastosEntreDatas(long idUsuario, String dataInicial, String dataFinal) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        ArrayList<Integer> XYGastos = new ArrayList<>();
+
+        for (int i = Integer.parseInt(dataInicial); i <= Integer.parseInt(dataFinal); i++) {
+            BigDecimal gasto = new BigDecimal("0.00");
+            String query = " SELECT * FROM " +
+                    DBHelper.TABELA_TRANSACAO + " INNER JOIN " + DBHelper.TABELA_PARCELA + " ON " + DBHelper.TRANSACAO_COL_ID + " = " + DBHelper.PARCELA_COL_FK_TRANSACAO + " WHERE " +
+                    DBHelper.PARCELA_COL_DATE + " = " + i + " AND " + DBHelper.TRANSACAO_COL_TIPO_TRANSACAO + " = " + " 2" + " AND " +
+                    DBHelper.PARCELA_TIPO_DE_STATUS + " = " + " 1 " + " AND " + DBHelper.TRANSACAO_COL_FK_USUARIO + " =?;";
+            String[] args = {String.valueOf(idUsuario)};
+            Cursor cursor = db.rawQuery(query, args);
+            if (cursor.moveToFirst()) {
+                do {
+                    BigDecimal valorParcela = new BigDecimal(cursor.getString(cursor.getColumnIndex(DBHelper.PARCELA_COL_VALOR)));
+                    gasto = gasto.add(valorParcela.multiply(new BigDecimal(-1)));
+                } while (cursor.moveToNext());
+            }
+            XYGastos.add(gasto.intValue());
+            XYGastos.add(i);
+            cursor.close();
+        }
+        db.close();
+        return XYGastos;
+    }
     //pega valor total das contas e depois vai fazendo esse deregue jhonson
     //criar uma função que devolve uma lista de BigDecimal // parcelas listadas ao contrario e daí eu organizo no mapa
     //acho que da errado//na ultima linha eu vou lá e pego valor total das contas

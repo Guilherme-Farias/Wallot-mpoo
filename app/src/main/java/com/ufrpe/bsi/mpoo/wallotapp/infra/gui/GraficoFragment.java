@@ -111,13 +111,28 @@ public class GraficoFragment extends Fragment {
         //COLOCANDO VALORES NO GRÁFICO ###############################
         ArrayList<Entry> values = new ArrayList<>();
 
-        values.add(new Entry(day7, saldo7));
-        values.add(new Entry(day6, saldo6));
-        values.add(new Entry(day5, saldo5));
-        values.add(new Entry(day4, saldo4));
-        values.add(new Entry(day3, saldo3));
-        values.add(new Entry(day2, saldo2));
-        values.add(new Entry(day1, saldo1));
+        values.add(new Entry(1, saldo7));
+        values.add(new Entry(5, saldo6));
+        values.add(new Entry(10, saldo5));
+        values.add(new Entry(15, saldo4));
+        values.add(new Entry(20, saldo3));
+        values.add(new Entry(25, saldo2));
+        values.add(new Entry(30, saldo1));
+
+        System.out.println(saldo7);
+        System.out.println(day7);
+        System.out.println(saldo6);
+        System.out.println(day6);
+        System.out.println(saldo5);
+        System.out.println(day5);
+        System.out.println(saldo4);
+        System.out.println(day4);
+        System.out.println(saldo3);
+        System.out.println(day3);
+        System.out.println(saldo2);
+        System.out.println(day2);
+        System.out.println(saldo1);
+        System.out.println(day1);
 
 
         //PERSONALIZANDO O EIXO X

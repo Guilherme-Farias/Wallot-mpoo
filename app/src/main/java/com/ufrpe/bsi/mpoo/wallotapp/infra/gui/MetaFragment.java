@@ -119,7 +119,6 @@ public class MetaFragment extends Fragment {
         ArrayList<Integer> coordGastos = transacaoDAO.getCoordGastosEntreDatas(usuario.getId(), dataInicialPastStr, dataFinalPastStr);
         ArrayList<Entry> linhaCoordPontos = new ArrayList<>();
 
-
         for (int i = 0; i < coordGastos.size() - 1; i += 2) {
             if (coordGastos.get(i) != 0) {
                 Date dataGasto = stringToDate(coordGastos.get(i + 1).toString());
